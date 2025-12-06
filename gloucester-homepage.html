@@ -22,7 +22,8 @@
     <!-- Site Header -->
     <header class="site-header" role="banner">
         <div class="header-container">
-            <div class="header-brand">
+            <!-- Top Row: Logo + Search -->
+            <div class="header-top">
                 <a href="/" class="logo-link" aria-label="Gloucester City Council homepage">
                     <img 
                         src="assets/images/GCC_logo.svg" 
@@ -32,20 +33,42 @@
                         height="70"
                     >
                 </a>
-                <span class="council-name">Welcome to Gloucester City Council</span>
+                
+                <form class="search-form" role="search" action="/search" method="get">
+                    <label for="search-input" class="sr-only">Search the website</label>
+                    <input 
+                        type="search" 
+                        id="search-input"
+                        name="q"
+                        class="search-input" 
+                        placeholder="Search..."
+                        aria-label="Search the website"
+                    >
+                    <button type="submit" class="search-button">Search</button>
+                </form>
             </div>
-            
+        </div>
+        
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            Welcome to Gloucester City Council
+        </div>
+    </header>
+    
+    <!-- Main Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
             <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
                 Menu
             </button>
-            
-            <nav class="utility-nav" aria-label="Utility navigation">
-                <a href="/contact">Contact us</a>
-                <a href="https://gloucester-self.achieveservice.com/">My Gloucester</a>
-                <a href="/news">News</a>
-            </nav>
+            <ul class="nav-list">
+                <li><a href="/contact">Contact us</a></li>
+                <li><a href="https://gloucester-self.achieveservice.com/">My Gloucester</a></li>
+                <li><a href="/news">News</a></li>
+                <li><a href="https://public.govdelivery.com/accounts/UKGCCA/subscriber/new">Subscribe</a></li>
+            </ul>
         </div>
-    </header>
+    </nav>
     
     <!-- Hero Section -->
     <section class="hero-section" aria-labelledby="hero-title">
