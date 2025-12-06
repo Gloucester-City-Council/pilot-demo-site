@@ -462,6 +462,76 @@ body {
     color: var(--color-link);
     font-weight: 600;
 }
+/* === Feedback widget === */
+.feedback-panel {
+  margin: 64px 0 0;
+  padding: 24px;
+  background: #f3f2f1;
+  border-top: 4px solid #00703c;
+  border-radius: 8px;
+}
+
+.feedback-title {
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.feedback-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.feedback-btn {
+  padding: 12px 20px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.feedback-yes {
+  background: #d5f0e5;
+  border-color: #00703c;
+}
+
+.feedback-no {
+  background: #fbd6d2;
+  border-color: #d4351c;
+}
+
+.feedback-form {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feedback-form textarea,
+.feedback-form input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #b1b4b6;
+  border-radius: 4px;
+}
+
+.feedback-submit {
+  align-self: flex-start;
+  background: #00703c;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.feedback-thanks {
+  margin-top: 16px;
+  font-weight: 700;
+}
 
 /* === Footer === */
 .site-footer {
