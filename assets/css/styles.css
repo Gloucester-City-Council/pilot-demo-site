@@ -85,8 +85,9 @@ body {
 /* === Header Brand (Logo + Council Name) === */
 .header-brand {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.75rem;
     flex-shrink: 0;
 }
 
@@ -108,6 +109,7 @@ body {
     font-weight: 700;
     line-height: 1.2;
     white-space: nowrap;
+    text-align: center;
 }
 
 /* === Utility Nav === */
@@ -382,7 +384,7 @@ body {
 }
 
 .news-content {
-    padding: 1.5rem;
+    padding: 2rem;
 }
 
 .news-title {
@@ -523,7 +525,7 @@ body {
     }
     
     .header-brand {
-        gap: 1rem;
+        gap: 0.5rem;
     }
     
     .council-name {
@@ -561,12 +563,6 @@ body {
 }
 
 @media (max-width: 480px) {
-    .header-brand {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
     .council-name {
         font-size: 1rem;
     }
