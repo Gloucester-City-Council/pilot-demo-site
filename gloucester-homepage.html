@@ -273,7 +273,58 @@
             </div>
         </div>
     </section>
-    
+    <section class="feedback-panel" aria-labelledby="feedback-heading">
+  <h2 id="feedback-heading" class="feedback-title">Was this page helpful?</h2>
+
+  <div class="feedback-buttons" role="group" aria-label="Page feedback">
+    <button
+      type="button"
+      class="feedback-btn feedback-yes"
+      aria-label="Yes, this page was helpful"
+      data-rating="positive"
+    >
+      👍 Yes, it helped
+    </button>
+
+    <button
+      type="button"
+      class="feedback-btn feedback-no"
+      aria-label="No, this page was not helpful"
+      data-rating="negative"
+    >
+      👎 No, it didn’t
+    </button>
+  </div>
+
+  <form id="feedback-form" class="feedback-form" hidden>
+    <label for="feedback-comments" id="feedback-prompt">
+      Tell us more (optional)
+    </label>
+    <textarea
+      id="feedback-comments"
+      rows="3"
+      placeholder="Your comments…"
+    ></textarea>
+
+    <label for="feedback-email">
+      Email (optional, if you'd like a reply)
+    </label>
+    <input
+      type="email"
+      id="feedback-email"
+      placeholder="you@example.com"
+    />
+
+    <button type="submit" class="feedback-submit">
+      Submit feedback
+    </button>
+  </form>
+
+  <p id="feedback-thanks" class="feedback-thanks" hidden>
+    ✅ Thanks for your feedback — it helps us improve this service.
+  </p>
+</section>
+
     <!-- Footer -->
     <footer class="site-footer" role="contentinfo">
         <div class="footer-container">
