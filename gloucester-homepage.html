@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gloucester City Council - Your local authority serving the city of Gloucester. Access bins, Council Tax, planning, housing and more services online.">
+    <title>Gloucester City Council - Transforming your city</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="assets/images/GCC_logo.svg" as="image">
+    
+    <style>
+        /* ==========================================
+           GLOUCESTER CITY COUNCIL HOMEPAGE
+           Accessible, Mobile-First, Best Practice
+           ========================================== */
+        
+        /* === CSS Reset === */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* === Root Variables (Gloucester Brand Colors) === */
+        :root {
+            --color-dark: #1a1a18;
+            --color-text: #0b0c0c;
+            --color-text-secondary: #505a5f;
+            --color-link: #1d70b8;
+            --color-link-hover: #003078;
+            --color-success: #00703c;
+            --color-success-hover: #005a30;
+            --color-border: #b1b4b6;
+            --color-background: #ffffff;
+            --color-background-light: #f3f2f1;
+            --color-background-lighter: #f8f9fa;
+            
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --max-width: 1200px;
+        }
+        
+        /* === Base Styles === */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            line-height: 1.5;
+            color: var(--color-text);
+            background: var(--color-background);
+        }
+        
+        /* === Skip Link (WCAG 2.1 AAA) === */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: #ffdd00;
+            color: var(--color-text);
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            font-weight: 700;
+            z-index: 10000;
+            border: 3px solid var(--color-text);
+        }
+        
+        .skip-link:focus {
+            top: 0;
+            left: 0;
+        }
+        
+        /* === Site Header === */
+        .site-header {
+            background: var(--color-dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .logo-link {
+            display: block;
+            line-height: 0;
+            flex-shrink: 0;
+        }
+        
+        .site-logo {
+            height: 70px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+        
+        /* === Utility Nav === */
+        .utility-nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .utility-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+        
+        .utility-nav a:hover,
+        .utility-nav a:focus {
+            border-bottom-color: white;
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .menu-toggle:hover,
+        .menu-toggle:focus {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* === Hero Section === */
+        .hero-section {
+            background: linear-gradient(135deg, var(--color-dark) 0%, #2c2c28 100%);
+            color: white;
+            padding: 3rem 1.5rem;
+        }
+        
+        .hero-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero-lede {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+        }
+        
+        /* === Quick Actions === */
+        .quick-actions {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-top: -2rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .quick-actions-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+        }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .action-card {
+            display: block;
+            background: var(--color-background-lighter);
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-decoration: none;
+            color: var(--color-text);
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .action-card:hover,
+        .action-card:focus {
+            border-color: var(--color-link);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .action-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+        
+        .action-title {
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .action-description {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+        
+        /* === Main Content === */
+        .main-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+        
+        /* === Featured Banner === */
+        .featured-banner {
+            background: var(--color-link);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .featured-content h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .featured-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .featured-image {
+            flex-shrink: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .btn-primary {
+            display: inline-block;
+            background: white;
+            color: var(--color-link);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background: var(--color-background-light);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* === Service Categories === */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .category-card {
+            background: white;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--color-text);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .category-card:hover,
+        .category-card:focus {
+            border-color: var(--color-link);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--color-text);
+        }
+        
+        .category-description {
+            color: var(--color-text-secondary);
+            font-size: 0.9375rem;
+            flex-grow: 1;
+        }
+        
+        /* === News Section === */
+        .news-section {
+            background: var(--color-background-light);
+            padding: 3rem 1.5rem;
+            margin: 3rem -1.5rem;
+        }
+        
+        .news-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .news-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        
+        .news-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .news-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .news-content {
+            padding: 1.5rem;
+        }
+        
+        .news-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--color-text);
+        }
+        
+        .news-excerpt {
+            color: var(--color-text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .news-link {
+            color: var(--color-link);
+            font-weight: 600;
+        }
+        
+        /* === Footer === */
+        .site-footer {
+            background: var(--color-dark);
+            color: white;
+            padding: 3rem 1.5rem 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .footer-logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 1rem;
+            filter: brightness(0) invert(1);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        
+        .footer-links a:hover,
+        .footer-links a:focus {
+            border-bottom-color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        
+        .social-links a:hover,
+        .social-links a:focus {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #b1b4b6;
+        }
+        
+        /* === Responsive === */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .utility-nav {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 0;
+                padding-top: 1rem;
+            }
+            
+            .utility-nav.is-open {
+                display: flex;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .hero-title {
+                font-size: 1.75rem;
+            }
+            
+            .hero-lede {
+                font-size: 1rem;
+            }
+            
+            .featured-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .featured-image {
+                order: -1;
+            }
+            
+            .actions-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .site-logo {
+                height: 50px;
+            }
+        }
+        
+        /* === Focus Visible (Better Accessibility) === */
+        *:focus-visible {
+            outline: 3px solid #ffdd00;
+            outline-offset: 2px;
+        }
+        
+        /* === Print Styles === */
+        @media print {
+            .skip-link,
+            .menu-toggle,
+            .utility-nav,
+            .quick-actions,
+            .featured-banner,
+            .news-section,
+            .site-footer {
+                display: none;
+            }
+            
+            .site-header {
+                position: static;
+                box-shadow: none;
+            }
+            
+            .category-card {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <!-- Skip to Main Content (WCAG 2.1 AAA) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Site Header -->
+    <header class="site-header" role="banner">
+        <div class="header-container">
+            <a href="/" class="logo-link" aria-label="Gloucester City Council homepage">
+                <img 
+                    src="assets/images/GCC_logo.svg" 
+                    alt="Gloucester City Council"
+                    class="site-logo"
+                    width="250"
+                    height="70"
+                >
+            </a>
+            
+            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                Menu
+            </button>
+            
+            <nav class="utility-nav" aria-label="Utility navigation">
+                <a href="/contact">Contact us</a>
+                <a href="https://gloucester-self.achieveservice.com/">My Gloucester</a>
+                <a href="/news">News</a>
+                <a href="https://public.govdelivery.com/accounts/UKGCCA/subscriber/new">Subscribe</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero-section" aria-labelledby="hero-title">
+        <div class="hero-container">
+            <h1 id="hero-title" class="hero-title">Gloucester City Council</h1>
+            <p class="hero-lede">
+                Your local authority serving the city of Gloucester. 
+                Access council services, pay bills, and find information online.
+            </p>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2 class="quick-actions-title">Quick actions</h2>
+                
+                <div class="actions-grid">
+                    
+                    <a href="/bins-recycling/collection-day" class="action-card">
+                        <span class="action-icon" aria-hidden="true">🗓️</span>
+                        <span class="action-title">Check bin day</span>
+                        <span class="action-description">Find your collection schedule</span>
+                    </a>
+                    
+                    <a href="/council-tax/pay" class="action-card">
+                        <span class="action-icon" aria-hidden="true">💷</span>
+                        <span class="action-title">Pay Council Tax</span>
+                        <span class="action-description">Make a payment online</span>
+                    </a>
+                    
+                    <a href="/planning/search" class="action-card">
+                        <span class="action-icon" aria-hidden="true">🔍</span>
+                        <span class="action-title">Planning applications</span>
+                        <span class="action-description">Search and track</span>
+                    </a>
+                    
+                    <a href="/housing/homeless-help" class="action-card">
+                        <span class="action-icon" aria-hidden="true">🏠</span>
+                        <span class="action-title">Housing help</span>
+                        <span class="action-description">Homeless or at risk</span>
+                    </a>
+                    
+                    <a href="/bins-recycling/garden-waste" class="action-card">
+                        <span class="action-icon" aria-hidden="true">🌿</span>
+                        <span class="action-title">Garden waste</span>
+                        <span class="action-description">Subscribe for £50/year</span>
+                    </a>
+                    
+                    <a href="/report" class="action-card">
+                        <span class="action-icon" aria-hidden="true">⚠️</span>
+                        <span class="action-title">Report a problem</span>
+                        <span class="action-description">Street, park, or service issue</span>
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+        
+        <!-- Featured Banner -->
+        <article class="featured-banner">
+            <div class="featured-content">
+                <h2>Local Government Reorganisation</h2>
+                <p>
+                    Government wants to change how councils work across Gloucestershire. 
+                    Find out what is proposed and how the changes could affect you and where you live.
+                </p>
+                <a href="/about-the-council/local-government-reorganisation-and-devolution/" class="btn-primary">
+                    Read more about the changes
+                </a>
+            </div>
+        </article>
+        
+        <!-- Service Categories -->
+        <section aria-labelledby="services-title">
+            <h2 id="services-title" class="section-title">All council services</h2>
+            
+            <div class="categories-grid">
+                
+                <a href="/bins-recycling" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🗑️</span>
+                    <h3 class="category-title">Bins, Waste & Recycling</h3>
+                    <p class="category-description">
+                        Collection schedules, garden waste, bulky items, and recycling information
+                    </p>
+                </a>
+                
+                <a href="/council-tax" class="category-card">
+                    <span class="category-icon" aria-hidden="true">💷</span>
+                    <h3 class="category-title">Council Tax & Benefits</h3>
+                    <p class="category-description">
+                        Payments, discounts, exemptions, Council Tax support, and Housing Benefit
+                    </p>
+                </a>
+                
+                <a href="/planning" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🏗️</span>
+                    <h3 class="category-title">Planning & Building Control</h3>
+                    <p class="category-description">
+                        Planning applications, building regulations, conservation areas, and tree orders
+                    </p>
+                </a>
+                
+                <a href="/housing" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🏠</span>
+                    <h3 class="category-title">Housing & Homelessness</h3>
+                    <p class="category-description">
+                        Social housing, homelessness help, housing advice, and private renting
+                    </p>
+                </a>
+                
+                <a href="/licensing" class="category-card">
+                    <span class="category-icon" aria-hidden="true">📋</span>
+                    <h3 class="category-title">Licensing & Permits</h3>
+                    <p class="category-description">
+                        Taxi licences, alcohol licences, street trading, and business permits
+                    </p>
+                </a>
+                
+                <a href="/parks-leisure" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🌳</span>
+                    <h3 class="category-title">Parks, Leisure & Culture</h3>
+                    <p class="category-description">
+                        Parks, sports facilities, museums, events, and tourism information
+                    </p>
+                </a>
+                
+                <a href="/environment" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🌍</span>
+                    <h3 class="category-title">Environment & Health</h3>
+                    <p class="category-description">
+                        Noise complaints, food hygiene, pest control, pollution, and climate action
+                    </p>
+                </a>
+                
+                <a href="/business" class="category-card">
+                    <span class="category-icon" aria-hidden="true">💼</span>
+                    <h3 class="category-title">Business Support</h3>
+                    <p class="category-description">
+                        Business rates, grants, funding, markets, and commercial property
+                    </p>
+                </a>
+                
+                <a href="/community" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🤝</span>
+                    <h3 class="category-title">Community & Safety</h3>
+                    <p class="category-description">
+                        Community grants, anti-social behaviour, volunteering, and events
+                    </p>
+                </a>
+                
+                <a href="/about" class="category-card">
+                    <span class="category-icon" aria-hidden="true">ℹ️</span>
+                    <h3 class="category-title">About the Council</h3>
+                    <p class="category-description">
+                        Councillors, meetings, elections, strategies, budgets, and jobs
+                    </p>
+                </a>
+                
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- News Section -->
+    <section class="news-section" aria-labelledby="news-title">
+        <div class="news-container">
+            <h2 id="news-title" class="section-title">Latest news</h2>
+            
+            <div class="news-grid">
+                
+                <article class="news-card">
+                    <a href="/news/purple-flag-award">
+                        <h3 class="news-title">Gloucester is a Purple Flag City</h3>
+                        <p class="news-excerpt">
+                            Gloucester holds the Purple Flag National Safety award, 
+                            recognizing our commitment to making the city safer.
+                        </p>
+                        <span class="news-link">Read more →</span>
+                    </a>
+                </article>
+                
+                <article class="news-card">
+                    <a href="/news/watch-meetings-online">
+                        <h3 class="news-title">Watch our meetings online</h3>
+                        <p class="news-excerpt">
+                            Follow our YouTube channel to see how the council makes 
+                            decisions about improving our city for residents.
+                        </p>
+                        <span class="news-link">Watch now →</span>
+                    </a>
+                </article>
+                
+                <article class="news-card">
+                    <a href="/cost-of-living">
+                        <h3 class="news-title">Cost of living support</h3>
+                        <p class="news-excerpt">
+                            Information and support available if you're struggling 
+                            with the cost of living.
+                        </p>
+                        <span class="news-link">Get help →</span>
+                    </a>
+                </article>
+                
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-container">
+            
+            <div class="footer-grid">
+                
+                <!-- Brand Column -->
+                <div class="footer-section">
+                    <img 
+                        src="assets/images/GCC_logo.svg" 
+                        alt="Gloucester City Council"
+                        class="footer-logo"
+                        loading="lazy"
+                    >
+                    <p>Transforming your city</p>
+                    
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/GloucesterCityCouncil/" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com/GloucesterCity" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h3>Quick links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/bins-recycling/collection-day">Check bin day</a></li>
+                        <li><a href="/council-tax/pay">Pay Council Tax</a></li>
+                        <li><a href="/planning/search">Planning applications</a></li>
+                        <li><a href="/report">Report a problem</a></li>
+                    </ul>
+                </div>
+                
+                <!-- About Gloucester -->
+                <div class="footer-section">
+                    <h3>About Gloucester</h3>
+                    <ul class="footer-links">
+                        <li><a href="http://visitgloucester.co.uk/">Visit Gloucester</a></li>
+                        <li><a href="/find-councillor">Find your councillor</a></li>
+                        <li><a href="https://www.gloucesterlottery.co.uk/">Gloucester Lottery</a></li>
+                        <li><a href="/jobs">Jobs & careers</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Using our site -->
+                <div class="footer-section">
+                    <h3>Using our site</h3>
+                    <ul class="footer-links">
+                        <li><a href="/privacy">Privacy & cookies</a></li>
+                        <li><a href="/accessibility">Accessibility</a></li>
+                        <li><a href="/sitemap">Sitemap</a></li>
+                        <li><a href="/contact">Contact us</a></li>
+                        <li><a href="/feedback">Feedback</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Gloucester City Council. All rights reserved.</p>
+                <p>Registered office: Herbert Warehouse, The Docks, Gloucester, GL1 2EQ</p>
+            </div>
+            
+        </div>
+    </footer>
+    
+    <!-- JavaScript for Mobile Menu -->
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const utilityNav = document.querySelector('.utility-nav');
+        
+        if (menuToggle && utilityNav) {
+            menuToggle.addEventListener('click', () => {
+                const isOpen = utilityNav.classList.toggle('is-open');
+                menuToggle.setAttribute('aria-expanded', isOpen);
+            });
+        }
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.site-header')) {
+                utilityNav.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+        
+        // Handle escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && utilityNav.classList.contains('is-open')) {
+                utilityNav.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.focus();
+            }
+        });
+    </script>
+    
+</body>
+</html>
