@@ -465,10 +465,19 @@ body {
 /* === Feedback widget === */
 .feedback-panel {
   margin: 64px 0 0;
+  padding: 24px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.feedback-inner {
+  width: 100%;
+  max-width: 560px;          /* about half page on desktop */
   padding: 24px;
-  background: #f3f2f1;
-  border-top: 4px solid #00703c;
   border-radius: 8px;
+  border-top: 4px solid #00703c;
+  background: #ffffff;       /* white, not grey */
+  text-align: center;
 }
 
 .feedback-title {
@@ -480,33 +489,44 @@ body {
 .feedback-buttons {
   display: flex;
   gap: 16px;
+  justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 8px;
 }
 
 .feedback-btn {
-  padding: 12px 20px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 999px;              /* pill-shaped buttons */
   border: 2px solid transparent;
   font-weight: 700;
   cursor: pointer;
   font-size: 1rem;
+  background: #ffffff;               /* white background */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .feedback-yes {
-  background: #d5f0e5;
   border-color: #00703c;
+  color: #00703c;
 }
 
 .feedback-no {
-  background: #fbd6d2;
   border-color: #d4351c;
+  color: #d4351c;
 }
 
 .feedback-form {
-  margin-top: 24px;
+  margin-top: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  text-align: left;                  /* easier for reading text */
+}
+
+.feedback-form label {
+  font-weight: 600;
 }
 
 .feedback-form textarea,
@@ -515,6 +535,7 @@ body {
   font-size: 1rem;
   border: 1px solid #b1b4b6;
   border-radius: 4px;
+  width: 100%;
 }
 
 .feedback-submit {
@@ -522,16 +543,19 @@ body {
   background: #00703c;
   color: white;
   border: none;
-  padding: 12px 20px;
+  padding: 10px 18px;
   border-radius: 6px;
   font-weight: 700;
   cursor: pointer;
+  margin-top: 4px;
 }
 
 .feedback-thanks {
   margin-top: 16px;
   font-weight: 700;
+  text-align: center;
 }
+
 
 /* === Footer === */
 .site-footer {
