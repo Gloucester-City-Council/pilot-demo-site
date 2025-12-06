@@ -11,14 +11,14 @@
      */
     function initMobileMenu() {
         const menuToggle = document.querySelector('.menu-toggle');
-        const utilityNav = document.querySelector('.utility-nav');
+        const navList = document.querySelector('.nav-list');
         
-        if (!menuToggle || !utilityNav) return;
+        if (!menuToggle || !navList) return;
         
         // Toggle menu on button click
         menuToggle.addEventListener('click', function(e) {
             e.stopPropagation();
-            const isOpen = utilityNav.classList.toggle('is-open');
+            const isOpen = navList.classList.toggle('is-open');
             menuToggle.setAttribute('aria-expanded', isOpen);
             
             // Update button text
@@ -27,21 +27,21 @@
         
         // Close menu when clicking outside
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.site-header')) {
+            if (!e.target.closest('.main-nav')) {
                 closeMenu();
             }
         });
         
         // Close menu on escape key
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && utilityNav.classList.contains('is-open')) {
+            if (e.key === 'Escape' && navList.classList.contains('is-open')) {
                 closeMenu();
                 menuToggle.focus();
             }
         });
         
         // Close menu when clicking nav links
-        const navLinks = utilityNav.querySelectorAll('a');
+        const navLinks = navList.querySelectorAll('a');
         navLinks.forEach(function(link) {
             link.addEventListener('click', function() {
                 closeMenu();
@@ -49,7 +49,7 @@
         });
         
         function closeMenu() {
-            utilityNav.classList.remove('is-open');
+            navList.classList.remove('is-open');
             menuToggle.setAttribute('aria-expanded', 'false');
             menuToggle.textContent = 'Menu';
         }
