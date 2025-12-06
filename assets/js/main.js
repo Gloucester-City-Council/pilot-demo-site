@@ -106,7 +106,8 @@
         const prompt = panel.querySelector('#feedback-prompt');
         const commentsField = panel.querySelector('#feedback-comments');
         const emailField = panel.querySelector('#feedback-email');
-
+        form.hidden = true;   // <-- force hide on load
+        thanks.hidden = true;
         if (!buttons.length || !form || !thanks || !prompt || !commentsField || !emailField) {
             return; // widget not fully present, fail safely
         }
