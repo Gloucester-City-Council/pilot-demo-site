@@ -92,83 +92,115 @@
     }
 
     /**
-     * Add feedback functions
-     */
-    function initFeedbackWidget() {
-        // Expecting markup like:
-        // <section class="feedback-panel"> ... </section>
-        const panel = document.querySelector('.feedback-panel');
-        if (!panel) return; // no widget on this page
-
-        const buttons = panel.querySelectorAll('.feedback-btn');
-        const form = panel.querySelector('#feedback-form');
-        const thanks = panel.querySelector('#feedback-thanks');
-        const prompt = panel.querySelector('#feedback-prompt');
-        const commentsField = panel.querySelector('#feedback-comments');
-        const emailField = panel.querySelector('#feedback-email');
-        form.hidden = true;   // <-- force hide on load
-        thanks.hidden = true;
-        if (!buttons.length || !form || !thanks || !prompt || !commentsField || !emailField) {
-            return; // widget not fully present, fail safely
-        }
-
-        let selectedRating = null;
-        let selectedUI = null;
-
-        // Handle thumb clicks
-        buttons.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                selectedRating = btn.getAttribute('data-rating');   // "positive" | "negative"
-                selectedUI = selectedRating === 'positive' ? 'thumbs_up' : 'thumbs_down';
-
-                // Update prompt text based on rating
-                if (selectedRating === 'positive') {
-                    prompt.textContent = 'What worked well? (optional)';
-                } else {
-                    prompt.textContent = 'What didn’t work or could be improved? (optional)';
-                }
-
-                // Show form and focus comments
-                form.hidden = false;
-                commentsField.focus();
-            });
-        });
-
-        // Handle submit
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            if (!selectedRating) {
-                // No rating chosen – you could show a small message here if you like
-                console.warn('Feedback submitted without a rating – ignoring.');
-                return;
+ * Add feedback functions
+ */
+function initFeedbackWidget() {
+    // Expecting markup like:
+    // <section class="feedback-panel"> ... </section>
+    const panel = document.querySelector('.feedback-panel');
+    if (!panel) return; // no widget on this page
+    
+    const buttons = panel.querySelectorAll('.feedback-btn');
+    const form = panel.querySelector('#feedback-form');
+    const thanks = panel.querySelector('#feedback-thanks');
+    const prompt = panel.querySelector('#feedback-prompt');
+    const commentsField = panel.querySelector('#feedback-comments');
+    const emailField = panel.querySelector('#feedback-email');
+    
+    form.hidden = true;   // <-- force hide on load
+    thanks.hidden = true;
+    
+    if (!buttons.length || !form || !thanks || !prompt || !commentsField || !emailField) {
+        return; // widget not fully present, fail safely
+    }
+    
+    let selectedRating = null;
+    let selectedUI = null;
+    
+    // Handle thumb clicks
+    buttons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            selectedRating = btn.getAttribute('data-rating');   // "positive" | "negative"
+            selectedUI = selectedRating === 'positive' ? 'thumbs_up' : 'thumbs_down';
+            
+            // Update prompt text based on rating
+            if (selectedRating === 'positive') {
+                prompt.textContent = 'What worked well? (optional)';
+            } else {
+                prompt.textContent = 'What didn't work or could be improved? (optional)';
             }
+            
+            // Show form and focus comments
+            form.hidden = false;
+            commentsField.focus();
+        });
+    });
+    
+    // Handle submit
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        if (!selectedRating) {
+            console.warn('Feedback submitted without a rating – ignoring.');
+            return;
+        }
+        
+        const comments = commentsField.value.trim() || null;
+        const email = emailField.value.trim() || null;
+        
+        const feedbackPayload = {
+            pageUrl: window.location.href,
+            serviceId: document.body.dataset.serviceId || 'unknown',
+            rating: selectedRating,            // "positive" | "negative"
+            uiChoice: selectedUI,             // "thumbs_up" | "thumbs_down"
+            comments: comments,
+            email: email,
+            journeyStage: 'after_attempt',
+            userAgent: navigator.userAgent,
+            referrer: document.referrer || null,
+            source: 'static-site-v1',
+            createdAt: new Date().toISOString()
+        };
+        
+        // Keep logging to console for debugging
+        console.log('Feedback event:', feedbackPayload);
+        
+        try {
 
-            const comments = commentsField.value.trim() || null;
-            const email = emailField.value.trim() || null;
-
-            const feedbackPayload = {
-                pageUrl: window.location.href,
-                serviceId: document.body.dataset.serviceId || 'unknown',
-                rating: selectedRating,            // "positive" | "negative"
-                uiChoice: selectedUI,             // "thumbs_up" | "thumbs_down"
-                comments: comments,
-                email: email,
-                journeyStage: 'after_attempt',
-                userAgent: navigator.userAgent,
-                referrer: document.referrer || null,
-                source: 'static-site-v1',
-                createdAt: new Date().toISOString()
-            };
-
-            // For now: log to console instead of calling an API
-            console.log('Feedback event:', feedbackPayload);
-
-            // Reset UI
+            const response = await fetch('https://mango-water-07ff4bd03.3.azurestaticapps.net/api/submit-feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-token': 'eu9waamw8kjuvomo0lzu1rr7q'
+                },
+                body: JSON.stringify(feedbackPayload)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to submit feedback');
+            }
+            
+            const result = await response.json();
+            console.log('Feedback submitted successfully:', result);
+            
+            // Reset UI and show thanks
             form.hidden = true;
             thanks.hidden = false;
-        });
-    }
+            
+            // Reset form fields
+            commentsField.value = '';
+            emailField.value = '';
+            selectedRating = null;
+            selectedUI = null;
+            
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+            // Still show thanks message to user even if API fails
+            form.hidden = true;
+            thanks.hidden = false;
+        }
+    });
+}
     
     /**
      * External Link Warning (Optional)
