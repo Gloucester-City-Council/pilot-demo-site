@@ -95,10 +95,8 @@
      * Add feedback functions
      */
     function initFeedbackWidget() {
-        // Expecting markup like:
-        // <section class="feedback-panel"> ... </section>
         const panel = document.querySelector('.feedback-panel');
-        if (!panel) return; // no widget on this page
+        if (!panel) return;
         
         const buttons = panel.querySelectorAll('.feedback-btn');
         const form = panel.querySelector('#feedback-form');
@@ -107,36 +105,32 @@
         const commentsField = panel.querySelector('#feedback-comments');
         const emailField = panel.querySelector('#feedback-email');
         
-        form.hidden = true;   // <-- force hide on load
+        form.hidden = true;
         thanks.hidden = true;
         
         if (!buttons.length || !form || !thanks || !prompt || !commentsField || !emailField) {
-            return; // widget not fully present, fail safely
+            return;
         }
         
         let selectedRating = null;
         let selectedUI = null;
         
-        // Handle thumb clicks
         buttons.forEach(function(btn) {
             btn.addEventListener('click', function() {
-                selectedRating = btn.getAttribute('data-rating');   // "positive" | "negative"
+                selectedRating = btn.getAttribute('data-rating');
                 selectedUI = selectedRating === 'positive' ? 'thumbs_up' : 'thumbs_down';
                 
-                // Update prompt text based on rating
                 if (selectedRating === 'positive') {
                     prompt.textContent = 'What worked well? (optional)';
                 } else {
                     prompt.textContent = 'What didn't work or could be improved? (optional)';
                 }
                 
-                // Show form and focus comments
                 form.hidden = false;
                 commentsField.focus();
             });
         });
         
-        // Handle submit
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -151,8 +145,8 @@
             const feedbackPayload = {
                 pageUrl: window.location.href,
                 serviceId: document.body.dataset.serviceId || 'unknown',
-                rating: selectedRating,            // "positive" | "negative"
-                uiChoice: selectedUI,             // "thumbs_up" | "thumbs_down"
+                rating: selectedRating,
+                uiChoice: selectedUI,
                 comments: comments,
                 email: email,
                 journeyStage: 'after_attempt',
@@ -162,7 +156,6 @@
                 createdAt: new Date().toISOString()
             };
             
-            // Keep logging to console for debugging
             console.log('Feedback event:', feedbackPayload);
             
             try {
@@ -170,7 +163,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'x-api-token': 'oije8u23984uoriwfjowei2398470'  // Replace with your actual token
+                        'x-api-token': 'oije8u23984uoriwfjowei2398470'
                     },
                     body: JSON.stringify(feedbackPayload)
                 });
@@ -182,11 +175,9 @@
                 const result = await response.json();
                 console.log('Feedback submitted successfully:', result);
                 
-                // Reset UI and show thanks
                 form.hidden = true;
                 thanks.hidden = false;
                 
-                // Reset form fields
                 commentsField.value = '';
                 emailField.value = '';
                 selectedRating = null;
@@ -194,7 +185,6 @@
                 
             } catch (error) {
                 console.error('Error submitting feedback:', error);
-                // Still show thanks message to user even if API fails
                 form.hidden = true;
                 thanks.hidden = false;
             }
@@ -203,7 +193,6 @@
     
     /**
      * External Link Warning (Optional)
-     * Marks external links for screen readers
      */
     function markExternalLinks() {
         const links = document.querySelectorAll('a[href^="http"]');
@@ -211,13 +200,10 @@
         links.forEach(function(link) {
             const hostname = link.hostname;
             
-            // Check if link is external
             if (hostname && hostname !== window.location.hostname) {
-                // Add visual indicator
                 link.setAttribute('rel', 'external noopener');
                 link.setAttribute('target', '_blank');
                 
-                // Add screen reader text
                 const srText = document.createElement('span');
                 srText.className = 'sr-only';
                 srText.textContent = ' (opens in new window)';
@@ -256,14 +242,10 @@
         initMobileMenu();
         initSmoothScroll();
         initFeedbackWidget();
-        // Uncomment if you want external link warnings
-        // addScreenReaderStyles();
-        // markExternalLinks();
         
         console.log('Gloucester City Council - Site initialized');
     }
     
-    // Run when DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
