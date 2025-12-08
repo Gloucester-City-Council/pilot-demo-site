@@ -1,5 +1,5 @@
 /**
- * Gloucester City Council - Main JavaScript
+ * Gloucester City Council - Main JavaScript - 8/12/2025 - 1936
  * Mobile menu and accessibility enhancements includes feedback
  */
 
@@ -163,7 +163,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'x-api-token': 'oije8u23984uoriwfjowei2398470'
+                        'x-api-token': 'your-token-here'
                     },
                     body: JSON.stringify(feedbackPayload)
                 });
