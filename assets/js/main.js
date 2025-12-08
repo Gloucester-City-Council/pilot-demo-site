@@ -1,3 +1,4 @@
+/**
 * Gloucester City Council - Main JavaScript
 * Mobile menu and accessibility enhancements includes feedback
 */
