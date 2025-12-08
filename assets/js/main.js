@@ -46,7 +46,7 @@
             });
         });
 
-        // Handle form submission
+// Handle form submission
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -75,7 +75,7 @@
             console.log('Feedback event:', feedbackPayload);
 
             try {
-                const response = await fetch('https://mango-water-07ff4bd03.3.azurestaticapps.net/api/submit-feedback', {
+                const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/submitFeedback', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -106,6 +106,7 @@
             }
         });
     }
+
 
     /**
      * Initialize all functions when DOM is ready
