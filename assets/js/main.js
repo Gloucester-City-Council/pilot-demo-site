@@ -174,4 +174,86 @@
                 }
 
                 const result = await response.json();
-                con
+                console.log('Feedback submitted successfully:', result);
+
+                form.hidden = true;
+                if (thanks) thanks.hidden = false;
+
+                if (commentsField) commentsField.value = '';
+                if (emailField) emailField.value = '';
+                selectedRating = null;
+                selectedUI = null;
+
+            } catch (error) {
+                console.error('Error submitting feedback:', error);
+                form.hidden = true;
+                if (thanks) thanks.hidden = false;
+            }
+        });
+    }
+
+    /**
+     * External Link Warning (Optional)
+     */
+    function markExternalLinks() {
+        const links = document.querySelectorAll('a[href^="http"]');
+
+        links.forEach(function (link) {
+            const hostname = link.hostname;
+
+            if (hostname && hostname !== window.location.hostname) {
+                link.setAttribute('rel', 'external noopener');
+                link.setAttribute('target', '_blank');
+
+                const srText = document.createElement('span');
+                srText.className = 'sr-only';
+                srText.textContent = ' (opens in new window)';
+                link.appendChild(srText);
+            }
+        });
+    }
+
+    /**
+     * Add screen reader only class to CSS if not present
+     */
+    function addScreenReaderStyles() {
+        if (document.querySelector('.sr-only')) return;
+
+        const style = document.createElement('style');
+        style.textContent = `
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border-width: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    /**
+     * Initialize all functions when DOM is ready
+     */
+    function init() {
+        initMobileMenu();
+        initSmoothScroll();
+        initFeedbackWidget();
+        markExternalLinks();
+        addScreenReaderStyles();
+
+        console.log('Gloucester City Council - Site initialized');
+        console.log('Feedback widget initialized');
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+})();
