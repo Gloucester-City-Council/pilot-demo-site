@@ -532,7 +532,7 @@
                                 <h3>General waste</h3>
                             </div>
                             <div class="bin-card-body">
-                                <p class="bin-types">Black bin (non-recyclable)</p>
+                                <p class="bin-types" id="general-waste-type">Black bin (non-recyclable)</p>
                                 <p class="collection-frequency">Every <strong><span id="black-bin-day">...</span></strong></p>
                                 <p class="collection-next">Next: <strong><span id="next-black-bin">...</span></strong></p>
                             </div>
@@ -976,15 +976,15 @@
                     return diffDays;
                 }
                 
-                // Find containers by type
-                const containers = data.containers;
-                const refuseContainer = containers.find(c => c.subtitle.includes('Refuse'));
+                // Find containers by type (exclude archived)
+                const containers = data.containers.filter(c => !c.archived);
+                const refuseContainer = containers.find(c => c.subtitle.includes('Refuse') || c.subtitle.includes('Sack'));
                 const recyclingContainer = containers.find(c => c.subtitle.includes('Green Box'));
                 const cardboardContainer = containers.find(c => c.subtitle.includes('Blue Bag'));
                 const foodContainer = containers.find(c => c.subtitle.includes('Food'));
-                const gardenContainer = containers.find(c => c.subtitle.includes('Garden'));
+                const gardenContainer = containers.find(c => c.subtitle.includes('Garden') && !c.archived);
                 
-                // Get the main collection day from first container
+                // Get the main collection day from first active container
                 const mainSchedule = containers[0]?.collectionSchedule;
                 const collectionDay = mainSchedule?.scheduleDescription || 'Not available';
                 
@@ -1031,6 +1031,11 @@
                 }
                 
                 if (refuseContainer) {
+                    // Update text based on whether it's bin or sacks
+                    const isSacks = refuseContainer.subtitle.toLowerCase().includes('sack');
+                    document.getElementById('general-waste-type').textContent = 
+                        isSacks ? 'Black sacks (non-recyclable)' : 'Black bin (non-recyclable)';
+                    
                     document.getElementById('next-black-bin').textContent = 
                         formatShortDate(refuseContainer.collectionSchedule.nextCollection);
                 } else {

@@ -959,7 +959,13 @@
                 // Map Alloy container types to our bin types
                 function mapContainerToBinType(container) {
                     const subtitle = container.subtitle.toLowerCase();
-                    if (subtitle.includes('refuse')) return { type: 'black', name: 'Black bin (general waste)' };
+                    if (subtitle.includes('refuse') || subtitle.includes('sack')) {
+                        // Handle both refuse bins and refuse sacks
+                        return { 
+                            type: 'black', 
+                            name: subtitle.includes('sack') ? 'Black sacks (general waste)' : 'Black bin (general waste)' 
+                        };
+                    }
                     if (subtitle.includes('green box')) return { type: 'green-box', name: 'Green box (plastics and metals)' };
                     if (subtitle.includes('blue bag')) return { type: 'blue-bag', name: 'Blue bag (paper and cardboard)' };
                     if (subtitle.includes('food')) return { type: 'food-caddy', name: 'Food caddy' };
@@ -967,11 +973,13 @@
                     return null;
                 }
                 
-                // Build bin selector HTML
+                // Build bin selector HTML (filter out archived containers)
                 binSelector.innerHTML = '';
                 propertyBins = [];
                 
-                data.containers.forEach((container, index) => {
+                data.containers
+                    .filter(container => !container.archived)
+                    .forEach((container, index) => {
                     const binType = mapContainerToBinType(container);
                     if (!binType) return; // Skip unknown types
                     
