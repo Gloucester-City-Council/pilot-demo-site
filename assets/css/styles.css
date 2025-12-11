@@ -481,7 +481,33 @@ body {
   background: #ffffff;
   text-align: center;
 }
+/* Breadcrumbs */
+.breadcrumb {
+    border-bottom: 1px solid var(--color-border);
+    background: #fff;
+}
 
+.breadcrumb-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;  /* small, neat */
+    font-size: 0.95rem;
+}
+
+.breadcrumb-inner ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.breadcrumb-inner li + li::before {
+    content: "›";
+    margin: 0 0.25rem;
+    color: var(--color-muted);
+}
 /* Heading */
 .feedback-title {
   font-size: 1.25rem;
