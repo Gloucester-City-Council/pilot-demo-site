@@ -10,12 +10,14 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-    <!-- Preload critical assets (match homepage) -->
+    <!-- Preload critical assets -->
     <link rel="preload" href="assets/images/GCC_logo.svg" as="image">
     <link rel="preload" href="assets/css/styles.css" as="style">
 
-    <!-- Stylesheet -->
+    <!-- Main stylesheet (existing) -->
     <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Service landing stylesheet (new, see below) -->
+    <link rel="stylesheet" href="assets/css/service-landing.css">
 
     <!-- Canonical & social basics -->
     <link rel="canonical" href="[FULL URL TO THIS PAGE]">
@@ -83,12 +85,12 @@
                     <button type="submit" class="search-button">Search</button>
                 </form>
             </div>
-        </div>
 
-        <!-- H1 banner – exactly like homepage -->
-        <h1 class="welcome-banner">
-            [SERVICE NAME]
-        </h1>
+            <!-- H1 banner – same pattern as homepage -->
+            <h1 class="welcome-banner">
+                [SERVICE NAME]
+            </h1>
+        </div>
     </header>
 
     <!-- Main Navigation (global) -->
@@ -106,20 +108,19 @@
         </div>
     </nav>
 
-    <!-- Optional breadcrumb (kept light) -->
-<nav class="breadcrumb" aria-label="Breadcrumb">
-    <div class="breadcrumb-inner">
-        <ol>
-            <li><a href="/">Home</a></li>
-            <li aria-current="page">[SERVICE NAME]</li>
-        </ol>
-    </div>
-</nav>
+    <!-- Breadcrumb (lightweight, no giant box) -->
+    <nav class="breadcrumb service-breadcrumb" aria-label="Breadcrumb">
+        <div class="breadcrumb-inner">
+            <ol>
+                <li><a href="/">Home</a></li>
+                <li aria-current="page">[SERVICE NAME]</li>
+            </ol>
+        </div>
+    </nav>
 
-    <!-- Hero-style Quick Actions – same classes as homepage -->
+    <!-- Hero-style Quick Actions – reuse homepage hero/quick-actions styling -->
     <section class="hero-section" aria-labelledby="service-actions-title">
         <div class="hero-container">
-
             <div class="quick-actions">
                 <h2 id="service-actions-title" class="quick-actions-title">
                     What would you like to do?
@@ -149,7 +150,6 @@
                     </a>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -279,7 +279,7 @@
                         👍 Yes, it helped
                     </button>
 
-                    <button
+                <button
                         type="button"
                         class="feedback-btn feedback-no"
                         aria-label="No, this page was not helpful"
@@ -317,7 +317,7 @@
         </section>
     </main>
 
-    <!-- Footer (copied from homepage, 2025 + registered office) -->
+    <!-- Footer (same as homepage, 2025 + registered office) -->
     <footer class="site-footer" role="contentinfo">
         <div class="footer-container">
 
@@ -380,12 +380,4 @@
 
             <div class="footer-bottom">
                 <p>© 2025 Gloucester City Council. All rights reserved.</p>
-                <p>Registered office: Gloucester City Council, Eastgate Management Suite, Eastgate Street, Gloucester GL1 1PA</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Main JS (mobile nav + feedback etc.) -->
-    <script src="assets/js/main.js"></script>
-</body>
-</html>
+                <p>Registered office: Gloucester City Council, Eastgate Management Suite, Eastgate Street, Gloucester GL1 1PA<
