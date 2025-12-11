@@ -441,9 +441,10 @@
                 <section aria-labelledby="before-start">
                     <h2 id="before-start">Before you report a missed collection</h2>
                     
-                    <p><strong>Only report if:</strong></p>
+                    <p><strong>You can report a missed collection if:</strong></p>
                     <ul class="checklist">
-                        <li>Your bin still hasn't been collected (crews can be out until 5pm)</li>
+                        <li>Your bin was due for collection today or yesterday</li>
+                        <li>It's before 4pm on the day after your collection</li>
                         <li>You put your bin out by 7am on collection day</li>
                         <li>Your bin was at the edge of your property (where the crew could reach it)</li>
                         <li>The lid was closed and nothing was sticking out</li>
@@ -451,8 +452,8 @@
                     </ul>
 
                     <div class="alert-box">
-                        <strong>⏰ Report by 4pm the next business day</strong>
-                        <p>Crews work from 7am to 5pm. If your bin wasn't collected, you have until 4pm the next business day to report it. After that, you'll need to wait for your next scheduled collection.</p>
+                        <strong>⏰ Reporting deadline: 4pm the next business day</strong>
+                        <p>Crews update the system as they complete rounds. You can report a missed collection until 4pm the day after your scheduled collection. After that, you'll need to wait for your next scheduled collection.</p>
                     </div>
                 </section>
 
@@ -977,19 +978,64 @@
                 binSelector.innerHTML = '';
                 propertyBins = [];
                 
+                // Check if bin is eligible for missed collection reporting
+                function isEligibleForReport(container) {
+                    if (!container.collectionSchedule?.lastCollection) return false;
+                    
+                    const lastCollection = new Date(container.collectionSchedule.lastCollection);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    lastCollection.setHours(0, 0, 0, 0);
+                    
+                    const yesterday = new Date(today);
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    
+                    // Check if it's before 4pm on the day after collection
+                    const now = new Date();
+                    const currentHour = now.getHours();
+                    const dayAfterCollection = new Date(lastCollection);
+                    dayAfterCollection.setDate(dayAfterCollection.getDate() + 1);
+                    dayAfterCollection.setHours(0, 0, 0, 0);
+                    
+                    const isWithinReportingWindow = (
+                        // Last collection was today
+                        (lastCollection.getTime() === today.getTime()) ||
+                        // Last collection was yesterday and it's before 4pm today
+                        (lastCollection.getTime() === yesterday.getTime() && currentHour < 16)
+                    );
+                    
+                    return isWithinReportingWindow;
+                }
+                
+                let eligibleBins = 0;
+                
                 data.containers
                     .filter(container => !container.archived)
                     .forEach((container, index) => {
                     const binType = mapContainerToBinType(container);
                     if (!binType) return; // Skip unknown types
                     
+                    // Check if eligible for reporting
+                    const eligible = isEligibleForReport(container);
+                    if (!eligible) return; // Skip bins not eligible
+                    
                     // Avoid duplicates (multiple green boxes appear as one)
                     if (propertyBins.find(b => b.type === binType.type)) return;
+                    
+                    eligibleBins++;
+                    
+                    const lastCollectionDate = container.collectionSchedule?.lastCollection;
+                    const formattedDate = lastCollectionDate ? new Date(lastCollectionDate).toLocaleDateString('en-GB', {
+                        weekday: 'short',
+                        day: 'numeric',
+                        month: 'short'
+                    }) : '';
                     
                     propertyBins.push({
                         type: binType.type,
                         name: binType.name,
-                        schedule: container.collectionSchedule?.scheduleDescription || 'Collection schedule varies'
+                        schedule: container.collectionSchedule?.scheduleDescription || 'Collection schedule varies',
+                        lastCollection: lastCollectionDate
                     });
                     
                     const label = document.createElement('label');
@@ -998,7 +1044,7 @@
                         <input type="checkbox" name="bins" value="${binType.type}" id="bin-${binType.type}">
                         <div>
                             <span class="bin-name">${binType.name}</span>
-                            <span class="bin-description">${container.collectionSchedule?.scheduleDescription || 'Collection schedule varies'}</span>
+                            <span class="bin-description">Last collected: ${formattedDate}</span>
                         </div>
                     `;
                     binSelector.appendChild(label);
@@ -1013,6 +1059,21 @@
                         }
                     });
                 });
+                
+                // Show appropriate message if no eligible bins
+                if (eligibleBins === 0) {
+                    loadingDiv.innerHTML = `
+                        <div class="alert-box">
+                            <strong>No bins eligible for missed collection report</strong>
+                            <p>You can only report missed collections until 4pm the day after your scheduled collection.</p>
+                            <p>Your bins were last collected more than 1 day ago, so the reporting window has closed.</p>
+                            <p><a href="/bins/collection-day">Check your next collection dates</a></p>
+                        </div>
+                    `;
+                    loadingDiv.style.display = 'block';
+                    binSelector.style.display = 'none';
+                    return; // Don't allow progression to next step
+                }
                 
                 // Hide loading, show bins
                 loadingDiv.style.display = 'none';
