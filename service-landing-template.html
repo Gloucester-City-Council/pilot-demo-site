@@ -264,56 +264,102 @@
             </aside>
         </div>
     </main>
-    <!-- Feedback panel (same widget as homepage) -->
-    <section class="feedback-panel" aria-labelledby="feedback-heading">
-        <div class="feedback-inner">
-            <h2 id="feedback-heading" class="feedback-title">Was this page helpful?</h2>
-
-            <div class="feedback-buttons" role="group" aria-label="Page feedback">
-                <button
-                    type="button"
-                    class="feedback-btn feedback-yes"
-                    aria-label="Yes, this page was helpful"
-                    data-rating="positive">
-                    👍 Yes, it helped
-                </button>
-
-            <button
-                    type="button"
-                    class="feedback-btn feedback-no"
-                    aria-label="No, this page was not helpful"
-                    data-rating="negative">
-                    👎 No, it didn’t
-                </button>
+        <!-- News Section -->
+    <section class="news-section" aria-labelledby="news-title">
+        <div class="news-container">
+            <h2 id="news-title" class="section-title">Service news</h2>
+            
+            <div class="news-grid">
+                
+                <article class="news-card">
+                    <a href="/news/purple-flag-award">
+                        <h3 class="news-title">Gloucester is a Purple Flag City</h3>
+                        <p class="news-excerpt">
+                            Gloucester holds the Purple Flag National Safety award, 
+                            recognizing our commitment to making the City safer.
+                        </p>
+                        <span class="news-link">Read more →</span>
+                    </a>
+                </article>
+                
+                <article class="news-card">
+                    <a href="/news/watch-meetings-online">
+                        <h3 class="news-title">Watch our meetings online</h3>
+                        <p class="news-excerpt">
+                            Follow our YouTube channel to see how the council makes 
+                            decisions about improving our City for residents.
+                        </p>
+                        <span class="news-link">Watch now →</span>
+                    </a>
+                </article>
+                
+                <article class="news-card">
+                    <a href="/cost-of-living">
+                        <h3 class="news-title">Cost of living support</h3>
+                        <p class="news-excerpt">
+                            Information and support available if you're struggling 
+                            with the cost of living.
+                        </p>
+                        <span class="news-link">Get help →</span>
+                    </a>
+                </article>
+                
             </div>
-
-            <form id="feedback-form" class="feedback-form" hidden>
-                <label for="feedback-comments" id="feedback-prompt">
-                    Tell us more (optional)
-                </label>
-                <textarea
-                    id="feedback-comments"
-                    rows="3"
-                    placeholder="Your comments…"></textarea>
-
-                <label for="feedback-email">
-                    Email (optional, if you would like a reply)
-                </label>
-                <input
-                    type="email"
-                    id="feedback-email"
-                    placeholder="you@example.com" />
-
-                <button type="submit" class="feedback-submit">
-                    Submit feedback
-                </button>
-            </form>
-
-            <p id="feedback-thanks" class="feedback-thanks" hidden>
-                ✅ Thanks for your feedback — it helps us improve this service.
-            </p>
         </div>
     </section>
+    <section class="feedback-panel" aria-labelledby="feedback-heading">
+  <div class="feedback-inner">
+    <h2 id="feedback-heading" class="feedback-title">Was this page helpful?</h2>
+
+    <div class="feedback-buttons" role="group" aria-label="Page feedback">
+      <button
+        type="button"
+        class="feedback-btn feedback-yes"
+        aria-label="Yes, this page was helpful"
+        data-rating="positive"
+      >
+        👍 Yes, it helped
+      </button>
+
+      <button
+        type="button"
+        class="feedback-btn feedback-no"
+        aria-label="No, this page was not helpful"
+        data-rating="negative"
+      >
+        👎 No, it didn’t
+      </button>
+    </div>
+
+    <form id="feedback-form" class="feedback-form" hidden>
+      <label for="feedback-comments" id="feedback-prompt">
+        Tell us more (optional)
+      </label>
+      <textarea
+        id="feedback-comments"
+        rows="3"
+        placeholder="Your comments…"
+      ></textarea>
+
+      <label for="feedback-email">
+        Email (optional, if you'd like a reply)
+      </label>
+      <input
+        type="email"
+        id="feedback-email"
+        placeholder="you@example.com"
+      />
+
+      <button type="submit" class="feedback-submit">
+        Submit feedback
+      </button>
+    </form>
+
+    <p id="feedback-thanks" class="feedback-thanks" hidden>
+      ✅ Thanks for your feedback — it helps us improve this service.
+    </p>
+  </div>
+</section>
 
 
     <!-- Footer (same as homepage, 2025 + registered office) -->
