@@ -17,14 +17,14 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="assets/css/styles.css">
 
-    <!-- Canonical & sharing basics -->
+    <!-- Canonical & social basics -->
     <link rel="canonical" href="[FULL URL TO THIS PAGE]">
     <meta property="og:title" content="[SERVICE NAME] | Gloucester City Council">
     <meta property="og:description" content="[Same as meta description]">
     <meta property="og:type" content="website">
     <meta property="og:url" content="[FULL URL TO THIS PAGE]">
 
-    <!-- Minimal GovernmentService schema -->
+    <!-- GovernmentService schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -57,7 +57,7 @@
     <!-- Skip to main content -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Site Header -->
+    <!-- Site Header (logo + search + H1 banner) -->
     <header class="site-header" role="banner">
         <div class="header-container">
             <!-- Top Row: Logo + Search -->
@@ -85,13 +85,13 @@
             </div>
         </div>
 
-        <!-- Service H1 (mirrors homepage welcome-banner pattern) -->
+        <!-- H1 banner – exactly like homepage -->
         <h1 class="welcome-banner">
             [SERVICE NAME]
         </h1>
     </header>
 
-    <!-- Main Navigation -->
+    <!-- Main Navigation (global) -->
     <nav class="main-nav" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
             <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -106,9 +106,9 @@
         </div>
     </nav>
 
-    <!-- Breadcrumb -->
+    <!-- Optional breadcrumb (kept light) -->
     <nav class="breadcrumb" aria-label="Breadcrumb">
-        <div class="breadcrumb-container container">
+        <div class="breadcrumb-container main-content">
             <ol>
                 <li><a href="/">Home</a></li>
                 <li aria-current="page">[SERVICE NAME]</li>
@@ -116,91 +116,89 @@
         </div>
     </nav>
 
+    <!-- Hero-style Quick Actions – same classes as homepage -->
+    <section class="hero-section" aria-labelledby="service-actions-title">
+        <div class="hero-container">
+
+            <div class="quick-actions">
+                <h2 id="service-actions-title" class="quick-actions-title">
+                    What would you like to do?
+                </h2>
+                <p class="service-intro-text">
+                    Choose an option below to go to the right page. Most things can be done online in a few minutes.
+                </p>
+
+                <div class="actions-grid">
+                    <!-- CARD TEMPLATE: duplicate as needed -->
+                    <a href="[TASK-URL-1]" class="action-card" data-ai-role="service-task">
+                        <span class="action-icon" aria-hidden="true">✅</span>
+                        <span class="action-title">[Task name – e.g. “Report a missed bin”]</span><br/>
+                        <span class="action-description">[1-line explanation in resident language]</span>
+                    </a>
+
+                    <a href="[TASK-URL-2]" class="action-card" data-ai-role="service-task">
+                        <span class="action-icon" aria-hidden="true">💳</span>
+                        <span class="action-title">[Task name – e.g. “Pay your bill”]</span><br/>
+                        <span class="action-description">[1-line explanation]</span>
+                    </a>
+
+                    <a href="[TASK-URL-3]" class="action-card" data-ai-role="service-task">
+                        <span class="action-icon" aria-hidden="true">📢</span>
+                        <span class="action-title">[Task name – e.g. “Report a problem”]</span><br/>
+                        <span class="action-description">[1-line explanation]</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <!-- Main content -->
     <main id="main-content" class="main-content" role="main">
-        <div class="container service-layout">
-
+        <div class="service-layout">
             <!-- Main column -->
             <div class="service-main">
 
-                <!-- Service hero-style section using quick-actions pattern -->
-                <section class="hero-section service-hero-section" aria-labelledby="service-actions-title">
-                    <div class="hero-container">
-                        <div class="quick-actions">
-                            <h2 id="service-actions-title" class="quick-actions-title">
-                                What would you like to do?
-                            </h2>
-                            <p class="service-intro-text">
-                                Choose an option below to go to the right page. Most things can be done online in a few minutes.
-                            </p>
-
-                            <div class="actions-grid">
-                                <!-- CARD TEMPLATE: duplicate for each resident task -->
-                                <a href="[TASK-URL-1]" class="action-card" data-ai-role="service-task">
-                                    <span class="action-icon" aria-hidden="true">✅</span>
-                                    <span class="action-title">[Task name – e.g. “Report a missed bin”]</span><br/>
-                                    <span class="action-description">[1-line explanation in resident language]</span>
-                                </a>
-
-                                <a href="[TASK-URL-2]" class="action-card" data-ai-role="service-task">
-                                    <span class="action-icon" aria-hidden="true">💳</span>
-                                    <span class="action-title">[Task name – e.g. “Pay your bill”]</span><br/>
-                                    <span class="action-description">[1-line explanation]</span>
-                                </a>
-
-                                <a href="[TASK-URL-3]" class="action-card" data-ai-role="service-task">
-                                    <span class="action-icon" aria-hidden="true">📢</span>
-                                    <span class="action-title">[Task name – e.g. “Report a problem”]</span><br/>
-                                    <span class="action-description">[1-line explanation]</span>
-                                </a>
-
-                                <!-- Add or remove cards as needed -->
-                            </div>
-                        </div>
-
-                        <!-- Optional info or illustration panel -->
-                        <div class="hero-info">
-                            <h3>[Optional subheading – e.g. “About this service”]</h3>
-                            <p>
-                                [Short paragraph explaining what this service area covers and any key messages,
-                                such as seasonal changes, policy notes or who it is for.]
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
                 <!-- Grouped service links behind the landing page -->
                 <section class="service-groups" aria-labelledby="all-services-heading">
-                    <div class="section-header">
-                        <h2 id="all-services-heading">All [service name] options</h2>
-                        <p>Browse everything in this area if you’re not sure which option you need.</p>
-                    </div>
+                    <h2 id="all-services-heading" class="section-title">
+                        All [service name] options
+                    </h2>
+                    <p>Browse everything in this area if you’re not sure which option you need.</p>
 
-                    <div class="group-grid">
+                    <div class="categories-grid">
                         <!-- CATEGORY 1 -->
-                        <div class="service-group">
-                            <h3>[Category name – e.g. “Payments”]</h3>
+                        <article class="category-card">
+                            <div class="category-icon" aria-hidden="true">💰</div>
+                            <h3 class="category-title">[Category – e.g. “Payments”]</h3>
+                            <p class="category-description">
+                                [Short explanation of what sits in this category.]
+                            </p>
                             <ul class="service-list">
-                                <li><a href="[URL]">[Link – e.g. “Pay your [thing]”]</a></li>
-                                <li><a href="[URL]">[Another service link]</a></li>
+                                <li><a href="[URL]">[Service link – e.g. “Pay your [thing]”]</a></li>
+                                <li><a href="[URL]">[Another payment option]</a></li>
                             </ul>
-                        </div>
+                        </article>
 
                         <!-- CATEGORY 2 -->
-                        <div class="service-group">
-                            <h3>[Category name – e.g. “Report a problem”]</h3>
+                        <article class="category-card">
+                            <div class="category-icon" aria-hidden="true">⚠️</div>
+                            <h3 class="category-title">[Category – e.g. “Report a problem”]</h3>
+                            <p class="category-description">
+                                [Short explanation.]
+                            </p>
                             <ul class="service-list">
-                                <li><a href="[URL]">[Link – e.g. “Report [issue]”]</a></li>
+                                <li><a href="[URL]">[Service link – e.g. “Report [issue]”]</a></li>
                             </ul>
-                        </div>
+                        </article>
 
-                        <!-- Add more service-group blocks as needed -->
+                        <!-- Add more category-card blocks as needed -->
                     </div>
                 </section>
 
                 <!-- Help using the online services -->
                 <section class="service-help" aria-labelledby="help-heading">
-                    <h2 id="help-heading">Need help using these services?</h2>
+                    <h2 id="help-heading" class="section-title">Need help using these services?</h2>
                     <p>
                         If you cannot complete something online, we can help you in other ways.
                     </p>
@@ -217,7 +215,6 @@
 
             <!-- Sidebar -->
             <aside class="service-sidebar" aria-label="[SERVICE NAME] updates and contact">
-
                 <!-- Service updates / status -->
                 <section class="service-status" aria-labelledby="status-heading">
                     <h2 id="status-heading">Service updates</h2>
@@ -268,7 +265,7 @@
             </aside>
         </div>
 
-        <!-- Feedback panel (matches homepage pattern) -->
+        <!-- Feedback panel (same widget as homepage) -->
         <section class="feedback-panel" aria-labelledby="feedback-heading">
             <div class="feedback-inner">
                 <h2 id="feedback-heading" class="feedback-title">Was this page helpful?</h2>
@@ -298,8 +295,7 @@
                     <textarea
                         id="feedback-comments"
                         rows="3"
-                        placeholder="Your comments…">
-                    </textarea>
+                        placeholder="Your comments…"></textarea>
 
                     <label for="feedback-email">
                         Email (optional, if you would like a reply)
@@ -321,7 +317,7 @@
         </section>
     </main>
 
-    <!-- Footer (matches homepage, with updated year and address) -->
+    <!-- Footer (copied from homepage, 2025 + registered office) -->
     <footer class="site-footer" role="contentinfo">
         <div class="footer-container">
 
@@ -336,13 +332,11 @@
                         loading="lazy">
                     <div class="social-links">
                         <a href="https://www.facebook.com/GloucesterCityCouncil/" aria-label="Facebook">
-                            <!-- Facebook icon SVG omitted for brevity -->
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073C0 18.062 4.388 23.027 10.125 23.927V15.542H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                             </svg>
                         </a>
                         <a href="https://twitter.com/GloucesterCity" aria-label="Twitter">
-                            <!-- Twitter icon SVG omitted for brevity -->
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M23.953 4.57a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723 9.864 9.864 0 0 1-3.127 1.184 4.92 4.92 0 0 0-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.06c0 2.386 1.693 4.374 3.946 4.827a4.996 4.996 0 0 1-2.212.085c.623 1.946 2.444 3.366 4.6 3.406A9.868 9.868 0 0 1 0 19.54a13.94 13.94 0 0 0 7.548 2.213c9.056 0 14.01-7.496 14.01-13.985 0-.21 0-.42-.015-.63A9.936 9.936 0 0 0 24 4.59z"/>
                             </svg>
@@ -391,7 +385,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- Main JS (mobile nav + feedback etc.) -->
     <script src="assets/js/main.js"></script>
 </body>
 </html>
