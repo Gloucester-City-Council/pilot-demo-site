@@ -867,25 +867,28 @@
                     return;
                 }
                 
-                // Show address select as datalist for better UX
-                const form = document.getElementById('collection-lookup-form');
-                const addressGroup = document.createElement('div');
-                addressGroup.className = 'form-group';
-                addressGroup.innerHTML = `
-                    <label for="address-select">Select your address</label>
-                    <select id="address-select" required style="width: 100%; padding: 0.75rem; font-size: 1rem; border: 2px solid #ccc; border-radius: 4px;">
-                        <option value="">Choose your address...</option>
-                    </select>
-                `;
-                
                 // Remove old address select if exists
                 const oldSelect = document.getElementById('address-select');
                 if (oldSelect) {
                     oldSelect.parentElement.remove();
                 }
                 
-                // Add after postcode group
-                postcodeInput.parentElement.after(addressGroup);
+                // Create address select
+                const form = document.getElementById('collection-lookup-form');
+                const submitButton = form.querySelector('button[type="submit"]');
+                
+                const addressGroup = document.createElement('div');
+                addressGroup.className = 'form-group';
+                addressGroup.style.marginTop = '1rem';
+                addressGroup.innerHTML = `
+                    <label for="address-select">Select your address</label>
+                    <select id="address-select" required style="width: 100%; padding: 0.75rem; font-size: 1rem; border: 2px solid #ccc; border-radius: 4px; margin-bottom: 1rem;">
+                        <option value="">Choose your address...</option>
+                    </select>
+                `;
+                
+                // Insert BEFORE the submit button
+                submitButton.parentElement.insertBefore(addressGroup, submitButton);
                 
                 const select = document.getElementById('address-select');
                 data.addresses.forEach(addr => {
@@ -931,7 +934,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'x-api-token': 'oije8u23984uoriwfjowei2398470'
+                        'x-api-token': 'XXXXXX'
                     },
                     body: JSON.stringify({
                         binUprn: selectedUprn
