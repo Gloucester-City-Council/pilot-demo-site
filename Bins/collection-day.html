@@ -103,14 +103,308 @@
             margin: 1rem 0;
         }
         
-        .calendar-actions {
+        /* Next collection banner */
+        .next-collection-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .banner-icon {
+            font-size: 3rem;
+            flex-shrink: 0;
+        }
+        
+        .next-collection-banner h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.3rem;
+            color: white;
+        }
+        
+        .banner-details {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        /* Bin collection cards grid */
+        .bin-collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .bin-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .bin-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .bin-card-header {
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .bin-card.recycling .bin-card-header { background: #e8f5e9; }
+        .bin-card.food .bin-card-header { background: #fff3e0; }
+        .bin-card.general .bin-card-header { background: #e0e0e0; }
+        .bin-card.garden .bin-card-header { background: #f1f8e9; }
+        
+        .bin-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        
+        .bin-card h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        
+        .bin-card-body {
+            padding: 1.25rem;
+        }
+        
+        .bin-types {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0 0 0.75rem 0;
+        }
+        
+        .collection-frequency {
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            color: #333;
+        }
+        
+        .collection-next {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+            color: var(--color-primary);
+        }
+        
+        .subscription-note {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        /* Reminder actions */
+        .reminder-actions {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .reminder-actions h3 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.3rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            background: white;
+            border: 2px solid #ccc;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .action-btn:hover {
+            border-color: var(--color-primary);
+            background: #f0f4ff;
+            transform: translateY(-2px);
+        }
+        
+        .action-btn.primary {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+        
+        .action-btn.primary:hover {
+            background: var(--color-primary-dark);
+        }
+        
+        /* Collection tips */
+        .collection-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .tip-box {
+            background: #f0f4ff;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--color-primary);
+        }
+        
+        .tip-box strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+        
+        .tip-box p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Info cards */
+        .info-cards {
+            display: grid;
+            gap: 1rem;
             margin: 1.5rem 0;
         }
         
-        .calendar-actions a {
-            display: inline-block;
-            margin-right: 1rem;
-            margin-bottom: 0.5rem;
+        .info-card {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--color-primary);
+        }
+        
+        .info-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+        
+        .info-card strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+        
+        .info-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #666;
+        }
+        
+        /* Process steps */
+        .process-steps {
+            margin: 1.5rem 0;
+        }
+        
+        .process-step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .process-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .process-step strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .process-step p {
+            margin: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .response-box {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .response-box strong {
+            color: #2e7d32;
+            font-size: 1.05rem;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .next-collection-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .bin-collection-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .collection-tips {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -198,78 +492,184 @@
                 <!-- RESULTS PLACEHOLDER (populated by JavaScript/API) -->
                 <div id="collection-results" hidden>
                     
-                    <div class="next-collection">
-                        <strong>Next collection:</strong>
-                        <p id="next-collection-info">Loading...</p>
+                    <div class="next-collection-banner">
+                        <div class="banner-icon">📅</div>
+                        <div>
+                            <h2>Your next collection</h2>
+                            <p id="next-collection-info" class="banner-details">Loading...</p>
+                        </div>
                     </div>
 
-                    <div class="collection-schedule">
-                        <h2>Your collection schedule</h2>
+                    <div class="bin-collection-grid">
                         
-                        <div class="collection-item">
-                            <strong>Recycling (green boxes) and blue bag</strong>
-                            <p>Every week on <span id="recycling-day">...</span></p>
-                            <p class="collection-time">Collection window: 7am to 6pm</p>
+                        <div class="bin-card recycling">
+                            <div class="bin-card-header">
+                                <span class="bin-icon">♻️</span>
+                                <h3>Recycling</h3>
+                            </div>
+                            <div class="bin-card-body">
+                                <p class="bin-types">Green boxes • Blue bag (cardboard)</p>
+                                <p class="collection-frequency">Every <strong><span id="recycling-day">...</span></strong></p>
+                                <p class="collection-next">Next: <strong><span id="next-recycling">...</span></strong></p>
+                            </div>
                         </div>
 
-                        <div class="collection-item">
-                            <strong>Food waste (food caddy)</strong>
-                            <p>Every week on <span id="food-day">...</span></p>
-                            <p class="collection-time">Collection window: 7am to 6pm</p>
+                        <div class="bin-card food">
+                            <div class="bin-card-header">
+                                <span class="bin-icon">🥬</span>
+                                <h3>Food waste</h3>
+                            </div>
+                            <div class="bin-card-body">
+                                <p class="bin-types">Food caddy (small brown bin)</p>
+                                <p class="collection-frequency">Every <strong><span id="food-day">...</span></strong></p>
+                                <p class="collection-next">Next: <strong><span id="next-food">...</span></strong></p>
+                            </div>
                         </div>
 
-                        <div class="collection-item">
-                            <strong>General waste (black bin)</strong>
-                            <p>Every two weeks on <span id="black-bin-day">...</span></p>
-                            <p class="collection-time">Collection window: 7am to 6pm</p>
-                            <p class="collection-note">Next collection: <span id="next-black-bin">...</span></p>
+                        <div class="bin-card general">
+                            <div class="bin-card-header">
+                                <span class="bin-icon">🗑️</span>
+                                <h3>General waste</h3>
+                            </div>
+                            <div class="bin-card-body">
+                                <p class="bin-types">Black bin (non-recyclable)</p>
+                                <p class="collection-frequency">Every <strong><span id="black-bin-day">...</span></strong></p>
+                                <p class="collection-next">Next: <strong><span id="next-black-bin">...</span></strong></p>
+                            </div>
                         </div>
 
-                        <div class="collection-item" id="garden-waste-item">
-                            <strong>Garden waste (brown bin)</strong>
-                            <p>Every two weeks on <span id="garden-day">...</span></p>
-                            <p class="collection-time">Collection window: 7am to 6pm</p>
-                            <p class="collection-note">Next collection: <span id="next-garden">...</span></p>
-                            <p class="collection-note"><em>Subscription required (£60 per year). <a href="/bins/garden-waste">Subscribe now</a></em></p>
+                        <div class="bin-card garden" id="garden-waste-card">
+                            <div class="bin-card-header">
+                                <span class="bin-icon">🌿</span>
+                                <h3>Garden waste</h3>
+                            </div>
+                            <div class="bin-card-body">
+                                <p class="bin-types">Brown bin (subscription service)</p>
+                                <p class="collection-frequency">Every <strong><span id="garden-day">...</span></strong></p>
+                                <p class="collection-next">Next: <strong><span id="next-garden">...</span></strong></p>
+                                <p class="subscription-note">£60 per year • <a href="/bins/garden-waste">Subscribe</a></p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="calendar-actions">
-                        <h3>Save your collection days</h3>
-                        <a href="#" id="add-to-calendar" class="button">Add to calendar</a>
-                        <a href="#" id="download-pdf" class="button">Download PDF</a>
-                        <a href="#" id="email-reminder" class="button">Email reminder</a>
+                    <div class="reminder-actions">
+                        <h3>Never miss collection day</h3>
+                        <div class="action-buttons">
+                            <button type="button" id="add-to-calendar" class="action-btn primary">
+                                <span>📅</span> Add to calendar
+                            </button>
+                            <button type="button" id="email-reminder" class="action-btn">
+                                <span>✉️</span> Email reminders
+                            </button>
+                            <button type="button" id="download-pdf" class="action-btn">
+                                <span>📄</span> Download PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="collection-tips">
+                        <div class="tip-box">
+                            <strong>⏰ Put bins out by 7am</strong>
+                            <p>Or the night before — collections can start early</p>
+                        </div>
+                        <div class="tip-box">
+                            <strong>📍 Edge of property</strong>
+                            <p>Where your drive meets the pavement</p>
+                        </div>
+                        <div class="tip-box">
+                            <strong>✓ Lid must close</strong>
+                            <p>Overfilled bins may be refused</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- INFORMATION SECTIONS -->
                 <section aria-labelledby="putting-bins-out">
-                    <h2 id="putting-bins-out">Putting your bins out</h2>
+                    <h2 id="putting-bins-out">How to put your bins out</h2>
                     
-                    <p>To make sure your bins are collected:</p>
-                    <ul>
-                        <li><strong>Put bins out by 7am</strong> on your collection day (the evening before is best)</li>
-                        <li><strong>Place at the boundary of your property</strong> — where your drive meets the pavement, or at your garden gate</li>
-                        <li><strong>Make sure the crew can reach them</strong> — they cannot enter your property or open gates</li>
-                        <li><strong>Lids must close fully</strong> — if your bin is overflowing, it may not be collected</li>
-                        <li><strong>Bring bins back in within 24 hours</strong> of collection</li>
-                    </ul>
-
-                    <p><a href="/bins/putting-bins-out">Full guide to putting bins out</a></p>
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <div class="info-icon">⏰</div>
+                            <div>
+                                <strong>By 7am on collection day</strong>
+                                <p>Put bins out the evening before — collections can start early</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-icon">📍</div>
+                            <div>
+                                <strong>At the boundary of your property</strong>
+                                <p>Where your drive meets the pavement, or at your garden gate</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-icon">🚪</div>
+                            <div>
+                                <strong>Where crew can reach them</strong>
+                                <p>Crews cannot enter your property or open gates</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-icon">✓</div>
+                            <div>
+                                <strong>Lid must close fully</strong>
+                                <p>Overfilled bins may not be collected</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-icon">↩️</div>
+                            <div>
+                                <strong>Bring back within 24 hours</strong>
+                                <p>Don't leave bins on the pavement after collection</p>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <section aria-labelledby="what-if-missed">
                     <h2 id="what-if-missed">What if my bin isn't collected?</h2>
                     
-                    <p>If your bin isn't collected by 6pm on your collection day:</p>
-                    <ol>
-                        <li>Check the crew didn't refuse it — was the lid closed? Was it in the right place?</li>
-                        <li>Check for service updates — bad weather or vehicle breakdowns can delay collections</li>
-                        <li>Wait until the next working day — crews sometimes run late</li>
-                        <li>If still not collected after 2 working days, <a href="/bins/missed-collection">report a missed collection</a></li>
-                    </ol>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <div>
+                                <strong>Check it wasn't refused</strong>
+                                <p>Was the lid closed? Was it in the right place? Wrong items inside?</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <div>
+                                <strong>Check for service updates</strong>
+                                <p>Bad weather or vehicle breakdowns can delay collections</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <div>
+                                <strong>Wait until the next working day</strong>
+                                <p>Crews sometimes run late due to traffic or high volumes</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">4</div>
+                            <div>
+                                <strong>Still not collected?</strong>
+                                <p>After 2 working days, <a href="/bins/missed-collection">report a missed collection</a></p>
+                            </div>
+                        </div>
+                    </div>
 
-                    <p>We aim to return within 2 working days to collect missed bins.</p>
+                    <div class="response-box">
+                        <strong>⚡ We aim to return within 2 working days</strong> to collect missed bins.
+                    </div>
                 </section>
 
                 <section aria-labelledby="bank-holidays">
@@ -531,7 +931,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'x-api-token': 'XXXXXX'
+                        'x-api-token': 'oije8u23984uoriwfjowei2398470'
                     },
                     body: JSON.stringify({
                         binUprn: selectedUprn
@@ -603,11 +1003,8 @@
                     nextMessage += ` (in ${daysUntil} days)`;
                 }
                 
-                // Populate results
-                document.getElementById('next-collection-info').innerHTML = `
-                    <strong>${nextMessage}</strong><br>
-                    ${collectionDay}
-                `;
+                // Populate next collection banner
+                document.getElementById('next-collection-info').textContent = nextMessage;
                 
                 // Update collection day for each bin type
                 document.getElementById('recycling-day').textContent = collectionDay;
@@ -615,21 +1012,39 @@
                 document.getElementById('black-bin-day').textContent = collectionDay;
                 document.getElementById('garden-day').textContent = collectionDay;
                 
-                // Update next collection dates
+                // Update next collection dates for all bins
+                if (recyclingContainer) {
+                    document.getElementById('next-recycling').textContent = 
+                        formatShortDate(recyclingContainer.collectionSchedule.nextCollection);
+                } else {
+                    document.getElementById('next-recycling').textContent = 'Not available';
+                }
+                
+                if (foodContainer) {
+                    document.getElementById('next-food').textContent = 
+                        formatShortDate(foodContainer.collectionSchedule.nextCollection);
+                } else {
+                    document.getElementById('next-food').textContent = 'Not available';
+                }
+                
                 if (refuseContainer) {
                     document.getElementById('next-black-bin').textContent = 
                         formatShortDate(refuseContainer.collectionSchedule.nextCollection);
+                } else {
+                    document.getElementById('next-black-bin').textContent = 'Not available';
                 }
                 
                 if (gardenContainer) {
                     document.getElementById('next-garden').textContent = 
                         formatShortDate(gardenContainer.collectionSchedule.nextCollection);
                 } else {
-                    // Hide garden waste section if not subscribed
-                    document.getElementById('garden-waste-item').innerHTML = `
-                        <strong>Garden waste (brown bin)</strong>
-                        <p>Not subscribed. <a href="/bins/garden-waste">Subscribe for £60 per year</a></p>
-                    `;
+                    // Hide garden waste card if not subscribed
+                    const gardenCard = document.getElementById('garden-waste-card');
+                    gardenCard.style.opacity = '0.6';
+                    gardenCard.querySelector('.collection-frequency').innerHTML = 
+                        '<em>Not subscribed</em>';
+                    gardenCard.querySelector('.collection-next').innerHTML = 
+                        '<a href="/bins/garden-waste" style="color: var(--color-primary); font-weight: 600;">Subscribe for £60/year →</a>';
                 }
                 
                 // Show results
