@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ============================================ -->
+    <!-- REQUIRED META TAGS - DO NOT CHANGE -->
+    <!-- ============================================ -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- ============================================ -->
+    <!-- SEO & DESCRIPTIVE META - COMPLETE REQUIRED -->
+    <!-- ============================================ -->
+    <title>[SPECIFIC TASK NAME] | [SERVICE NAME] | Gloucester City Council</title>
+    <meta name="description" content="[TASK-FOCUSED DESCRIPTION: 150-160 characters explaining what residents can accomplish on this page]">
+    <meta name="keywords" content="[TASK-SPECIFIC KEYWORDS: comma-separated relevant search terms]">
+    
+    <!-- ============================================ -->
+    <!-- OPEN GRAPH / SOCIAL SHARING - COMPLETE -->
+    <!-- ============================================ -->
+    <meta property="og:title" content="[SPECIFIC TASK NAME] | Gloucester City Council">
+    <meta property="og:description" content="[SAME AS META DESCRIPTION]">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="[FULL URL TO THIS PAGE]">
+    <meta property="og:image" content="https://www.gloucester.gov.uk/assets/images/og-default.jpg">
+    
+    <!-- ============================================ -->
+    <!-- TWITTER CARD - COMPLETE -->
+    <!-- ============================================ -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="[SPECIFIC TASK NAME] | Gloucester City Council">
+    <meta name="twitter:description" content="[SAME AS META DESCRIPTION]">
+    
+    <!-- ============================================ -->
+    <!-- CANONICAL URL - COMPLETE REQUIRED -->
+    <!-- ============================================ -->
+    <link rel="canonical" href="[FULL URL TO THIS PAGE]">
+    
+    <!-- ============================================ -->
+    <!-- STYLESHEETS - DO NOT CHANGE -->
+    <!-- ============================================ -->
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    
+    <!-- ============================================ -->
+    <!-- FAVICON - DO NOT CHANGE -->
+    <!-- ============================================ -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    
+    <!-- ============================================ -->
+    <!-- SCHEMA.ORG JSON-LD - COMPLETE REQUIRED -->
+    <!-- This enables AI assistants to understand the service -->
+    <!-- Customize based on service type - examples provided -->
+    <!-- ============================================ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "GovernmentService",
+        "name": "[SPECIFIC TASK NAME]",
+        "description": "[DETAILED DESCRIPTION: What this specific service does]",
+        "provider": {
+            "@type": "GovernmentOrganization",
+            "name": "Gloucester City Council",
+            "url": "https://www.gloucester.gov.uk",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Herbert Warehouse, The Docks",
+                "addressLocality": "Gloucester",
+                "postalCode": "GL1 2EQ",
+                "addressCountry": "GB"
+            },
+            "telephone": "+44-1452-396396"
+        },
+        "areaServed": {
+            "@type": "City",
+            "name": "Gloucester"
+        },
+        "availableChannel": {
+            "@type": "ServiceChannel",
+            "serviceUrl": "[FULL URL TO THIS PAGE]",
+            "availableLanguage": ["en-GB"]
+        },
+        "serviceType": "[SERVICE TYPE]",
+        "termsOfService": "[URL TO TERMS IF APPLICABLE]"
+    }
+    </script>
+    
+    <!-- ============================================ -->
+    <!-- ADDITIONAL SCHEMA FOR SPECIFIC SERVICE TYPES -->
+    <!-- UNCOMMENT AND CUSTOMIZE AS NEEDED -->
+    <!-- ============================================ -->
+    
+    <!-- FOR SERVICES WITH FEES/COSTS: -->
+    <!--
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "GovernmentService",
+        "name": "[SERVICE NAME]",
+        "offers": {
+            "@type": "Offer",
+            "price": "[AMOUNT]",
+            "priceCurrency": "GBP",
+            "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": "[AMOUNT]",
+                "priceCurrency": "GBP"
+            }
+        }
+    }
+    </script>
+    -->
+    
+    <!-- FOR SERVICES WITH ELIGIBILITY CRITERIA: -->
+    <!--
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "GovernmentService",
+        "name": "[SERVICE NAME]",
+        "eligibilityRequirement": [
+            "[CRITERION 1]",
+            "[CRITERION 2]",
+            "[CRITERION 3]"
+        ]
+    }
+    </script>
+    -->
+    
+    <!-- FOR TIME-SENSITIVE SERVICES (e.g., deadlines): -->
+    <!--
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "GovernmentService",
+        "name": "[SERVICE NAME]",
+        "processingTime": "[DURATION IN ISO 8601 FORMAT, e.g., P5D for 5 days]",
+        "validUntil": "[DATE IN ISO 8601 FORMAT if applicable]"
+    }
+    </script>
+    -->
+    
+</head>
+
+<!-- ============================================ -->
+<!-- BODY TAG - COMPLETE data-service-id REQUIRED -->
+<!-- The data-service-id is used for feedback tracking -->
+<!-- Use format: service-area-specific-task (e.g., bins-missed-collection) -->
+<!-- ============================================ -->
+<body data-service-id="[SERVICE-SPECIFIC-ID]">
+    
+    <!-- ============================================ -->
+    <!-- SKIP TO CONTENT LINK - DO NOT CHANGE -->
+    <!-- Essential for keyboard navigation accessibility -->
+    <!-- ============================================ -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- ============================================ -->
+    <!-- HEADER - DO NOT CHANGE -->
+    <!-- ============================================ -->
+    <header class="site-header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/" aria-label="Gloucester City Council - Home">
+                        <img src="/assets/images/gcc-logo.svg" alt="Gloucester City Council" width="200" height="60">
+                    </a>
+                </div>
+                
+                <nav class="main-nav" role="navigation" aria-label="Main navigation">
+                    <button class="menu-toggle" aria-expanded="false" aria-controls="main-menu">
+                        Menu
+                    </button>
+                    <ul class="nav-list" id="main-menu">
+                        <li><a href="/council-tax">Council Tax</a></li>
+                        <li><a href="/bins-recycling">Bins &amp; Recycling</a></li>
+                        <li><a href="/housing">Housing</a></li>
+                        <li><a href="/planning">Planning</a></li>
+                        <li><a href="/licensing">Licensing</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <!-- ============================================ -->
+    <!-- BREADCRUMB NAVIGATION - COMPLETE REQUIRED -->
+    <!-- Important for SEO and user orientation -->
+    <!-- Typically: Home > Service Area > This Page -->
+    <!-- ============================================ -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="container">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="/">
+                        <span itemprop="name">Home</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="[URL-TO-SERVICE-LANDING]">
+                        <span itemprop="name">[SERVICE AREA NAME]</span>
+                    </a>
+                    <meta itemprop="position" content="2" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+                    <span itemprop="name">[THIS PAGE NAME]</span>
+                    <meta itemprop="position" content="3" />
+                </li>
+            </ol>
+        </div>
+    </nav>
+    
+    <!-- ============================================ -->
+    <!-- MAIN CONTENT AREA - COMPLETE REQUIRED -->
+    <!-- ============================================ -->
+    <main id="main-content" class="main-content" role="main">
+        <div class="container">
+            
+            <!-- ============================================ -->
+            <!-- PAGE HEADER -->
+            <!-- ============================================ -->
+            <header class="page-header">
+                <h1>[SPECIFIC TASK NAME]</h1>
+                <p class="lead">[BRIEF INTRODUCTORY SENTENCE: One clear statement of what this page helps residents do]</p>
+            </header>
+            
+            <!-- ============================================ -->
+            <!-- AT A GLANCE / KEY FACTS - OPTIONAL BUT RECOMMENDED -->
+            <!-- Use for services with important numbers, dates, or fees -->
+            <!-- This section is specifically marked for AI extraction -->
+            <!-- ============================================ -->
+            <section class="key-facts" aria-labelledby="key-facts-heading" data-ai-role="key-facts">
+                <h2 id="key-facts-heading" class="visually-hidden">Key information</h2>
+                <dl class="fact-sheet">
+                    <!-- FACT ITEM TEMPLATE - CUSTOMIZE DATA ATTRIBUTES FOR AI -->
+                    <div class="fact-item">
+                        <dt data-fact-type="[FACT-TYPE]">[FACT LABEL]</dt>
+                        <dd data-value="[NUMERIC-VALUE]" data-unit="[UNIT]" data-currency="[CURRENCY-IF-MONEY]">
+                            [DISPLAYED VALUE]
+                        </dd>
+                    </div>
+                    
+                    <!-- EXAMPLES: -->
+                    <!--
+                    <div class="fact-item">
+                        <dt data-fact-type="cost">Cost</dt>
+                        <dd data-value="50" data-currency="GBP">£50.00 per year</dd>
+                    </div>
+                    
+                    <div class="fact-item">
+                        <dt data-fact-type="processing-time">Processing time</dt>
+                        <dd data-value="5" data-unit="days">5 working days</dd>
+                    </div>
+                    
+                    <div class="fact-item">
+                        <dt data-fact-type="collection-frequency">Collection frequency</dt>
+                        <dd data-value="2" data-unit="weeks">Every 2 weeks</dd>
+                    </div>
+                    -->
+                    
+                    <!-- ADD MORE FACT ITEMS HERE -->
+                    
+                </dl>
+            </section>
+            
+            <!-- ============================================ -->
+            <!-- ELIGIBILITY / WHO CAN USE THIS - COMPLETE IF RELEVANT -->
+            <!-- Use for services with specific requirements -->
+            <!-- data-criteria-operator: "AND" means all must be met, "OR" means any -->
+            <!-- ============================================ -->
+            <section class="eligibility-section" aria-labelledby="eligibility-heading" data-ai-role="eligibility-criteria">
+                <h2 id="eligibility-heading">Who can use this service</h2>
+                
+                <ul class="criteria-list" data-criteria-operator="[AND or OR]">
+                    <!-- CRITERION TEMPLATE -->
+                    <li data-criterion-id="[UNIQUE-ID]" data-required="[true or false]">
+                        [CRITERION TEXT]
+                    </li>
+                    
+                    <!-- EXAMPLES: -->
+                    <!--
+                    <li data-criterion-id="gloucester-resident" data-required="true">
+                        You live in Gloucester
+                    </li>
+                    <li data-criterion-id="property-type" data-required="true">
+                        You live in a house, flat, or maisonette
+                    </li>
+                    <li data-criterion-id="council-tax-liable" data-required="true">
+                        You're responsible for paying Council Tax at the property
+                    </li>
+                    -->
+                    
+                    <!-- ADD MORE CRITERIA HERE -->
+                    
+                </ul>
+            </section>
+            
+            <!-- ============================================ -->
+            <!-- WHAT YOU NEED - COMPLETE IF RELEVANT -->
+            <!-- List information/documents required -->
+            <!-- ============================================ -->
+            <section class="requirements-section" aria-labelledby="requirements-heading" data-ai-role="requirements">
+                <h2 id="requirements-heading">What you need</h2>
+                
+                <p>[INTRODUCTORY TEXT: Brief explanation of why these are needed]</p>
+                
+                <ul class="requirements-list">
+                    <li>[REQUIREMENT 1]</li>
+                    <li>[REQUIREMENT 2]</li>
+                    <li>[REQUIREMENT 3]</li>
+                    <!-- ADD MORE REQUIREMENTS -->
+                </ul>
+                
+                <div class="info-box">
+                    <p><strong>Tip:</strong> [HELPFUL ADVICE related to requirements]</p>
+                </div>
+            </section>
+            
+            <!-- ============================================ -->
+            <!-- HOW TO USE THE SERVICE - COMPLETE REQUIRED -->
+            <!-- Step-by-step instructions -->
+            <!-- Use data-ai-role for machine readability -->
+            <!-- ============================================ -->
+            <section class="how-to-section" aria-labelledby="how-to-heading" data-ai-role="application-process">
+                <h2 id="how-to-heading">How to [TASK VERB]</h2>
+                
+                <!-- ONLINE OPTION (if available) -->
+                <div class="method-option online-option">
+                    <h3>Online</h3>
+                    <p>[BRIEF INTRO: Why this is the best/fastest option]</p>
+                    
+                    <ol class="process-steps" data-ai-role="process-steps">
+                        <li data-step-number="1">[STEP 1 DESCRIPTION]</li>
+                        <li data-step-number="2">[STEP 2 DESCRIPTION]</li>
+                        <li data-step-number="3">[STEP 3 DESCRIPTION]</li>
+                        <!-- ADD MORE STEPS -->
+                    </ol>
+                    
+                    <p class="action-link">
+                        <a href="[URL-TO-ONLINE-FORM]" class="btn btn-primary">
+                            [CALL TO ACTION TEXT]
+                            <span class="visually-hidden"> - opens online form</span>
+                        </a>
+                    </p>
+                </div>
+                
+                <!-- PHONE OPTION (if available) -->
+                <div class="method-option phone-option">
+                    <h3>By phone</h3>
+                    <p>Call us on <strong><a href="tel:+441452396396">01452 396396</a></strong></p>
+                    <p>
+                        Monday to Friday, 8:30am to 5pm<br>
+                        [ANY ADDITIONAL PHONE-SPECIFIC INSTRUCTIONS]
+                    </p>
+                </div>
+                
+                <!-- IN PERSON OPTION (if available) -->
+                <div class="method-option in-person-option">
+                    <h3>In person</h3>
+                    <p>[LOCATION DETAILS]</p>
+                    <p>
+                        [OPENING HOURS]<br>
+                        [ANY ADDITIONAL IN-PERSON INSTRUCTIONS]
+                    </p>
+                </div>
+                
+                <!-- EMAIL/POST OPTION (if available) -->
+                <div class="method-option email-option">
+                    <h3>By email or post</h3>
+                    <p>[INSTRUCTIONS FOR EMAIL/POST APPLICATIONS]</p>
+                    <p>
+                        <strong>Email:</strong> <a href="mailto:[EMAIL]">[EMAIL]</a><br>
+                        <strong>Address:</strong> [POSTAL ADDRESS]
+                    </p>
+                </div>
+            </section>
+            
+            <!-- ============================================ -->
+            <!-- WHAT HAPPENS NEXT - COMPLETE IF RELEVANT -->
+            <!-- Explain the process after submission -->
+            <!-- ============================================ -->
+            <section class="what-next-section" aria-labelledby="what-next-heading" data-ai-role="outcome">
+                <h2 id="what-next-heading">What happens next</h2>
+                
+                <ol class="timeline-steps">
+                    <li>
+                        <h3>[IMMEDIATE NEXT STEP]</h3>
+                        <p>[DESCRIPTION: What happens immediately]</p>
+                    </li>
+                    <li>
+                        <h3>[PROCESSING STEP]</h3>
+                        <p>[DESCRIPTION: What happens during processing]</p>
+                        <p class="timeframe" data-timeframe="[ISO-DURATION]">
+                            <strong>Timeframe:</strong> [HUMAN-READABLE TIMEFRAME]
+                        </p>
+                    </li>
+                    <li>
+                        <h3>[OUTCOME]</h3>
+                        <p>[DESCRIPTION: Final outcome]</p>
+                    </li>
+                </ol>
+            </section>
+            
+            <!-- ============================================ -->
+            <!-- COSTS AND FEES - COMPLETE IF RELEVANT -->
+            <!-- Detailed breakdown of any charges -->
+            <!-- ============================================ -->
+            <section class="costs-section" aria-labelledby="costs-heading" data-ai-role="pricing">
+                <h2 id="costs-heading">Costs</h2>
+                
+                <table class="pricing-table">
+                    <caption class="visually-hidden">Service costs and fees</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Item</th>
+                            <th scope="col">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-fee-type="[FEE-TYPE]">[ITEM DESCRIPTION]</td>
+                            <td data-value="[NUMERIC]" data-currency="GBP">[DISPLAYED COST]</td>
+                        </tr>
+                        <!-- ADD MORE ROWS -->
+                    </tbody>
+                </table>
+                
+                <div class="payment-info">
+                    <h3>Payment methods</h3>
+                    <ul>
+                        <li>[PAYMENT METHOD 1]</li>
+                        <li>[PAYMENT METHOD 2]</li>
+                        <!-- ADD MORE METHODS -->
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- ============================================ -->
+            <!-- HELP AND GUIDANCE - OPTIONAL -->
+            <!-- Additional information or common questions -->
+            <!-- ============================================ -->
+            <section class="help-section" aria-labelledby="help-heading">
+                <h2 id="help-heading">Need help?</h2>
+                
+                <details class="accordion-item">
+                    <summary>[COMMON QUESTION 1]</summary>
+                    <div class="accordion-content">
+                        <p>[ANSWER TO QUESTION 1]</p>
+                    </div>
+                </details>
+                
+                <details class="accordion-item">
+                    <summary>[COMMON QUESTION 2]</summary>
+                    <div class="accordion-content">
+                        <p>[ANSWER TO QUESTION 2]</p>
+                    </div>
+                </details>
+                
+                <!-- ADD MORE QUESTIONS -->
+                
+            </section>
+            
+            <!-- ============================================ -->
+            <!-- RELATED SERVICES - OPTIONAL BUT RECOMMENDED -->
+            <!-- Links to related tasks residents might need -->
+            <!-- ============================================ -->
+            <aside class="related-services" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related services</h2>
+                <ul class="related-list">
+                    <li><a href="[URL]">[RELATED SERVICE 1]</a></li>
+                    <li><a href="[URL]">[RELATED SERVICE 2]</a></li>
+                    <li><a href="[URL]">[RELATED SERVICE 3]</a></li>
+                    <!-- ADD MORE RELATED SERVICES -->
+                </ul>
+            </aside>
+            
+            <!-- ============================================ -->
+            <!-- CONTACT INFORMATION - COMPLETE IF SPECIFIC -->
+            <!-- Only include if different from main contact -->
+            <!-- ============================================ -->
+            <section class="service-contact" aria-labelledby="contact-heading" data-ai-role="contact-information">
+                <h2 id="contact-heading">Contact us about [SERVICE NAME]</h2>
+                
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <h3>Phone</h3>
+                        <p>
+                            <strong><a href="tel:+441452396396">01452 396396</a></strong><br>
+                            Monday to Friday, 8:30am to 5pm
+                        </p>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <h3>Email</h3>
+                        <p>
+                            <a href="mailto:[SERVICE-EMAIL]@gloucester.gov.uk">[SERVICE-EMAIL]@gloucester.gov.uk</a><br>
+                            We aim to respond within [X] working days
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ============================================ -->
+            <!-- FEEDBACK WIDGET - DO NOT CHANGE -->
+            <!-- This section enables user feedback collection -->
+            <!-- ============================================ -->
+            <aside class="feedback-panel" aria-labelledby="feedback-heading">
+                <h2 id="feedback-heading">Was this page helpful?</h2>
+                <div class="feedback-buttons">
+                    <button type="button" class="feedback-btn" data-rating="positive" aria-label="Yes, this page was helpful">
+                        👍 Yes
+                    </button>
+                    <button type="button" class="feedback-btn" data-rating="negative" aria-label="No, this page was not helpful">
+                        👎 No
+                    </button>
+                </div>
+                
+                <form id="feedback-form" hidden>
+                    <p id="feedback-prompt">What worked well? (optional)</p>
+                    <label for="feedback-comments" class="visually-hidden">Your feedback</label>
+                    <textarea id="feedback-comments" name="comments" rows="4" 
+                              placeholder="Tell us what worked well or what could be improved"></textarea>
+                    
+                    <label for="feedback-email">
+                        Email address (optional)
+                        <span class="field-hint">If you'd like us to respond</span>
+                    </label>
+                    <input type="email" id="feedback-email" name="email" 
+                           placeholder="your.email@example.com">
+                    
+                    <button type="submit" class="btn btn-primary">Send feedback</button>
+                </form>
+                
+                <div id="feedback-thanks" hidden>
+                    <p><strong>Thank you for your feedback.</strong></p>
+                    <p>Your comments help us improve our services.</p>
+                </div>
+            </aside>
+            
+        </div>
+    </main>
+    
+    <!-- ============================================ -->
+    <!-- FOOTER - DO NOT CHANGE -->
+    <!-- ============================================ -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                
+                <div class="footer-section">
+                    <h2>Gloucester City Council</h2>
+                    <address>
+                        Herbert Warehouse<br>
+                        The Docks<br>
+                        Gloucester<br>
+                        GL1 2EQ
+                    </address>
+                    <p>
+                        <strong>Phone:</strong> <a href="tel:+441452396396">01452 396396</a><br>
+                        <strong>Email:</strong> <a href="mailto:heretohelp@gloucester.gov.uk">heretohelp@gloucester.gov.uk</a>
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h2>Quick links</h2>
+                    <ul>
+                        <li><a href="/contact">Contact us</a></li>
+                        <li><a href="/accessibility">Accessibility</a></li>
+                        <li><a href="/privacy">Privacy policy</a></li>
+                        <li><a href="/cookies">Cookie policy</a></li>
+                        <li><a href="/terms">Terms and conditions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h2>Follow us</h2>
+                    <ul class="social-links">
+                        <li><a href="https://www.facebook.com/GloucesterCityCouncil" rel="external noopener" target="_blank">Facebook</a></li>
+                        <li><a href="https://twitter.com/GlosInfoPlus" rel="external noopener" target="_blank">Twitter</a></li>
+                        <li><a href="https://www.youtube.com/user/GloucesterCouncil" rel="external noopener" target="_blank">YouTube</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Gloucester City Council. All rights reserved.</p>
+            </div>
+            
+        </div>
+    </footer>
+    
+    <!-- ============================================ -->
+    <!-- JAVASCRIPT - DO NOT CHANGE -->
+    <!-- ============================================ -->
+    <script src="/assets/js/main.js"></script>
+    
+</body>
+</html>
