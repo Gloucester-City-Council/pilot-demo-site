@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Check when your bins are collected in Gloucester. Enter your postcode to find your collection days for recycling, food waste and general rubbish.">
+    <title>Check your bin collection day | Bins and Recycling | Gloucester City Council</title>
+
+    <!-- Assets -->
+    <link rel="preload" href="../assets/images/GCC_logo.svg" as="image">
+    <link rel="preload" href="../assets/css/styles.css" as="style">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/service-landing.css">
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Bin Collection Day Checker",
+      "description": "Check when your bins are collected by entering your postcode",
+      "applicationCategory": "GovernmentApplication",
+      "operatingSystem": "Any",
+      "provider": {
+        "@type": "GovernmentOrganization",
+        "name": "Gloucester City Council"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "GBP"
+      }
+    }
+    </script>
+
+    <style>
+        .lookup-form {
+            background: #f5f7ff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid var(--color-primary);
+        }
+        
+        .lookup-form label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .lookup-form input[type="text"] {
+            width: 100%;
+            max-width: 300px;
+            padding: 0.75rem;
+            font-size: 1.1rem;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .lookup-form button {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .lookup-form button:hover {
+            background: var(--color-primary-dark);
+        }
+        
+        .collection-schedule {
+            background: #fff;
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .collection-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .collection-item:last-child {
+            border-bottom: none;
+        }
+        
+        .collection-item strong {
+            display: block;
+            color: var(--color-primary-dark);
+            margin-bottom: 0.25rem;
+        }
+        
+        .next-collection {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .calendar-actions {
+            margin: 1.5rem 0;
+        }
+        
+        .calendar-actions a {
+            display: inline-block;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body data-service-id="bin-collection-lookup">
+
+    <!-- Skip link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- HEADER -->
+    <header class="site-header" role="banner">
+        <div class="header-container">
+            <div class="header-top">
+                <a href="/" class="logo-link" aria-label="Gloucester City Council homepage">
+                    <img src="../assets/images/GCC_logo.svg"
+                         alt="Gloucester City Council"
+                         class="site-logo"
+                         width="250"
+                         height="70">
+                </a>
+
+                <form class="search-form" role="search" action="/search" method="get">
+                    <label for="search-input" class="sr-only">Search the website</label>
+                    <input type="search" id="search-input" name="q"
+                           class="search-input" placeholder="Search..." aria-label="Search the website">
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN NAV -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <button class="menu-toggle" aria-expanded="false">Menu</button>
+            <ul class="nav-list">
+                <li><a href="/contact">Contact us</a></li>
+                <li><a href="https://gloucester-self.achieveservice.com/">My Gloucester</a></li>
+                <li><a href="/news">News</a></li>
+                <li><a href="https://public.govdelivery.com/accounts/UKGCCA/subscriber/new">Subscribe</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- BREADCRUMB -->
+    <nav class="service-breadcrumb" aria-label="Breadcrumb">
+        <div class="breadcrumb-inner">
+            <ol>
+                <li><a href="/">Home</a></li>
+                <li><a href="/bins">Bins and Recycling</a></li>
+                <li aria-current="page">Check your bin day</li>
+            </ol>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main id="main-content" class="main-content" role="main">
+
+        <div class="service-layout">
+
+            <!-- LEFT COLUMN -->
+            <div class="service-main">
+
+                <h1>Check your bin collection day</h1>
+                
+                <p class="intro-text">Enter your postcode to find out which bins are collected when at your property.</p>
+
+                <!-- LOOKUP FORM -->
+                <div class="lookup-form">
+                    <form id="collection-lookup-form" action="/api/getBinCollection" method="get">
+                        <label for="postcode">Your postcode</label>
+                        <input type="text" 
+                               id="postcode" 
+                               name="postcode" 
+                               placeholder="e.g. GL1 2AB"
+                               required
+                               pattern="[A-Za-z]{1,2}[0-9]{1,2}[A-Za-z]?\s?[0-9][A-Za-z]{2}"
+                               aria-describedby="postcode-help">
+                        <p id="postcode-help" class="form-help">Enter your full postcode, including the space</p>
+                        
+                        <button type="submit">Find my collection days</button>
+                    </form>
+                </div>
+
+                <!-- RESULTS PLACEHOLDER (populated by JavaScript/API) -->
+                <div id="collection-results" hidden>
+                    
+                    <div class="next-collection">
+                        <strong>Next collection:</strong>
+                        <p id="next-collection-info">Loading...</p>
+                    </div>
+
+                    <div class="collection-schedule">
+                        <h2>Your collection schedule</h2>
+                        
+                        <div class="collection-item">
+                            <strong>Recycling (green boxes) and blue bag</strong>
+                            <p>Every week on <span id="recycling-day">...</span></p>
+                            <p class="collection-time">Collection window: 7am to 6pm</p>
+                        </div>
+
+                        <div class="collection-item">
+                            <strong>Food waste (food caddy)</strong>
+                            <p>Every week on <span id="food-day">...</span></p>
+                            <p class="collection-time">Collection window: 7am to 6pm</p>
+                        </div>
+
+                        <div class="collection-item">
+                            <strong>General waste (black bin)</strong>
+                            <p>Every two weeks on <span id="black-bin-day">...</span></p>
+                            <p class="collection-time">Collection window: 7am to 6pm</p>
+                            <p class="collection-note">Next collection: <span id="next-black-bin">...</span></p>
+                        </div>
+
+                        <div class="collection-item" id="garden-waste-item">
+                            <strong>Garden waste (brown bin)</strong>
+                            <p>Every two weeks on <span id="garden-day">...</span></p>
+                            <p class="collection-time">Collection window: 7am to 6pm</p>
+                            <p class="collection-note">Next collection: <span id="next-garden">...</span></p>
+                            <p class="collection-note"><em>Subscription required (£60 per year). <a href="/bins/garden-waste">Subscribe now</a></em></p>
+                        </div>
+                    </div>
+
+                    <div class="calendar-actions">
+                        <h3>Save your collection days</h3>
+                        <a href="#" id="add-to-calendar" class="button">Add to calendar</a>
+                        <a href="#" id="download-pdf" class="button">Download PDF</a>
+                        <a href="#" id="email-reminder" class="button">Email reminder</a>
+                    </div>
+                </div>
+
+                <!-- INFORMATION SECTIONS -->
+                <section aria-labelledby="putting-bins-out">
+                    <h2 id="putting-bins-out">Putting your bins out</h2>
+                    
+                    <p>To make sure your bins are collected:</p>
+                    <ul>
+                        <li><strong>Put bins out by 7am</strong> on your collection day (the evening before is best)</li>
+                        <li><strong>Place at the boundary of your property</strong> — where your drive meets the pavement, or at your garden gate</li>
+                        <li><strong>Make sure the crew can reach them</strong> — they cannot enter your property or open gates</li>
+                        <li><strong>Lids must close fully</strong> — if your bin is overflowing, it may not be collected</li>
+                        <li><strong>Bring bins back in within 24 hours</strong> of collection</li>
+                    </ul>
+
+                    <p><a href="/bins/putting-bins-out">Full guide to putting bins out</a></p>
+                </section>
+
+                <section aria-labelledby="what-if-missed">
+                    <h2 id="what-if-missed">What if my bin isn't collected?</h2>
+                    
+                    <p>If your bin isn't collected by 6pm on your collection day:</p>
+                    <ol>
+                        <li>Check the crew didn't refuse it — was the lid closed? Was it in the right place?</li>
+                        <li>Check for service updates — bad weather or vehicle breakdowns can delay collections</li>
+                        <li>Wait until the next working day — crews sometimes run late</li>
+                        <li>If still not collected after 2 working days, <a href="/bins/missed-collection">report a missed collection</a></li>
+                    </ol>
+
+                    <p>We aim to return within 2 working days to collect missed bins.</p>
+                </section>
+
+                <section aria-labelledby="bank-holidays">
+                    <h2 id="bank-holidays">Bank holidays and Christmas</h2>
+                    
+                    <p>Your collection day changes when there's a bank holiday:</p>
+                    <ul>
+                        <li><strong>Bank holiday Monday</strong> — collections delayed by one day all week</li>
+                        <li><strong>Friday collections</strong> — may be collected on Saturday instead</li>
+                        <li><strong>Christmas and New Year</strong> — check our <a href="/bins/christmas-collections">Christmas collection dates</a></li>
+                    </ul>
+
+                    <p>We'll post updates on this page and on social media before bank holidays.</p>
+                </section>
+
+                <section aria-labelledby="reminders">
+                    <h2 id="reminders">Get collection reminders</h2>
+                    
+                    <p>Never miss your bin day again. You can:</p>
+                    <ul>
+                        <li><strong>Add to your phone calendar</strong> — use our calendar download (above) to automatically sync with your phone</li>
+                        <li><strong>Subscribe to email reminders</strong> — we'll email you the evening before collection day</li>
+                        <li><strong>Subscribe to SMS reminders</strong> — get a text message reminder</li>
+                        <li><strong>Follow us on social media</strong> — we post reminders on Facebook and Twitter</li>
+                    </ul>
+
+                    <p><a href="/bins/collection-reminders">Set up collection reminders</a></p>
+                </section>
+
+            </div>
+
+            <!-- RIGHT COLUMN (SIDEBAR) -->
+            <aside class="service-sidebar">
+
+                <section class="service-status">
+                    <h2>Service status</h2>
+                    <p><strong>All collections running normally</strong></p>
+                    <p>Last updated: <time datetime="2025-12-11">11 December 2025</time></p>
+                </section>
+
+                <section class="service-contact">
+                    <h2>Need help?</h2>
+
+                    <div class="contact-block">
+                        <h3>Report a missed collection</h3>
+                        <p>
+                            If your bin isn't collected by 6pm, wait until the next working day, then <a href="/bins/missed-collection">report it online</a>.
+                        </p>
+                    </div>
+
+                    <div class="contact-block">
+                        <h3>Phone us</h3>
+                        <p>
+                            <a href="tel:+441452396396">01452 396396</a><br>
+                            Monday to Friday, 8:30am to 5pm
+                        </p>
+                    </div>
+                </section>
+
+                <section class="service-related">
+                    <h2>Related pages</h2>
+                    <ul class="related-links">
+                        <li><a href="/bins/what-goes-where">What goes in which bin</a></li>
+                        <li><a href="/bins/order-bin">Order or replace a bin</a></li>
+                        <li><a href="/bins/garden-waste">Subscribe to garden waste</a></li>
+                        <li><a href="/bins/assisted-collection">Assisted collections</a></li>
+                    </ul>
+                </section>
+
+            </aside>
+
+        </div>
+
+        <!-- FEEDBACK PANEL -->
+        <section class="feedback-panel" aria-labelledby="feedback-heading">
+            <div class="feedback-inner">
+                <h2 id="feedback-heading" class="feedback-title">Was this page helpful?</h2>
+
+                <div class="feedback-buttons" role="group">
+                    <button type="button" class="feedback-btn feedback-yes" data-rating="positive">
+                        👍 Yes
+                    </button>
+                    <button type="button" class="feedback-btn feedback-no" data-rating="negative">
+                        👎 No
+                    </button>
+                </div>
+
+                <form id="feedback-form" class="feedback-form" hidden>
+                    <p id="feedback-prompt">What worked well? (optional)</p>
+                    <label for="feedback-comments" class="sr-only">Your feedback</label>
+                    <textarea id="feedback-comments" rows="3" aria-labelledby="feedback-prompt"></textarea>
+
+                    <label for="feedback-email">Email (optional, if you'd like a response)</label>
+                    <input type="email" id="feedback-email">
+
+                    <button type="submit" class="feedback-submit">Submit</button>
+                </form>
+
+                <p id="feedback-thanks" class="feedback-thanks" hidden>
+                    ✅ Thank you for your feedback.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-container">
+
+            <div class="footer-grid">
+
+                <div class="footer-section">
+                    <img src="../assets/images/GCC_logo.svg"
+                         alt="Gloucester City Council"
+                         class="footer-logo">
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/bins/collection-day">Check bin day</a></li>
+                        <li><a href="/council-tax/pay">Pay Council Tax</a></li>
+                        <li><a href="/planning/search">Planning applications</a></li>
+                        <li><a href="/report">Report a problem</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>About Gloucester</h3>
+                    <ul class="footer-links">
+                        <li><a href="http://visitgloucester.co.uk/">Visit Gloucester</a></li>
+                        <li><a href="/find-councillor">Find your councillor</a></li>
+                        <li><a href="/jobs">Jobs & careers</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Using our site</h3>
+                    <ul class="footer-links">
+                        <li><a href="/privacy">Privacy & cookies</a></li>
+                        <li><a href="/accessibility">Accessibility</a></li>
+                        <li><a href="/contact">Contact us</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 Gloucester City Council. All rights reserved.</p>
+                <p>Registered office: Eastgate Management Suite, Eastgate Street, Gloucester GL1 1PA</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Collection lookup form handler
+        document.getElementById('collection-lookup-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const postcode = document.getElementById('postcode').value.trim().toUpperCase();
+            const resultsDiv = document.getElementById('collection-results');
+            
+            try {
+                // Call API to get collection information
+                const response = await fetch(`/api/getBinCollection?postcode=${encodeURIComponent(postcode)}`);
+                
+                if (!response.ok) {
+                    throw new Error('Could not find collection information');
+                }
+                
+                const data = await response.json();
+                
+                // Populate results
+                document.getElementById('next-collection-info').textContent = data.next_collection;
+                document.getElementById('recycling-day').textContent = data.collection_day;
+                document.getElementById('food-day').textContent = data.collection_day;
+                document.getElementById('black-bin-day').textContent = data.collection_day;
+                document.getElementById('garden-day').textContent = data.collection_day;
+                document.getElementById('next-black-bin').textContent = data.next_black_bin;
+                document.getElementById('next-garden').textContent = data.next_garden;
+                
+                // Show results
+                resultsDiv.hidden = false;
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+            } catch (error) {
+                alert('Sorry, we could not find collection information for that postcode. Please check and try again.');
+                console.error('Error:', error);
+            }
+        });
+    </script>
+
+</body>
+</html>
