@@ -37,7 +37,7 @@
     margin: 0 auto;
     padding: 3rem 1.5rem;
     display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(220px, 1fr);
+    grid-template-columns: minmax(0, 3fr) minmax(220px, 1fr);
     gap: 2.5rem;
     align-items: flex-start;
 }
