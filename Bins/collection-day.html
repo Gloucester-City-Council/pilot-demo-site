@@ -134,6 +134,13 @@
             line-height: 1.4;
         }
         
+        .banner-schedule {
+            margin: 0.5rem 0 0 0;
+            font-size: 1.1rem;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+        
         /* Bin collection cards grid */
         .bin-collection-grid {
             display: grid;
@@ -497,6 +504,7 @@
                         <div>
                             <h2>Your next collection</h2>
                             <p id="next-collection-info" class="banner-details">Loading...</p>
+                            <p id="collection-round-info" class="banner-schedule">Loading...</p>
                         </div>
                     </div>
 
@@ -509,7 +517,6 @@
                             </div>
                             <div class="bin-card-body">
                                 <p class="bin-types">Green boxes • Blue bag (cardboard)</p>
-                                <p class="collection-frequency">Every <strong><span id="recycling-day">...</span></strong></p>
                                 <p class="collection-next">Next: <strong><span id="next-recycling">...</span></strong></p>
                             </div>
                         </div>
@@ -521,7 +528,6 @@
                             </div>
                             <div class="bin-card-body">
                                 <p class="bin-types">Food caddy (small brown bin)</p>
-                                <p class="collection-frequency">Every <strong><span id="food-day">...</span></strong></p>
                                 <p class="collection-next">Next: <strong><span id="next-food">...</span></strong></p>
                             </div>
                         </div>
@@ -533,7 +539,6 @@
                             </div>
                             <div class="bin-card-body">
                                 <p class="bin-types" id="general-waste-type">Black bin (non-recyclable)</p>
-                                <p class="collection-frequency">Every <strong><span id="black-bin-day">...</span></strong></p>
                                 <p class="collection-next">Next: <strong><span id="next-black-bin">...</span></strong></p>
                             </div>
                         </div>
@@ -545,7 +550,6 @@
                             </div>
                             <div class="bin-card-body">
                                 <p class="bin-types">Brown bin (subscription service)</p>
-                                <p class="collection-frequency">Every <strong><span id="garden-day">...</span></strong></p>
                                 <p class="collection-next">Next: <strong><span id="next-garden">...</span></strong></p>
                                 <p class="subscription-note">£60 per year • <a href="/bins/garden-waste">Subscribe</a></p>
                             </div>
@@ -986,7 +990,25 @@
                 
                 // Get the main collection day from first active container
                 const mainSchedule = containers[0]?.collectionSchedule;
-                const collectionDay = mainSchedule?.scheduleDescription || 'Not available';
+                const rawSchedule = mainSchedule?.scheduleDescription || 'Not available';
+                
+                // Format schedule description for better readability
+                function formatSchedule(schedule) {
+                    if (!schedule || schedule === 'Not available') return schedule;
+                    
+                    // "Friday Week 1" → "Collection round: Friday Week 1"
+                    // "Friday Weekly" → "Friday"
+                    if (schedule.toLowerCase().includes('weekly') && !schedule.toLowerCase().includes('week 1') && !schedule.toLowerCase().includes('week 2')) {
+                        // "Friday Weekly" → "Friday"
+                        return schedule.replace(/\s+Weekly/i, '');
+                    } else if (schedule.match(/\w+\s+Week\s+\d/i)) {
+                        // "Friday Week 1" → "Collection round: Friday Week 1"
+                        return 'Collection round: ' + schedule;
+                    }
+                    return schedule;
+                }
+                
+                const collectionDay = formatSchedule(rawSchedule);
                 
                 // Find next collection date across all bins
                 const allNextCollections = containers
@@ -1008,12 +1030,7 @@
                 
                 // Populate next collection banner
                 document.getElementById('next-collection-info').textContent = nextMessage;
-                
-                // Update collection day for each bin type
-                document.getElementById('recycling-day').textContent = collectionDay;
-                document.getElementById('food-day').textContent = collectionDay;
-                document.getElementById('black-bin-day').textContent = collectionDay;
-                document.getElementById('garden-day').textContent = collectionDay;
+                document.getElementById('collection-round-info').textContent = collectionDay;
                 
                 // Update next collection dates for all bins
                 if (recyclingContainer) {
