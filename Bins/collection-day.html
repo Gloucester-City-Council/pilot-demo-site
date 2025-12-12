@@ -863,7 +863,15 @@ function showSavedAddress(savedAddress) {
         <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4caf50;">
             <p style="margin: 0 0 0.5rem 0;"><strong>✓ Using saved address:</strong></p>
             <p style="margin: 0 0 1rem 0; font-size: 1.1rem;">${savedAddress.displayAddress}</p>
-            <p style="margin: 0; font-size: 0.95rem; color: #666;">Loading your collection information...</p>
+            <p id="loading-message" style="margin: 0.75rem 0; font-size: 0.95rem; color: #666;">
+                <span style="display: inline-block; width: 16px; height: 16px; border: 2px solid #666; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 0.5rem; vertical-align: middle;"></span>
+                Loading your collection information...
+            </p>
+            <style>
+                @keyframes spin {
+                    to { transform: rotate(360deg); }
+                }
+            </style>
             <button type="button" onclick="clearSavedAddress()" style="background: transparent; border: 2px solid #666; color: #666; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-top: 1rem;">
                 Select a different address
             </button>
