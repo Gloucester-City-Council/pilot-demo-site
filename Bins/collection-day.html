@@ -910,17 +910,20 @@
             }
         }
         
-        postcodeInput.addEventListener('input', function() {
-            clearTimeout(lookupTimeout);
-            const postcode = this.value.trim().toUpperCase();
-            
-            // Check if postcode looks complete
-            if (postcode.match(/^[A-Z]{1,2}[0-9]{1,2}[A-Z]?\s?[0-9][A-Z]{2}$/)) {
-                lookupTimeout = setTimeout(() => {
-                    lookupAddresses(postcode);
-                }, 500);
-            }
-        });
+        // Only attach postcode input listener if element exists
+        if (postcodeInput) {
+            postcodeInput.addEventListener('input', function() {
+                clearTimeout(lookupTimeout);
+                const postcode = this.value.trim().toUpperCase();
+                
+                // Check if postcode looks complete
+                if (postcode.match(/^[A-Z]{1,2}[0-9]{1,2}[A-Z]?\s?[0-9][A-Z]{2}$/)) {
+                    lookupTimeout = setTimeout(() => {
+                        lookupAddresses(postcode);
+                    }, 500);
+                }
+            });
+        }
         
         async function lookupAddresses(postcode) {
             const helpText = document.getElementById('postcode-help');
