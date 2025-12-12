@@ -488,6 +488,11 @@
                                     <option value="">Choose your address...</option>
                                 </select>
                                 <p id="address-help" class="form-help"><span id="address-count"></span> addresses found</p>
+                                
+                                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; margin-top: 0.75rem;">
+                                    <input type="checkbox" id="remember-address-missed" style="width: auto;">
+                                    <span>Remember this address for next time</span>
+                                </label>
                             </div>
 
                             <div class="button-group">
@@ -803,6 +808,61 @@
     <!-- JS -->
     <script src="../assets/js/main.js"></script>
     <script>
+        // Cookie helper functions
+        function setCookie(name, value, days) {
+            const expires = new Date();
+            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+            document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/;SameSite=Strict`;
+        }
+        
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+            }
+            return null;
+        }
+        
+        function deleteCookie(name) {
+            document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+        }
+        
+        // Saved address management
+        let savedAddress = null;
+        
+        function getSavedAddress() {
+            const addressData = getCookie('gcc_saved_address');
+            if (addressData) {
+                try {
+                    return JSON.parse(addressData);
+                } catch (e) {
+                    return null;
+                }
+            }
+            return null;
+        }
+        
+        function saveAddress(uprn, displayAddress, postcode, wardName) {
+            const addressData = {
+                uprn: uprn,
+                displayAddress: displayAddress,
+                postcode: postcode,
+                wardName: wardName,
+                savedAt: new Date().toISOString()
+            };
+            setCookie('gcc_saved_address', JSON.stringify(addressData), 365); // 1 year
+            savedAddress = addressData;
+        }
+        
+        function clearSavedAddress() {
+            deleteCookie('gcc_saved_address');
+            savedAddress = null;
+            location.reload(); // Reload to show address lookup form
+        }
+        
         // Multi-step form logic
         let currentStep = 1;
         const totalSteps = 3;
@@ -899,9 +959,43 @@
                     option.value = addr.uprn;
                     option.textContent = addr.display;
                     option.dataset.uprn = addr.uprn;
+                    option.dataset.displayAddress = addr.display;
+                    option.dataset.postcode = addr.postcode;
                     option.dataset.wardName = addr.wardName || '';
                     addressSelect.appendChild(option);
                 });
+                
+                // Handle address selection and remember checkbox
+                addressSelect.addEventListener('change', function() {
+                    const rememberCheckbox = document.getElementById('remember-address-missed');
+                    if (rememberCheckbox && rememberCheckbox.checked && this.value) {
+                        const selectedOption = this.options[this.selectedIndex];
+                        saveAddress(
+                            selectedOption.dataset.uprn,
+                            selectedOption.dataset.displayAddress,
+                            selectedOption.dataset.postcode,
+                            selectedOption.dataset.wardName
+                        );
+                    }
+                });
+                
+                // Handle remember checkbox change
+                const rememberCheckbox = document.getElementById('remember-address-missed');
+                if (rememberCheckbox) {
+                    rememberCheckbox.addEventListener('change', function() {
+                        if (this.checked && addressSelect.value) {
+                            const selectedOption = addressSelect.options[addressSelect.selectedIndex];
+                            saveAddress(
+                                selectedOption.dataset.uprn,
+                                selectedOption.dataset.displayAddress,
+                                selectedOption.dataset.postcode,
+                                selectedOption.dataset.wardName
+                            );
+                        } else if (!this.checked) {
+                            clearSavedAddress();
+                        }
+                    });
+                }
                 
                 // Show address dropdown with count
                 document.getElementById('address-count').textContent = data.addresses.length;
@@ -921,9 +1015,16 @@
         }
         
         async function loadBinsForProperty() {
-            const addressSelect = document.getElementById('address');
-            const selectedOption = addressSelect.options[addressSelect.selectedIndex];
-            const uprn = selectedOption ? selectedOption.dataset.uprn : null;
+            let uprn = null;
+            
+            // Check if we have a saved address
+            if (window.savedUprn) {
+                uprn = window.savedUprn;
+            } else {
+                const addressSelect = document.getElementById('address');
+                const selectedOption = addressSelect.options[addressSelect.selectedIndex];
+                uprn = selectedOption ? selectedOption.dataset.uprn : null;
+            }
             
             if (!uprn) {
                 alert('Please select your address first');
@@ -1244,6 +1345,35 @@
 
         // Initialize
         updateProgress();
+        
+        // Check for saved address on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            savedAddress = getSavedAddress();
+            if (savedAddress) {
+                // Pre-fill the address field and add change link
+                const addressInput = document.getElementById('address');
+                if (addressInput) {
+                    // Replace input with saved address display
+                    const formGroup = addressInput.parentElement;
+                    formGroup.innerHTML = `
+                        <label for="address">Your address</label>
+                        <div style="background: #e8f5e9; padding: 1rem; border-radius: 4px; border: 2px solid #4caf50; margin-bottom: 0.5rem;">
+                            <strong>✓ ${savedAddress.displayAddress}</strong>
+                        </div>
+                        <button type="button" onclick="clearSavedAddress()" style="background: transparent; border: 2px solid #666; color: #666; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
+                            Select a different address
+                        </button>
+                        <input type="hidden" id="address" name="address" value="${savedAddress.uprn}">
+                    `;
+                    
+                    // Set the UPRN globally so bins can be loaded
+                    window.savedUprn = savedAddress.uprn;
+                    window.savedDisplayAddress = savedAddress.displayAddress;
+                    window.savedPostcode = savedAddress.postcode;
+                    window.savedWardName = savedAddress.wardName;
+                }
+            }
+        });
     </script>
 
 </body>
