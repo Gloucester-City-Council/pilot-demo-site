@@ -451,7 +451,7 @@
 
                 <!-- LOOKUP FORM -->
                 <div class="lookup-form">
-                    <form id="collection-lookup-form" action="/api/getBinCollection" method="get">
+                    <form id="collection-lookup-form">
                         <label for="postcode">Your postcode</label>
                         <input type="text" 
                                id="postcode" 
@@ -788,405 +788,384 @@
     <!-- JS -->
     <script src="../assets/js/main.js"></script>
     <script>
-        // Cookie helper functions
-        function setCookie(name, value, days) {
-            const expires = new Date();
-            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-            document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/;SameSite=Strict`;
-        }
-        
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for(let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
-            }
+// Cookie helper functions
+function setCookie(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/;SameSite=Strict`;
+}
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
+
+function deleteCookie(name) {
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+}
+
+// Address management
+function getSavedAddress() {
+    const addressData = getCookie('gcc_saved_address');
+    if (addressData) {
+        try {
+            return JSON.parse(addressData);
+        } catch (e) {
             return null;
         }
+    }
+    return null;
+}
+
+function saveAddress(uprn, displayAddress, postcode, wardName) {
+    const addressData = {
+        uprn: uprn,
+        displayAddress: displayAddress,
+        postcode: postcode,
+        wardName: wardName,
+        savedAt: new Date().toISOString()
+    };
+    setCookie('gcc_saved_address', JSON.stringify(addressData), 365);
+}
+
+function clearSavedAddress() {
+    deleteCookie('gcc_saved_address');
+    location.reload();
+}
+
+// Initialize on page load
+let selectedUprn = null;
+
+window.addEventListener('DOMContentLoaded', function() {
+    const savedAddress = getSavedAddress();
+    
+    if (savedAddress) {
+        // User has saved address - show it and auto-load bins
+        showSavedAddress(savedAddress);
+    } else {
+        // No saved address - set up postcode auto-lookup
+        setupPostcodeLookup();
+    }
+    
+    // Set up form submission
+    setupFormSubmission();
+});
+
+function showSavedAddress(savedAddress) {
+    const lookupFormContainer = document.querySelector('.lookup-form');
+    lookupFormContainer.innerHTML = `
+        <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4caf50;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✓ Using saved address:</strong></p>
+            <p style="margin: 0 0 1rem 0; font-size: 1.1rem;">${savedAddress.displayAddress}</p>
+            <p style="margin: 0; font-size: 0.95rem; color: #666;">Loading your collection information...</p>
+            <button type="button" onclick="clearSavedAddress()" style="background: transparent; border: 2px solid #666; color: #666; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-top: 1rem;">
+                Select a different address
+            </button>
+        </div>
+    `;
+    
+    // Auto-load bins
+    selectedUprn = savedAddress.uprn;
+    loadBinsForUprn(savedAddress.uprn);
+}
+
+function setupPostcodeLookup() {
+    const postcodeInput = document.getElementById('postcode');
+    if (!postcodeInput) return;
+    
+    let lookupTimeout;
+    
+    postcodeInput.addEventListener('input', function() {
+        clearTimeout(lookupTimeout);
+        const postcode = this.value.trim().toUpperCase();
         
-        function deleteCookie(name) {
-            document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+        // Check if postcode looks complete
+        if (postcode.match(/^[A-Z]{1,2}[0-9]{1,2}[A-Z]?\s?[0-9][A-Z]{2}$/)) {
+            lookupTimeout = setTimeout(() => {
+                lookupAddresses(postcode);
+            }, 500);
+        }
+    });
+}
+
+async function lookupAddresses(postcode) {
+    const helpText = document.getElementById('postcode-help');
+    helpText.textContent = 'Looking up addresses...';
+    helpText.style.color = '#666';
+    
+    try {
+        const response = await fetch(`https://gcc-api-pilot.azurewebsites.net/api/postcode-addresses?postcode=${encodeURIComponent(postcode)}`);
+        
+        if (!response.ok) {
+            throw new Error('Address lookup failed');
         }
         
-        // Saved address management
-        let savedAddress = null;
+        const data = await response.json();
         
-        function getSavedAddress() {
-            const addressData = getCookie('gcc_saved_address');
-            if (addressData) {
-                try {
-                    return JSON.parse(addressData);
-                } catch (e) {
-                    return null;
-                }
-            }
-            return null;
+        if (!data.success || !data.addresses || data.addresses.length === 0) {
+            helpText.textContent = 'No addresses found for this postcode';
+            helpText.style.color = '#d32f2f';
+            return;
         }
         
-        function saveAddress(uprn, displayAddress, postcode, wardName) {
-            const addressData = {
-                uprn: uprn,
-                displayAddress: displayAddress,
-                postcode: postcode,
-                wardName: wardName,
-                savedAt: new Date().toISOString()
-            };
-            setCookie('gcc_saved_address', JSON.stringify(addressData), 365); // 1 year
-            savedAddress = addressData;
+        // Remove old address select if exists
+        const oldSelect = document.getElementById('address-select');
+        if (oldSelect) {
+            oldSelect.parentElement.remove();
         }
         
-        function clearSavedAddress() {
-            deleteCookie('gcc_saved_address');
-            savedAddress = null;
-            location.reload(); // Reload to show address lookup form
-        }
+        // Create address select
+        const form = document.getElementById('collection-lookup-form');
+        const submitButton = form.querySelector('button[type="submit"]');
         
-        let selectedUprn = null;
+        const addressGroup = document.createElement('div');
+        addressGroup.className = 'form-group';
+        addressGroup.style.marginTop = '1rem';
+        addressGroup.innerHTML = `
+            <label for="address-select">Select your address</label>
+            <select id="address-select" required style="width: 100%; padding: 0.75rem; font-size: 1rem; border: 2px solid #ccc; border-radius: 4px; margin-bottom: 0.75rem;">
+                <option value="">Choose your address...</option>
+            </select>
+            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; margin-bottom: 1rem;">
+                <input type="checkbox" id="remember-address" style="width: auto;">
+                <span>Remember this address for next time</span>
+            </label>
+        `;
         
-        // Auto-lookup addresses when valid postcode entered
-        const postcodeInput = document.getElementById('postcode');
-        let lookupTimeout;
-        let addressesLoaded = false;
+        // Insert BEFORE the submit button
+        submitButton.parentElement.insertBefore(addressGroup, submitButton);
         
-        // Check for saved address on page load
-        window.addEventListener('DOMContentLoaded', function() {
-            savedAddress = getSavedAddress();
-            if (savedAddress) {
-                // Hide the lookup form and show saved address
-                const lookupFormContainer = document.querySelector('.lookup-form');
-                lookupFormContainer.innerHTML = `
-                    <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4caf50;">
-                        <p style="margin: 0 0 0.5rem 0;"><strong>✓ Using saved address:</strong></p>
-                        <p style="margin: 0 0 1rem 0; font-size: 1.1rem;">${savedAddress.displayAddress}</p>
-                        <p style="margin: 0; font-size: 0.95rem; color: #666;">Loading your collection information...</p>
-                        <button type="button" onclick="clearSavedAddress()" style="background: transparent; border: 2px solid #666; color: #666; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-top: 1rem;">
-                            Select a different address
-                        </button>
-                    </div>
-                `;
-                
-                // Auto-load bins directly
-                selectedUprn = savedAddress.uprn;
-                loadBinsForAddress(savedAddress.uprn);
+        const select = document.getElementById('address-select');
+        data.addresses.forEach(addr => {
+            const option = document.createElement('option');
+            option.value = addr.uprn;
+            option.textContent = addr.display;
+            option.dataset.uprn = addr.uprn;
+            option.dataset.displayAddress = addr.display;
+            option.dataset.postcode = addr.postcode;
+            option.dataset.wardName = addr.wardName;
+            select.appendChild(option);
+        });
+        
+        select.addEventListener('change', function() {
+            selectedUprn = this.value;
+            
+            // Save address if checkbox is checked
+            const rememberCheckbox = document.getElementById('remember-address');
+            if (rememberCheckbox && rememberCheckbox.checked && this.value) {
+                const selectedOption = this.options[this.selectedIndex];
+                saveAddress(
+                    selectedOption.dataset.uprn,
+                    selectedOption.dataset.displayAddress,
+                    selectedOption.dataset.postcode,
+                    selectedOption.dataset.wardName
+                );
             }
         });
         
-        // Function to load bins for a given UPRN
-        async function loadBinsForAddress(uprn) {
-            const resultsDiv = document.getElementById('collection-results');
-            
-            try {
-                // Call bins API with UPRN
-                const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/bins-by-uprn', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-token': 'oije8u23984uoriwfjowei2398470'
-                    },
-                    body: JSON.stringify({
-                        binUprn: uprn
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Could not find collection information');
-                }
-                
-                const data = await response.json();
-                
-                if (!data.success || !data.containers) {
-                    throw new Error('No collection data available');
-                }
-                
-                // Process and display results (same logic as form submission)
-                displayCollectionResults(data);
-                
-            } catch (error) {
-                alert('Sorry, we could not find collection information for that address. Please try again.');
-                console.error('Error:', error);
-                clearSavedAddress(); // Clear invalid saved address
-            }
-        }
-        
-        // Only attach postcode input listener if element exists
-        if (postcodeInput) {
-            postcodeInput.addEventListener('input', function() {
-                clearTimeout(lookupTimeout);
-                const postcode = this.value.trim().toUpperCase();
-                
-                // Check if postcode looks complete
-                if (postcode.match(/^[A-Z]{1,2}[0-9]{1,2}[A-Z]?\s?[0-9][A-Z]{2}$/)) {
-                    lookupTimeout = setTimeout(() => {
-                        lookupAddresses(postcode);
-                    }, 500);
-                }
-            });
-        }
-        
-        async function lookupAddresses(postcode) {
-            const helpText = document.getElementById('postcode-help');
-            helpText.textContent = 'Looking up addresses...';
-            helpText.style.color = '#666';
-            
-            try {
-                const response = await fetch(`https://gcc-api-pilot.azurewebsites.net/api/postcode-addresses?postcode=${encodeURIComponent(postcode)}`);
-                
-                if (!response.ok) {
-                    throw new Error('Address lookup failed');
-                }
-                
-                const data = await response.json();
-                
-                if (!data.success || !data.addresses || data.addresses.length === 0) {
-                    helpText.textContent = 'No addresses found for this postcode';
-                    helpText.style.color = '#d32f2f';
-                    return;
-                }
-                
-                // Remove old address select if exists
-                const oldSelect = document.getElementById('address-select');
-                if (oldSelect) {
-                    oldSelect.parentElement.remove();
-                }
-                
-                // Create address select
-                const form = document.getElementById('collection-lookup-form');
-                const submitButton = form.querySelector('button[type="submit"]');
-                
-                const addressGroup = document.createElement('div');
-                addressGroup.className = 'form-group';
-                addressGroup.style.marginTop = '1rem';
-                addressGroup.innerHTML = `
-                    <label for="address-select">Select your address</label>
-                    <select id="address-select" required style="width: 100%; padding: 0.75rem; font-size: 1rem; border: 2px solid #ccc; border-radius: 4px; margin-bottom: 0.75rem;">
-                        <option value="">Choose your address...</option>
-                    </select>
-                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; margin-bottom: 1rem;">
-                        <input type="checkbox" id="remember-address" style="width: auto;">
-                        <span>Remember this address for next time</span>
-                    </label>
-                `;
-                
-                // Insert BEFORE the submit button
-                submitButton.parentElement.insertBefore(addressGroup, submitButton);
-                
-                const select = document.getElementById('address-select');
-                data.addresses.forEach(addr => {
-                    const option = document.createElement('option');
-                    option.value = addr.uprn;
-                    option.textContent = addr.display;
-                    option.dataset.uprn = addr.uprn;
-                    option.dataset.displayAddress = addr.display;
-                    option.dataset.postcode = addr.postcode;
-                    option.dataset.wardName = addr.wardName;
-                    select.appendChild(option);
-                });
-                
-                select.addEventListener('change', function() {
-                    selectedUprn = this.value;
-                    
-                    // Save address if checkbox is checked
-                    const rememberCheckbox = document.getElementById('remember-address');
-                    if (rememberCheckbox && rememberCheckbox.checked && this.value) {
-                        const selectedOption = this.options[this.selectedIndex];
-                        saveAddress(
-                            selectedOption.dataset.uprn,
-                            selectedOption.dataset.displayAddress,
-                            selectedOption.dataset.postcode,
-                            selectedOption.dataset.wardName
-                        );
-                    }
-                });
-                
-                // Also save on checkbox change if address already selected
-                const rememberCheckbox = document.getElementById('remember-address');
-                rememberCheckbox.addEventListener('change', function() {
-                    if (this.checked && selectedUprn) {
-                        const selectedOption = select.options[select.selectedIndex];
-                        saveAddress(
-                            selectedOption.dataset.uprn,
-                            selectedOption.dataset.displayAddress,
-                            selectedOption.dataset.postcode,
-                            selectedOption.dataset.wardName
-                        );
-                    } else if (!this.checked) {
-                        clearSavedAddress();
-                    }
-                });
-                
-                helpText.textContent = `${data.addresses.length} addresses found`;
-                helpText.style.color = '#4caf50';
-                addressesLoaded = true;
-                
-            } catch (error) {
-                console.error('Error:', error);
-                helpText.textContent = 'Could not look up addresses. Please try again.';
-                helpText.style.color = '#d32f2f';
-            }
-        }
-        
-        // Collection lookup form handler
-        document.getElementById('collection-lookup-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            if (!selectedUprn) {
-                alert('Please select your address from the list');
-                return;
-            }
-            
-            const submitBtn = this.querySelector('button[type="submit"]');
-            submitBtn.textContent = 'Looking up collections...';
-            submitBtn.disabled = true;
-            
-            try {
-                await loadBinsForAddress(selectedUprn);
-                submitBtn.textContent = 'Find my collection days';
-                submitBtn.disabled = false;
-            } catch (error) {
-                alert('Sorry, we could not find collection information for that address. Please check and try again.');
-                console.error('Error:', error);
-                submitBtn.textContent = 'Find my collection days';
-                submitBtn.disabled = false;
+        // Also save on checkbox change
+        const rememberCheckbox = document.getElementById('remember-address');
+        rememberCheckbox.addEventListener('change', function() {
+            if (this.checked && selectedUprn) {
+                const selectedOption = select.options[select.selectedIndex];
+                saveAddress(
+                    selectedOption.dataset.uprn,
+                    selectedOption.dataset.displayAddress,
+                    selectedOption.dataset.postcode,
+                    selectedOption.dataset.wardName
+                );
+            } else if (!this.checked) {
+                deleteCookie('gcc_saved_address');
             }
         });
         
-        // Shared function to display collection results
-        function displayCollectionResults(data) {
-            const resultsDiv = document.getElementById('collection-results');
-            
-            // Format dates nicely
-            function formatDate(dateStr) {
-                if (!dateStr) return 'Not scheduled';
-                const date = new Date(dateStr);
-                const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-                return date.toLocaleDateString('en-GB', options);
-            }
-            
-            function formatShortDate(dateStr) {
-                if (!dateStr) return 'Not scheduled';
-                const date = new Date(dateStr);
-                const options = { weekday: 'short', day: 'numeric', month: 'short' };
-                return date.toLocaleDateString('en-GB', options);
-            }
-            
-            function getDaysUntil(dateStr) {
-                if (!dateStr) return null;
-                    const date = new Date(dateStr);
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    const diffTime = date - today;
-                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    return diffDays;
-                }
-                
-                // Find containers by type (exclude archived)
-                const containers = data.containers.filter(c => !c.archived);
-                const refuseContainer = containers.find(c => c.subtitle.includes('Refuse') || c.subtitle.includes('Sack'));
-                const recyclingContainer = containers.find(c => c.subtitle.includes('Green Box'));
-                const cardboardContainer = containers.find(c => c.subtitle.includes('Blue Bag'));
-                const foodContainer = containers.find(c => c.subtitle.includes('Food'));
-                const gardenContainer = containers.find(c => c.subtitle.includes('Garden') && !c.archived);
-                
-                // Get the main collection day from first active container
-                const mainSchedule = containers[0]?.collectionSchedule;
-                const rawSchedule = mainSchedule?.scheduleDescription || 'Not available';
-                
-                // Format schedule description for better readability
-                function formatSchedule(schedule) {
-                    if (!schedule || schedule === 'Not available') return schedule;
-                    
-                    // "Friday Week 1" → "Collection round: Friday Week 1"
-                    // "Friday Weekly" → "Friday"
-                    if (schedule.toLowerCase().includes('weekly') && !schedule.toLowerCase().includes('week 1') && !schedule.toLowerCase().includes('week 2')) {
-                        // "Friday Weekly" → "Friday"
-                        return schedule.replace(/\s+Weekly/i, '');
-                    } else if (schedule.match(/\w+\s+Week\s+\d/i)) {
-                        // "Friday Week 1" → "Collection round: Friday Week 1"
-                        return 'Collection round: ' + schedule;
-                    }
-                    return schedule;
-                }
-                
-                const collectionDay = formatSchedule(rawSchedule);
-                
-                // Find next collection date across all bins
-                const allNextCollections = containers
-                    .map(c => c.collectionSchedule?.nextCollection)
-                    .filter(d => d)
-                    .sort();
-                const nextCollectionDate = allNextCollections[0];
-                const daysUntil = getDaysUntil(nextCollectionDate);
-                
-                // Build next collection message
-                let nextMessage = formatShortDate(nextCollectionDate);
-                if (daysUntil === 0) {
-                    nextMessage += ' (TODAY!)';
-                } else if (daysUntil === 1) {
-                    nextMessage += ' (tomorrow)';
-                } else if (daysUntil > 0) {
-                    nextMessage += ` (in ${daysUntil} days)`;
-                }
-                
-                // Populate next collection banner
-                document.getElementById('next-collection-info').textContent = nextMessage;
-                document.getElementById('collection-round-info').textContent = collectionDay;
-                
-                // Update next collection dates for all bins
-                if (recyclingContainer) {
-                    document.getElementById('next-recycling').textContent = 
-                        formatShortDate(recyclingContainer.collectionSchedule.nextCollection);
-                } else {
-                    document.getElementById('next-recycling').textContent = 'Not available';
-                }
-                
-                if (foodContainer) {
-                    document.getElementById('next-food').textContent = 
-                        formatShortDate(foodContainer.collectionSchedule.nextCollection);
-                } else {
-                    document.getElementById('next-food').textContent = 'Not available';
-                }
-                
-                if (refuseContainer) {
-                    // Update text based on whether it's bin or sacks
-                    const isSacks = refuseContainer.subtitle.toLowerCase().includes('sack');
-                    document.getElementById('general-waste-type').textContent = 
-                        isSacks ? 'Black sacks (non-recyclable)' : 'Black bin (non-recyclable)';
-                    
-                    document.getElementById('next-black-bin').textContent = 
-                        formatShortDate(refuseContainer.collectionSchedule.nextCollection);
-                } else {
-                    document.getElementById('next-black-bin').textContent = 'Not available';
-                }
-                
-                if (gardenContainer) {
-                    document.getElementById('next-garden').textContent = 
-                        formatShortDate(gardenContainer.collectionSchedule.nextCollection);
-                } else {
-                    // Hide garden waste card if not subscribed
-                    const gardenCard = document.getElementById('garden-waste-card');
-                    gardenCard.style.opacity = '0.6';
-                    gardenCard.querySelector('.bin-types').innerHTML = 
-                        '<em>Not subscribed</em>';
-                    gardenCard.querySelector('.collection-next').innerHTML = 
-                        '<a href="/bins/garden-waste" style="color: var(--color-primary); font-weight: 600;">Subscribe for £60/year →</a>';
-                }
-                
-                // Show results
-                resultsDiv.hidden = false;
-                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                
-                submitBtn.textContent = 'Find my collection days';
-                submitBtn.disabled = false;
-                
-                console.log('Collection data loaded:', {
-                    containers: data.containerCount,
-                    nextCollection: nextCollectionDate,
-                    schedule: collectionDay
-                });
-            }
+        helpText.textContent = `${data.addresses.length} addresses found`;
+        helpText.style.color = '#4caf50';
+        
+    } catch (error) {
+        console.error('Error:', error);
+        helpText.textContent = 'Could not look up addresses. Please try again.';
+        helpText.style.color = '#d32f2f';
+    }
+}
+
+function setupFormSubmission() {
+    const form = document.getElementById('collection-lookup-form');
+    if (!form) return;
+    
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        if (!selectedUprn) {
+            alert('Please select your address from the list');
+            return;
         }
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.textContent = 'Looking up collections...';
+        submitBtn.disabled = true;
+        
+        try {
+            await loadBinsForUprn(selectedUprn);
+            submitBtn.textContent = 'Find my collection days';
+            submitBtn.disabled = false;
+        } catch (error) {
+            alert('Sorry, we could not find collection information for that address.');
+            console.error('Error:', error);
+            submitBtn.textContent = 'Find my collection days';
+            submitBtn.disabled = false;
+        }
+    });
+}
+
+async function loadBinsForUprn(uprn) {
+    const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/bins-by-uprn', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-token': 'oije8u23984uoriwfjowei2398470'
+        },
+        body: JSON.stringify({
+            binUprn: uprn
+        })
+    });
+    
+    if (!response.ok) {
+        throw new Error('Could not find collection information');
+    }
+    
+    const data = await response.json();
+    
+    if (!data.success || !data.containers) {
+        throw new Error('No collection data available');
+    }
+    
+    displayCollectionResults(data);
+}
+
+function displayCollectionResults(data) {
+    const resultsDiv = document.getElementById('collection-results');
+    
+    // Format dates
+    function formatShortDate(dateStr) {
+        if (!dateStr) return 'Not scheduled';
+        const date = new Date(dateStr);
+        const options = { weekday: 'short', day: 'numeric', month: 'short' };
+        return date.toLocaleDateString('en-GB', options);
+    }
+    
+    function getDaysUntil(dateStr) {
+        if (!dateStr) return null;
+        const date = new Date(dateStr);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const diffTime = date - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    }
+    
+    function formatSchedule(schedule) {
+        if (!schedule || schedule === 'Not available') return schedule;
+        
+        if (schedule.toLowerCase().includes('weekly') && !schedule.toLowerCase().includes('week 1') && !schedule.toLowerCase().includes('week 2')) {
+            return schedule.replace(/\s+Weekly/i, '');
+        } else if (schedule.match(/\w+\s+Week\s+\d/i)) {
+            return 'Collection round: ' + schedule;
+        }
+        return schedule;
+    }
+    
+    // Find containers by type (exclude archived)
+    const containers = data.containers.filter(c => !c.archived);
+    const refuseContainer = containers.find(c => c.subtitle.includes('Refuse') || c.subtitle.includes('Sack'));
+    const recyclingContainer = containers.find(c => c.subtitle.includes('Green Box'));
+    const foodContainer = containers.find(c => c.subtitle.includes('Food'));
+    const gardenContainer = containers.find(c => c.subtitle.includes('Garden'));
+    
+    // Get collection schedule
+    const mainSchedule = containers[0]?.collectionSchedule;
+    const rawSchedule = mainSchedule?.scheduleDescription || 'Not available';
+    const collectionDay = formatSchedule(rawSchedule);
+    
+    // Find next collection
+    const allNextCollections = containers
+        .map(c => c.collectionSchedule?.nextCollection)
+        .filter(d => d)
+        .sort();
+    const nextCollectionDate = allNextCollections[0];
+    const daysUntil = getDaysUntil(nextCollectionDate);
+    
+    // Build next collection message
+    let nextMessage = formatShortDate(nextCollectionDate);
+    if (daysUntil === 0) {
+        nextMessage += ' (TODAY!)';
+    } else if (daysUntil === 1) {
+        nextMessage += ' (tomorrow)';
+    } else if (daysUntil > 0) {
+        nextMessage += ` (in ${daysUntil} days)`;
+    }
+    
+    // Populate banner
+    document.getElementById('next-collection-info').textContent = nextMessage;
+    document.getElementById('collection-round-info').textContent = collectionDay;
+    
+    // Update next collection dates for all bins
+    if (recyclingContainer) {
+        document.getElementById('next-recycling').textContent = 
+            formatShortDate(recyclingContainer.collectionSchedule.nextCollection);
+    } else {
+        document.getElementById('next-recycling').textContent = 'Not available';
+    }
+    
+    if (foodContainer) {
+        document.getElementById('next-food').textContent = 
+            formatShortDate(foodContainer.collectionSchedule.nextCollection);
+    } else {
+        document.getElementById('next-food').textContent = 'Not available';
+    }
+    
+    if (refuseContainer) {
+        // Update text based on whether it's bin or sacks
+        const isSacks = refuseContainer.subtitle.toLowerCase().includes('sack');
+        document.getElementById('general-waste-type').textContent = 
+            isSacks ? 'Black sacks (non-recyclable)' : 'Black bin (non-recyclable)';
+        
+        document.getElementById('next-black-bin').textContent = 
+            formatShortDate(refuseContainer.collectionSchedule.nextCollection);
+    } else {
+        document.getElementById('next-black-bin').textContent = 'Not available';
+    }
+    
+    if (gardenContainer) {
+        document.getElementById('next-garden').textContent = 
+            formatShortDate(gardenContainer.collectionSchedule.nextCollection);
+    } else {
+        // Hide garden waste card if not subscribed
+        const gardenCard = document.getElementById('garden-waste-card');
+        gardenCard.style.opacity = '0.6';
+        gardenCard.querySelector('.bin-types').innerHTML = 
+            '<em>Not subscribed</em>';
+        gardenCard.querySelector('.collection-next').innerHTML = 
+            '<a href="/bins/garden-waste" style="color: var(--color-primary); font-weight: 600;">Subscribe for £60/year →</a>';
+    }
+    
+    // Show results
+    resultsDiv.hidden = false;
+    resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    
+    console.log('Collection data loaded:', {
+        containers: data.containerCount,
+        nextCollection: nextCollectionDate,
+        schedule: collectionDay
+    });
+}
+    </script>
     </script>
 
 </body>
