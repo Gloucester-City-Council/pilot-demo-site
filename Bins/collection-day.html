@@ -860,17 +860,55 @@
                     <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4caf50;">
                         <p style="margin: 0 0 0.5rem 0;"><strong>✓ Using saved address:</strong></p>
                         <p style="margin: 0 0 1rem 0; font-size: 1.1rem;">${savedAddress.displayAddress}</p>
-                        <button type="button" onclick="clearSavedAddress()" style="background: transparent; border: 2px solid #666; color: #666; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
+                        <p style="margin: 0; font-size: 0.95rem; color: #666;">Loading your collection information...</p>
+                        <button type="button" onclick="clearSavedAddress()" style="background: transparent; border: 2px solid #666; color: #666; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-top: 1rem;">
                             Select a different address
                         </button>
                     </div>
                 `;
                 
-                // Auto-submit to load bins
+                // Auto-load bins directly
                 selectedUprn = savedAddress.uprn;
-                document.getElementById('collection-lookup-form').dispatchEvent(new Event('submit'));
+                loadBinsForAddress(savedAddress.uprn);
             }
         });
+        
+        // Function to load bins for a given UPRN
+        async function loadBinsForAddress(uprn) {
+            const resultsDiv = document.getElementById('collection-results');
+            
+            try {
+                // Call bins API with UPRN
+                const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/bins-by-uprn', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-token': 'oije8u23984uoriwfjowei2398470'
+                    },
+                    body: JSON.stringify({
+                        binUprn: uprn
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Could not find collection information');
+                }
+                
+                const data = await response.json();
+                
+                if (!data.success || !data.containers) {
+                    throw new Error('No collection data available');
+                }
+                
+                // Process and display results (same logic as form submission)
+                displayCollectionResults(data);
+                
+            } catch (error) {
+                alert('Sorry, we could not find collection information for that address. Please try again.');
+                console.error('Error:', error);
+                clearSavedAddress(); // Clear invalid saved address
+            }
+        }
         
         postcodeInput.addEventListener('input', function() {
             clearTimeout(lookupTimeout);
@@ -995,51 +1033,43 @@
                 return;
             }
             
-            const resultsDiv = document.getElementById('collection-results');
             const submitBtn = this.querySelector('button[type="submit"]');
             submitBtn.textContent = 'Looking up collections...';
             submitBtn.disabled = true;
             
             try {
-                // Call bins API with UPRN
-                const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/bins-by-uprn', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-token': 'oije8u23984uoriwfjowei2398470'
-                    },
-                    body: JSON.stringify({
-                        binUprn: selectedUprn
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Could not find collection information');
-                }
-                
-                const data = await response.json();
-                
-                if (!data.success || !data.containers) {
-                    throw new Error('No collection data available');
-                }
-                
-                // Format dates nicely
-                function formatDate(dateStr) {
-                    if (!dateStr) return 'Not scheduled';
-                    const date = new Date(dateStr);
-                    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-                    return date.toLocaleDateString('en-GB', options);
-                }
-                
-                function formatShortDate(dateStr) {
-                    if (!dateStr) return 'Not scheduled';
-                    const date = new Date(dateStr);
-                    const options = { weekday: 'short', day: 'numeric', month: 'short' };
-                    return date.toLocaleDateString('en-GB', options);
-                }
-                
-                function getDaysUntil(dateStr) {
-                    if (!dateStr) return null;
+                await loadBinsForAddress(selectedUprn);
+                submitBtn.textContent = 'Find my collection days';
+                submitBtn.disabled = false;
+            } catch (error) {
+                alert('Sorry, we could not find collection information for that address. Please check and try again.');
+                console.error('Error:', error);
+                submitBtn.textContent = 'Find my collection days';
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Shared function to display collection results
+        function displayCollectionResults(data) {
+            const resultsDiv = document.getElementById('collection-results');
+            
+            // Format dates nicely
+            function formatDate(dateStr) {
+                if (!dateStr) return 'Not scheduled';
+                const date = new Date(dateStr);
+                const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+                return date.toLocaleDateString('en-GB', options);
+            }
+            
+            function formatShortDate(dateStr) {
+                if (!dateStr) return 'Not scheduled';
+                const date = new Date(dateStr);
+                const options = { weekday: 'short', day: 'numeric', month: 'short' };
+                return date.toLocaleDateString('en-GB', options);
+            }
+            
+            function getDaysUntil(dateStr) {
+                if (!dateStr) return null;
                     const date = new Date(dateStr);
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
@@ -1152,14 +1182,8 @@
                     nextCollection: nextCollectionDate,
                     schedule: collectionDay
                 });
-                
-            } catch (error) {
-                alert('Sorry, we could not find collection information for that address. Please check and try again.');
-                console.error('Error:', error);
-                submitBtn.textContent = 'Find my collection days';
-                submitBtn.disabled = false;
             }
-        });
+        }
     </script>
 
 </body>
