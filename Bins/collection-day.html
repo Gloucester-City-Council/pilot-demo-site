@@ -1060,6 +1060,12 @@ async function loadBinsForUprn(uprn) {
 function displayCollectionResults(data) {
     const resultsDiv = document.getElementById('collection-results');
     
+    // Hide loading message if it exists
+    const loadingMessage = document.getElementById('loading-message');
+    if (loadingMessage) {
+        loadingMessage.style.display = 'none';
+    }
+    
     // Format dates
     function formatShortDate(dateStr) {
         if (!dateStr) return 'Not scheduled';
