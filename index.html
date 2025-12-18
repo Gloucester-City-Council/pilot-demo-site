@@ -1,11 +1,408 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Pilot Demo Site</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gloucester City Council - Your local authority serving the City of Gloucester. Access bins, Council Tax, planning, housing and more services online.">
+    <base href="/pilot-demo-site/">
+    <title>Gloucester City Council - Transforming your City</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="assets/images/GCC_logo.svg" as="image">
+    <link rel="preload" href="assets/css/styles.css" as="style">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body>
-  <h1>Council Static Site Template</h1>
-  <p>This is a placeholder page created from the static site template.</p>
+
+<body data-service-id="homepage">
+    
+    <!-- Skip to Main Content (WCAG 2.1 AAA) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Site Header -->
+    <header class="site-header" role="banner">
+        <div class="header-container">
+            <!-- Top Row: Logo + Search -->
+            <div class="header-top">
+                <a href="" class="logo-link" aria-label="Gloucester City Council homepage">
+                    <img 
+                        src="assets/images/GCC_logo.svg" 
+                        alt="Gloucester City Council"
+                        class="site-logo"
+                        width="250"
+                        height="70"
+                    >
+                </a>
+                
+                <form class="search-form" role="search" action="search" method="get">
+                    <label for="search-input" class="sr-only">Search the website</label>
+                    <input 
+                        type="search" 
+                        id="search-input"
+                        name="q"
+                        class="search-input" 
+                        placeholder="Search..."
+                        aria-label="Search the website"
+                    >
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Welcome Banner -->
+        <h1 class="welcome-banner">
+            Welcome to Gloucester City Council
+        </h1>
+    </header>
+    
+    <!-- Main Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                Menu
+            </button>
+            <ul class="nav-list">
+                <li><a href="contact">Contact us</a></li>
+                <li><a href="https://gloucester-self.achieveservice.com/">My Gloucester</a></li>
+                <li><a href="news">News</a></li>
+                <li><a href="https://public.govdelivery.com/accounts/UKGCCA/subscriber/new">Subscribe</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero-section" aria-labelledby="quick-actions-title">
+        <div class="hero-container">
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2 id="quick-actions-title" class="quick-actions-title">Quick actions</h2>
+                
+                <div class="actions-grid">
+                    
+                    <a href="Bins/collection-day.html" class="action-card">
+                        <span class="action-icon" aria-hidden="true">🗓️</span>
+                        <span class="action-title">Check bin day</span><br/>
+                        <span class="action-description">Find your collection schedule</span>
+                    </a>
+                    
+                    <a href="council-tax/pay" class="action-card">
+                        <span class="action-icon" aria-hidden="true">💷</span>
+                        <span class="action-title">Pay Council Tax</span><br/>
+                        <span class="action-description">Make a payment online</span>
+                    </a>
+                    
+                    <a href="planning/search" class="action-card">
+                        <span class="action-icon" aria-hidden="true">🔍</span>
+                        <span class="action-title">Planning applications</span><br/>
+                        <span class="action-description">Search and track</span>
+                    </a>
+                    
+                    <a href="housing/homeless-help" class="action-card">
+                        <span class="action-icon" aria-hidden="true">🏠</span>
+                        <span class="action-title">Housing help</span><br/>
+                        <span class="action-description">Homeless or at risk</span>
+                    </a>
+                    
+                    <a href="Bins/garden-waste.html" class="action-card">
+                        <span class="action-icon" aria-hidden="true">🌿</span>
+                        <span class="action-title">Garden waste</span><br/>
+                        <span class="action-description">Subscribe for £60/year</span>
+                    </a>
+                    
+                    <a href="report" class="action-card">
+                        <span class="action-icon" aria-hidden="true">⚠️</span>
+                        <span class="action-title">Report a problem</span><br/>
+                        <span class="action-description">Street, park, or service issue</span>
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+        
+        <!-- Featured Banner -->
+        <article class="featured-banner">
+            <div class="featured-content">
+                <h2>Local Government Reorganisation</h2>
+                <p>
+                    Government wants to change how councils work across Gloucestershire. 
+                    Find out what is proposed and how the changes could affect you and where you live.
+                </p>
+                <a href="about-the-council/local-government-reorganisation-and-devolution/" class="btn-primary">
+                    Read more about the changes
+                </a>
+            </div>
+        </article>
+        
+        <!-- Service Categories -->
+        <section aria-labelledby="services-title">
+            <h2 id="services-title" class="section-title">All council services</h2>
+            
+            <div class="categories-grid">
+                
+                <a href="Bins" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🗑️</span>
+                    <h3 class="category-title">Bins, Waste & Recycling</h3>
+                    <p class="category-description">
+                        Collection schedules, garden waste, bulky items, and recycling information
+                    </p>
+                </a>
+                
+                <a href="council-tax" class="category-card">
+                    <span class="category-icon" aria-hidden="true">💷</span>
+                    <h3 class="category-title">Council Tax & Benefits</h3>
+                    <p class="category-description">
+                        Payments, discounts, exemptions, Council Tax support, and Housing Benefit
+                    </p>
+                </a>
+                
+                <a href="planning" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🏗️</span>
+                    <h3 class="category-title">Planning & Building Control</h3>
+                    <p class="category-description">
+                        Planning applications, building regulations, conservation areas, and tree orders
+                    </p>
+                </a>
+                
+                <a href="housing" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🏠</span>
+                    <h3 class="category-title">Housing & Homelessness</h3>
+                    <p class="category-description">
+                        Social housing, homelessness help, housing advice, and private renting
+                    </p>
+                </a>
+                
+                <a href="licensing" class="category-card">
+                    <span class="category-icon" aria-hidden="true">📋</span>
+                    <h3 class="category-title">Licensing & Permits</h3>
+                    <p class="category-description">
+                        Taxi licences, alcohol licences, street trading, and business permits
+                    </p>
+                </a>
+                
+                <a href="parks-leisure" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🌳</span>
+                    <h3 class="category-title">Parks, Leisure & Culture</h3>
+                    <p class="category-description">
+                        Parks, sports facilities, museums, events, and tourism information
+                    </p>
+                </a>
+                
+                <a href="environment" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🌍</span>
+                    <h3 class="category-title">Environment & Health</h3>
+                    <p class="category-description">
+                        Noise complaints, food hygiene, pest control, pollution, and climate action
+                    </p>
+                </a>
+                
+                <a href="business" class="category-card">
+                    <span class="category-icon" aria-hidden="true">💼</span>
+                    <h3 class="category-title">Business Support</h3>
+                    <p class="category-description">
+                        Business rates, grants, funding, markets, and commercial property
+                    </p>
+                </a>
+                
+                <a href="community" class="category-card">
+                    <span class="category-icon" aria-hidden="true">🤝</span>
+                    <h3 class="category-title">Community & Safety</h3>
+                    <p class="category-description">
+                        Community grants, anti-social behaviour, volunteering, and events
+                    </p>
+                </a>
+                
+                <a href="about" class="category-card">
+                    <span class="category-icon" aria-hidden="true">ℹ️</span>
+                    <h3 class="category-title">About the Council</h3>
+                    <p class="category-description">
+                        Councillors, meetings, elections, strategies, budgets, and jobs
+                    </p>
+                </a>
+                
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- News Section -->
+    <section class="news-section" aria-labelledby="news-title">
+        <div class="news-container">
+            <h2 id="news-title" class="section-title">Latest news</h2>
+            
+            <div class="news-grid">
+                
+                <article class="news-card">
+                    <a href="news/purple-flag-award">
+                        <h3 class="news-title">Gloucester is a Purple Flag City</h3>
+                        <p class="news-excerpt">
+                            Gloucester holds the Purple Flag National Safety award, 
+                            recognizing our commitment to making the City safer.
+                        </p>
+                        <span class="news-link">Read more →</span>
+                    </a>
+                </article>
+                
+                <article class="news-card">
+                    <a href="news/watch-meetings-online">
+                        <h3 class="news-title">Watch our meetings online</h3>
+                        <p class="news-excerpt">
+                            Follow our YouTube channel to see how the council makes 
+                            decisions about improving our City for residents.
+                        </p>
+                        <span class="news-link">Watch now →</span>
+                    </a>
+                </article>
+                
+                <article class="news-card">
+                    <a href="cost-of-living">
+                        <h3 class="news-title">Cost of living support</h3>
+                        <p class="news-excerpt">
+                            Information and support available if you're struggling 
+                            with the cost of living.
+                        </p>
+                        <span class="news-link">Get help →</span>
+                    </a>
+                </article>
+                
+            </div>
+        </div>
+    </section>
+    <section class="feedback-panel" aria-labelledby="feedback-heading">
+  <div class="feedback-inner">
+    <h2 id="feedback-heading" class="feedback-title">Was this page helpful?</h2>
+
+    <div class="feedback-buttons" role="group" aria-label="Page feedback">
+      <button
+        type="button"
+        class="feedback-btn feedback-yes"
+        aria-label="Yes, this page was helpful"
+        data-rating="positive"
+      >
+        👍 Yes, it helped
+      </button>
+
+      <button
+        type="button"
+        class="feedback-btn feedback-no"
+        aria-label="No, this page was not helpful"
+        data-rating="negative"
+      >
+        👎 No, it didn't
+      </button>
+    </div>
+
+    <form id="feedback-form" class="feedback-form" hidden>
+      <label for="feedback-comments" id="feedback-prompt">
+        Tell us more (optional)
+      </label>
+      <textarea
+        id="feedback-comments"
+        rows="3"
+        placeholder="Your comments…"
+      ></textarea>
+
+      <label for="feedback-email">
+        Email (optional, if you'd like a reply)
+      </label>
+      <input
+        type="email"
+        id="feedback-email"
+        placeholder="you@example.com"
+      />
+
+      <button type="submit" class="feedback-submit">
+        Submit feedback
+      </button>
+    </form>
+
+    <p id="feedback-thanks" class="feedback-thanks" hidden>
+      ✅ Thanks for your feedback — it helps us improve this service.
+    </p>
+  </div>
+</section>
+
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-container">
+            
+            <div class="footer-grid">
+                
+                <!-- Brand Column -->
+                <div class="footer-section">
+                    <img 
+                        src="assets/images/GCC_logo.svg" 
+                        alt="Gloucester City Council"
+                        class="footer-logo"
+                        loading="lazy"
+                    >
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/GloucesterCityCouncil/" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com/GloucesterCity" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h3>Quick links</h3>
+                    <ul class="footer-links">
+                        <li><a href="Bins/collection-day.html">Check bin day</a></li>
+                        <li><a href="council-tax/pay">Pay Council Tax</a></li>
+                        <li><a href="planning/search">Planning applications</a></li>
+                        <li><a href="report">Report a problem</a></li>
+                    </ul>
+                </div>
+                
+                <!-- About Gloucester -->
+                <div class="footer-section">
+                    <h3>About Gloucester</h3>
+                    <ul class="footer-links">
+                        <li><a href="http://visitgloucester.co.uk/">Visit Gloucester</a></li>
+                        <li><a href="find-councillor">Find your councillor</a></li>
+                        <li><a href="https://www.gloucesterlottery.co.uk/">Gloucester Lottery</a></li>
+                        <li><a href="jobs">Jobs & careers</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Using our site -->
+                <div class="footer-section">
+                    <h3>Using our site</h3>
+                    <ul class="footer-links">
+                        <li><a href="privacy">Privacy & cookies</a></li>
+                        <li><a href="accessibility">Accessibility</a></li>
+                        <li><a href="sitemap">Sitemap</a></li>
+                        <li><a href="contact">Contact us</a></li>
+                        <li><a href="feedback">Feedback</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Gloucester City Council. All rights reserved.</p>
+                <p>Registered office: Gloucester City Council, Eastgate Management Suite, Eastgate Street, Gloucester GL1 1PA</p>
+            </div>
+            
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+    
 </body>
 </html>
