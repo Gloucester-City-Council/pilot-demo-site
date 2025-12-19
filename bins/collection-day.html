@@ -465,8 +465,11 @@
                                pattern="[A-Za-z]{1,2}[0-9]{1,2}[A-Za-z]?\s?[0-9][A-Za-z]{2}"
                                aria-describedby="postcode-help">
                         <p id="postcode-help" class="form-help">Enter your full postcode, including the space</p>
-                        
-                        <button type="submit">Find my collection days</button>
+
+                        <button type="submit" id="submit-collection-lookup" disabled style="opacity: 0.5; cursor: not-allowed;">Find my collection days</button>
+                        <p id="address-selection-hint" style="margin-top: 0.5rem; font-size: 0.9rem; color: #666; display: none;">
+                            ℹ️ Please select your address from the list above
+                        </p>
                     </form>
                 </div>
 
@@ -1094,7 +1097,11 @@ async function lookupAddresses(postcode) {
         
         // Insert BEFORE the submit button
         submitButton.parentElement.insertBefore(addressGroup, submitButton);
-        
+
+        // Show hint to select address
+        const hint = document.getElementById('address-selection-hint');
+        if (hint) hint.style.display = 'block';
+
         const select = document.getElementById('address-select');
         data.addresses.forEach(addr => {
             const option = document.createElement('option');
@@ -1109,7 +1116,22 @@ async function lookupAddresses(postcode) {
         
         select.addEventListener('change', function() {
             selectedUprn = this.value;
-            
+
+            // Enable submit button when address is selected
+            const submitBtn = document.getElementById('submit-collection-lookup');
+            const hint = document.getElementById('address-selection-hint');
+            if (this.value) {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
+                if (hint) hint.style.display = 'none';
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.5';
+                submitBtn.style.cursor = 'not-allowed';
+                if (hint) hint.style.display = 'block';
+            }
+
             // Save address if checkbox is checked
             const rememberCheckbox = document.getElementById('remember-address');
             if (rememberCheckbox && rememberCheckbox.checked && this.value) {
