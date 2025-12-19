@@ -841,7 +841,10 @@ function setupCalendarButton() {
     const calendarBtn = document.getElementById('add-to-calendar');
     if (!calendarBtn) return;
 
-    calendarBtn.addEventListener('click', function() {
+    // Remove existing listener if any
+    if (calendarBtn._calendarListenerAttached) return;
+
+    const handleClick = function() {
         if (!currentUprn) {
             alert('Please look up your address first to add calendar reminders.');
             return;
@@ -852,7 +855,10 @@ function setupCalendarButton() {
 
         // Show modal with instructions
         showCalendarInstructions(webcalUrl);
-    });
+    };
+
+    calendarBtn.addEventListener('click', handleClick);
+    calendarBtn._calendarListenerAttached = true;
 }
 
 function showCalendarInstructions(webcalUrl) {
@@ -995,9 +1001,6 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Set up form submission
     setupFormSubmission();
-
-    // Set up calendar subscription button
-    setupCalendarButton();
 });
 
 function showSavedAddress(savedAddress) {
@@ -1320,7 +1323,10 @@ function displayCollectionResults(data) {
     // Show results
     resultsDiv.hidden = false;
     resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    
+
+    // Set up calendar button now that results are visible
+    setupCalendarButton();
+
     console.log('Collection data loaded:', {
         containers: data.containerCount,
         nextCollection: nextCollectionDate,
