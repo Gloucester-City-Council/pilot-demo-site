@@ -837,12 +837,154 @@ function clearSavedAddress() {
     location.reload();
 }
 
+function setupCalendarButton() {
+    const calendarBtn = document.getElementById('add-to-calendar');
+    if (!calendarBtn) return;
+
+    calendarBtn.addEventListener('click', function() {
+        if (!currentUprn) {
+            alert('Please look up your address first to add calendar reminders.');
+            return;
+        }
+
+        // Create webcal URL
+        const webcalUrl = `webcal://gcc-api-pilot.azurewebsites.net/api/bins-webcal/${currentUprn}`;
+
+        // Show modal with instructions
+        showCalendarInstructions(webcalUrl);
+    });
+}
+
+function showCalendarInstructions(webcalUrl) {
+    // Create modal
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        padding: 1rem;
+    `;
+
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    `;
+
+    modalContent.innerHTML = `
+        <h2 style="margin: 0 0 1.5rem 0; color: #2d6a4f;">📅 Subscribe to Bin Collection Reminders</h2>
+
+        <p style="margin: 0 0 1.5rem 0; line-height: 1.6;">
+            Get automatic reminders for your bin collection days in your calendar app.
+            This calendar will update automatically when collection dates change.
+        </p>
+
+        <div style="background: #f0f7ff; border-left: 4px solid #2563eb; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+            <h3 style="margin: 0 0 0.75rem 0; font-size: 1rem; color: #1e40af;">📱 For iPhone/iPad (Apple Calendar)</h3>
+            <ol style="margin: 0; padding-left: 1.5rem; line-height: 1.8;">
+                <li>Tap the "Subscribe Now" button below</li>
+                <li>Tap "Subscribe" when prompted</li>
+                <li>Your bin collection dates will appear in your calendar</li>
+            </ol>
+        </div>
+
+        <div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+            <h3 style="margin: 0 0 0.75rem 0; font-size: 1rem; color: #15803d;">🖥️ For Outlook (Desktop)</h3>
+            <ol style="margin: 0; padding-left: 1.5rem; line-height: 1.8;">
+                <li>Copy the calendar URL using the button below</li>
+                <li>Open Outlook and go to <strong>Calendar</strong></li>
+                <li>Click <strong>Add Calendar</strong> → <strong>From Internet</strong></li>
+                <li>Paste the URL and click <strong>OK</strong></li>
+            </ol>
+        </div>
+
+        <div style="background: #fef3f2; border-left: 4px solid #dc2626; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+            <h3 style="margin: 0 0 0.75rem 0; font-size: 1rem; color: #b91c1c;">📧 For Outlook.com / Gmail (Web)</h3>
+            <ol style="margin: 0; padding-left: 1.5rem; line-height: 1.8;">
+                <li>Copy the calendar URL below</li>
+                <li>Go to your calendar settings</li>
+                <li>Look for "Subscribe to calendar" or "Add calendar by URL"</li>
+                <li>Paste the URL (change <code style="background: #fecaca; padding: 0.2rem 0.4rem; border-radius: 3px; font-size: 0.9em;">webcal://</code> to <code style="background: #fecaca; padding: 0.2rem 0.4rem; border-radius: 3px; font-size: 0.9em;">https://</code>)</li>
+            </ol>
+        </div>
+
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <p style="margin: 0 0 0.5rem 0; font-weight: 600; font-size: 0.9rem; color: #666;">Calendar URL:</p>
+            <code id="webcal-url" style="display: block; background: white; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.85rem; word-break: break-all; color: #1a1a1a;">${webcalUrl}</code>
+        </div>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="${webcalUrl}" style="flex: 1; min-width: 150px; background: #2d6a4f; color: white; text-decoration: none; padding: 0.875rem 1.5rem; border-radius: 8px; text-align: center; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='#1b4332'" onmouseout="this.style.background='#2d6a4f'">
+                Subscribe Now
+            </a>
+            <button id="copy-url-btn" style="flex: 1; min-width: 150px; background: #0ea5e9; color: white; border: none; padding: 0.875rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#0284c7'" onmouseout="this.style.background='#0ea5e9'">
+                Copy URL
+            </button>
+            <button id="close-modal-btn" style="flex: 1; min-width: 150px; background: #6b7280; color: white; border: none; padding: 0.875rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#4b5563'" onmouseout="this.style.background='#6b7280'">
+                Close
+            </button>
+        </div>
+    `;
+
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+
+    // Copy URL button
+    document.getElementById('copy-url-btn').addEventListener('click', function() {
+        const urlText = webcalUrl;
+        navigator.clipboard.writeText(urlText).then(function() {
+            const btn = document.getElementById('copy-url-btn');
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            btn.style.background = '#16a34a';
+            setTimeout(function() {
+                btn.textContent = originalText;
+                btn.style.background = '#0ea5e9';
+            }, 2000);
+        }).catch(function() {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = urlText;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Calendar URL copied to clipboard!');
+        });
+    });
+
+    // Close button and backdrop click
+    document.getElementById('close-modal-btn').addEventListener('click', function() {
+        document.body.removeChild(modal);
+    });
+
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
+
 // Initialize on page load
 let selectedUprn = null;
 
 window.addEventListener('DOMContentLoaded', function() {
     const savedAddress = getSavedAddress();
-    
+
     if (savedAddress) {
         // User has saved address - show it and auto-load bins
         showSavedAddress(savedAddress);
@@ -850,9 +992,12 @@ window.addEventListener('DOMContentLoaded', function() {
         // No saved address - set up postcode auto-lookup
         setupPostcodeLookup();
     }
-    
+
     // Set up form submission
     setupFormSubmission();
+
+    // Set up calendar subscription button
+    setupCalendarButton();
 });
 
 function showSavedAddress(savedAddress) {
@@ -1030,6 +1175,8 @@ function setupFormSubmission() {
     });
 }
 
+let currentUprn = null;
+
 async function loadBinsForUprn(uprn) {
     const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/bins-by-uprn', {
         method: 'POST',
@@ -1041,17 +1188,20 @@ async function loadBinsForUprn(uprn) {
             binUprn: uprn
         })
     });
-    
+
     if (!response.ok) {
         throw new Error('Could not find collection information');
     }
-    
+
     const data = await response.json();
-    
+
     if (!data.success || !data.containers) {
         throw new Error('No collection data available');
     }
-    
+
+    // Store UPRN for calendar subscription
+    currentUprn = uprn;
+
     displayCollectionResults(data);
 }
 
