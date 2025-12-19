@@ -97,57 +97,148 @@
     function initFeedbackWidget() {
         const panel = document.querySelector('.feedback-panel');
         if (!panel) return;
-        
+
         const buttons = panel.querySelectorAll('.feedback-btn');
         const form = panel.querySelector('#feedback-form');
         const thanks = panel.querySelector('#feedback-thanks');
         const prompt = panel.querySelector('#feedback-prompt');
         const commentsField = panel.querySelector('#feedback-comments');
         const emailField = panel.querySelector('#feedback-email');
-        
+
         form.hidden = true;
         thanks.hidden = true;
-        
+
         if (!buttons.length || !form || !thanks || !prompt || !commentsField || !emailField) {
             return;
         }
-        
+
         let selectedRating = null;
         let selectedUI = null;
-        
+        let feedbackSelect = null;
+
+        // Create dropdown element (will be inserted dynamically)
+        function createFeedbackDropdown(rating) {
+            // Remove existing dropdown if present
+            const existingSelect = form.querySelector('#feedback-category');
+            if (existingSelect) {
+                existingSelect.parentElement.remove();
+            }
+
+            const wrapper = document.createElement('div');
+            wrapper.style.marginBottom = '1rem';
+
+            const label = document.createElement('label');
+            label.setAttribute('for', 'feedback-category');
+            label.textContent = 'What best describes your feedback?';
+            label.style.display = 'block';
+            label.style.marginBottom = '0.5rem';
+            label.style.fontWeight = '600';
+
+            const select = document.createElement('select');
+            select.id = 'feedback-category';
+            select.name = 'feedback-category';
+            select.required = true;
+            select.style.width = '100%';
+            select.style.padding = '0.75rem';
+            select.style.borderRadius = '4px';
+            select.style.border = '2px solid #d1d5db';
+            select.style.fontSize = '1rem';
+            select.style.marginBottom = '0.5rem';
+
+            // Default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '-- Please select --';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            select.appendChild(defaultOption);
+
+            // Different options based on rating
+            const positiveOptions = [
+                'Easy to use',
+                'Found what I needed',
+                'Clear and helpful information',
+                'Good page layout',
+                'Quick and efficient',
+                'Other'
+            ];
+
+            const negativeOptions = [
+                'Hard to find information',
+                'Confusing layout or navigation',
+                'Information is missing or unclear',
+                'Broken link or technical error',
+                'Page loads too slowly',
+                'Other'
+            ];
+
+            const options = rating === 'positive' ? positiveOptions : negativeOptions;
+
+            options.forEach(function(optionText) {
+                const option = document.createElement('option');
+                option.value = optionText;
+                option.textContent = optionText;
+                select.appendChild(option);
+            });
+
+            wrapper.appendChild(label);
+            wrapper.appendChild(select);
+
+            // Insert before the prompt paragraph
+            form.insertBefore(wrapper, prompt);
+
+            return select;
+        }
+
         buttons.forEach(function(btn) {
             btn.addEventListener('click', function() {
                 selectedRating = btn.getAttribute('data-rating');
                 selectedUI = selectedRating === 'positive' ? 'thumbs_up' : 'thumbs_down';
-                
+
+                // Create and insert dropdown
+                feedbackSelect = createFeedbackDropdown(selectedRating);
+
                 if (selectedRating === 'positive') {
-                    prompt.textContent = 'What worked well? (optional)';
+                    prompt.textContent = 'Additional comments (optional)';
                 } else {
-                    prompt.textContent = 'What did not work or could be improved? (optional)';
+                    prompt.textContent = 'Additional details (optional)';
                 }
-                
+
+                // Update label for comments field to clarify it's now optional/additional
+                const commentsLabel = form.querySelector('label[for="feedback-comments"]');
+                if (commentsLabel) {
+                    commentsLabel.textContent = 'Additional comments (optional)';
+                }
+
                 form.hidden = false;
-                commentsField.focus();
+                feedbackSelect.focus();
             });
         });
-        
+
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             if (!selectedRating) {
                 console.warn('Feedback submitted without a rating - ignoring.');
                 return;
             }
-            
-            const comments = commentsField.value.trim() || null;
+
+            const category = feedbackSelect ? feedbackSelect.value : '';
+            const comments = commentsField.value.trim();
             const email = emailField.value.trim() || null;
-            
+
+            // Combine selection and comment in format: "Selection - comment"
+            let combinedFeedback = category;
+            if (comments) {
+                combinedFeedback = category + ' - ' + comments;
+            }
+
             const feedbackPayload = {
                 pageUrl: window.location.href,
                 serviceId: document.body.dataset.serviceId || 'unknown',
                 rating: selectedRating,
                 uiChoice: selectedUI,
-                comments: comments,
+                comments: combinedFeedback,
                 email: email,
                 journeyStage: 'after_attempt',
                 userAgent: navigator.userAgent,
@@ -155,9 +246,9 @@
                 source: 'static-site-v1',
                 createdAt: new Date().toISOString()
             };
-            
+
             console.log('Feedback event:', feedbackPayload);
-            
+
             try {
                 const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/submitFeedback', {
                     method: 'POST',
@@ -167,22 +258,27 @@
                     },
                     body: JSON.stringify(feedbackPayload)
                 });
-                
+
                 if (!response.ok) {
                     throw new Error('Failed to submit feedback');
                 }
-                
+
                 const result = await response.json();
                 console.log('Feedback submitted successfully:', result);
-                
+
                 form.hidden = true;
                 thanks.hidden = false;
-                
+
+                // Clean up
+                if (feedbackSelect && feedbackSelect.parentElement) {
+                    feedbackSelect.parentElement.remove();
+                }
                 commentsField.value = '';
                 emailField.value = '';
                 selectedRating = null;
                 selectedUI = null;
-                
+                feedbackSelect = null;
+
             } catch (error) {
                 console.error('Error submitting feedback:', error);
                 form.hidden = true;
