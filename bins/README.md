@@ -2,9 +2,9 @@
 
 This folder contains an alternative, simplified approach to bin pages following best practices from exemplar UK councils.
 
-## Key Differences from `/Bins/`
+## Key Differences from `/bins/`
 
-### **Problem with `/Bins/` Structure:**
+### **Problem with `/bins/` Structure:**
 
 **Too many entry points:**
 - `index.html` = Main hub with 6 quick actions + 8 category cards (40+ links)
@@ -84,7 +84,7 @@ Home (index.html) → Task Page → Complete
 
 ## Comparison Table
 
-| Feature | `/Bins/` | `/bins2/` |
+| Feature | `/bins/` | `/bins/` |
 |---------|----------|-----------|
 | **Entry points** | 2 (index + bin-services) | 1 (index only) |
 | **Quick actions** | 6 | 6 |
@@ -99,35 +99,35 @@ Home (index.html) → Task Page → Complete
 ## User Journey Examples
 
 ### Scenario 1: "I need to check my bin day"
-**`/Bins/`:** index.html → Click "Check your bin day" (1 click) ✅
-**`/bins2/`:** index.html → Click "Check your bin day" (1 click) ✅
+**`/bins/`:** index.html → Click "Check your bin day" (1 click) ✅
+**`/bins/`:** index.html → Click "Check your bin day" (1 click) ✅
 
 **Winner:** Tie (both 1 click)
 
 ---
 
 ### Scenario 2: "I'm new to Gloucester, how do I get bins?"
-**`/Bins/`:**
+**`/bins/`:**
 - Option A: index.html → "Order bins & containers" quick action → bin-services.html → "New to Gloucester" section (2 clicks)
 - Option B: index.html → "Bins and containers" category → "All your bins & containers" link → bin-services.html (2 clicks)
 - **Confusion:** Two paths to same destination
 
-**`/bins2/`:**
+**`/bins/`:**
 - index.html → "Order bins & containers" → order-bins.html → "New to Gloucester" section (1 click)
 
-**Winner:** `/bins2/` (clearer path, no confusion)
+**Winner:** `/bins/` (clearer path, no confusion)
 
 ---
 
 ### Scenario 3: "I need assisted collections"
-**`/Bins/`:**
+**`/bins/`:**
 - Option A: index.html → Scroll to "Help and support" category → "Assisted bin collections" (2 clicks, requires scrolling past 7 categories)
 - Option B: index.html → "Order bins & containers" → bin-services.html → See link in sidebar (2-3 clicks)
 
-**`/bins2/`:**
+**`/bins/`:**
 - index.html → Scroll to "Browse all" A-Z list → "Assisted collections" (1 click, list is visible without scrolling)
 
-**Winner:** `/bins2/` (faster, simpler)
+**Winner:** `/bins/` (faster, simpler)
 
 ---
 
@@ -200,7 +200,7 @@ Home (index.html) → Task Page → Complete
 
 ## Recommendation
 
-**Use `/bins2/` approach** for the following reasons:
+**Use `/bins/` approach** for the following reasons:
 
 1. **Follows UK GOV.UK design principles**
 2. **Matches exemplar council best practices**
@@ -213,10 +213,10 @@ Home (index.html) → Task Page → Complete
 
 ## Next Steps
 
-1. User test both `/Bins/` and `/bins2/` approaches
+1. User test both `/bins/` and `/bins/` approaches
 2. Measure task completion rates
 3. Gather user feedback on clarity
-4. If `/bins2/` performs better, migrate and archive `/Bins/`
+4. If `/bins/` performs better, migrate and archive `/bins/`
 
 ---
 
