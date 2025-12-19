@@ -1100,8 +1100,8 @@ async function loadBinsForProperty() {
         const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/bins-by-uprn', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
-                // Note: API authentication should be handled server-side
+                'Content-Type': 'application/json',
+                'x-api-token': 'oije8u23984uoriwfjowei2398470'
             },
             body: JSON.stringify({
                 binUprn: uprn
@@ -1314,8 +1314,8 @@ document.getElementById('missed-bin-form').addEventListener('submit', async func
         const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/submitMissedCollection', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
-                // Note: API authentication should be handled server-side
+                'Content-Type': 'application/json',
+                'x-api-token': 'oije8u23984uoriwfjowei2398470'
             },
             body: JSON.stringify(formData)
         });
