@@ -94,7 +94,7 @@
         .cta-button {
             display: inline-block;
             background: #2d6a4f;
-            color: white;
+            color: white !important;
             padding: 1rem 2rem;
             border-radius: 8px;
             text-decoration: none;
@@ -105,8 +105,20 @@
 
         .cta-button:hover {
             background: #1b4332;
+            color: white !important;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(45, 106, 79, 0.4);
+        }
+
+        .cta-button:visited {
+            color: white !important;
+        }
+
+        .cta-button:active,
+        .cta-button:focus {
+            color: white !important;
+            outline: 3px solid #fbbf24;
+            outline-offset: 2px;
         }
 
         .highlight-box {
@@ -224,6 +236,75 @@
             font-size: 0.95rem;
             line-height: 1.5;
         }
+
+        .intro-text {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 2rem;
+        }
+
+        .section-description {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-heading {
+            font-size: 2rem;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .subsection-heading {
+            margin: 2rem 0 1rem 0;
+            color: #2d6a4f;
+        }
+
+        .text-muted {
+            color: #4a5568;
+        }
+
+        .text-list {
+            padding-left: 1.5rem;
+            color: #4a5568;
+        }
+
+        .contact-grid {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .contact-grid-inner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-method h3 {
+            color: #2d6a4f;
+            margin: 0 0 1rem 0;
+        }
+
+        .contact-method p {
+            color: #4a5568;
+            margin: 0;
+        }
+
+        .contact-method a {
+            color: #2d6a4f;
+            font-weight: 600;
+        }
+
+        .contact-phone a {
+            font-size: 1.25rem;
+        }
+
+        .contact-note {
+            color: #6b7280;
+            margin: 0.5rem 0 0 0;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 
@@ -291,7 +372,7 @@
             <!-- LEFT COLUMN -->
             <div class="service-main">
 
-                <p style="font-size: 1.25rem; line-height: 1.6; color: #4a5568; margin-bottom: 2rem;">
+                <p class="intro-text">
                     Whether you're new to Gloucester, need replacement containers, or live in a flat, we'll help you get the right bins and recycling containers for your home.
                 </p>
 
@@ -299,7 +380,7 @@
                 <section aria-labelledby="home-setup">
                     <div class="situation-card">
                         <h3><span class="icon">🏠</span> Your Home Setup</h3>
-                        <p style="color: #4a5568; margin-bottom: 1.5rem;">Everything you need to get bins and containers for your house or individual property.</p>
+                        <p class="section-description">Everything you need to get bins and containers for your house or individual property.</p>
 
                         <ul class="service-list-enhanced">
                             <li>
@@ -368,7 +449,7 @@
                 <section aria-labelledby="flats-shared">
                     <div class="situation-card">
                         <h3><span class="icon">🏢</span> Flats & Shared Properties</h3>
-                        <p style="color: #4a5568; margin-bottom: 1.5rem;">If you live in a flat or apartment, you'll likely have communal bins instead of individual containers.</p>
+                        <p class="section-description">If you live in a flat or apartment, you'll likely have communal bins instead of individual containers.</p>
 
                         <div class="highlight-box">
                             <h4>What you'll have</h4>
@@ -385,16 +466,16 @@
                             <strong>Recycling and general waste:</strong> Fortnightly on alternating weeks</p>
                         </div>
 
-                        <h4 style="margin: 2rem 0 1rem 0; color: #2d6a4f;">Bin sizes for flats</h4>
-                        <p style="color: #4a5568; margin-bottom: 1rem;">The number and size of bins depends on how many flats share them:</p>
-                        <ul style="padding-left: 1.5rem; color: #4a5568;">
+                        <h4 class="subsection-heading">Bin sizes for flats</h4>
+                        <p class="text-muted" style="margin-bottom: 1rem;">The number and size of bins depends on how many flats share them:</p>
+                        <ul class="text-list">
                             <li>For every 8 flats: One 1100L communal bin</li>
                             <li>Recycling bins: 240L or 360L depending on the development</li>
                         </ul>
 
-                        <h4 style="margin: 2rem 0 1rem 0; color: #2d6a4f;">Problems with communal bins?</h4>
-                        <p style="color: #4a5568; margin-bottom: 1rem;">If your communal bins are:</p>
-                        <ul style="padding-left: 1.5rem; color: #4a5568;">
+                        <h4 class="subsection-heading">Problems with communal bins?</h4>
+                        <p class="text-muted" style="margin-bottom: 1rem;">If your communal bins are:</p>
+                        <ul class="text-list">
                             <li>Always full or overflowing</li>
                             <li>Damaged or need replacing</li>
                             <li>Not being collected properly</li>
@@ -409,7 +490,7 @@
                 <section aria-labelledby="developers">
                     <div class="situation-card">
                         <h3><span class="icon">🏗️</span> Developers & New Builds</h3>
-                        <p style="color: #4a5568; margin-bottom: 1.5rem;">Information for developers, builders, and residents moving into new build properties.</p>
+                        <p class="section-description">Information for developers, builders, and residents moving into new build properties.</p>
 
                         <div class="highlight-box">
                             <h4>When will new properties get bins?</h4>
@@ -438,36 +519,36 @@
                             </div>
                             <div class="expandable-content">
                                 <div class="expandable-inner">
-                                    <h5 style="color: #2d6a4f; margin: 0 0 1rem 0;">Bin store requirements</h5>
-                                    <p style="color: #4a5568; margin-bottom: 1rem;">Developers must consider bin storage as part of planning submissions:</p>
-                                    <ul style="padding-left: 1.5rem; color: #4a5568; margin-bottom: 1.5rem;">
+                                    <h5 class="subsection-heading" style="margin: 0 0 1rem 0;">Bin store requirements</h5>
+                                    <p class="text-muted" style="margin-bottom: 1rem;">Developers must consider bin storage as part of planning submissions:</p>
+                                    <ul class="text-list" style="margin-bottom: 1.5rem;">
                                         <li>Collections can only be made from designated bin stores with adequate access</li>
                                         <li>Under Building Regulations (2010) Part H: Householders must not carry waste containers further than 30m</li>
                                         <li>Bin stores must be accessible for collection vehicles</li>
                                     </ul>
 
-                                    <h5 style="color: #2d6a4f; margin: 1.5rem 0 1rem 0;">Storage space calculations</h5>
-                                    <p style="color: #4a5568; margin-bottom: 0.5rem;"><strong>For individual houses:</strong></p>
-                                    <ul style="padding-left: 1.5rem; color: #4a5568; margin-bottom: 1rem;">
+                                    <h5 class="subsection-heading">Storage space calculations</h5>
+                                    <p class="text-muted" style="margin-bottom: 0.5rem;"><strong>For individual houses:</strong></p>
+                                    <ul class="text-list" style="margin-bottom: 1rem;">
                                         <li>1 x 180L black bin (collected fortnightly)</li>
                                         <li>2 x green boxes for recycling</li>
                                         <li>1 x blue sack</li>
                                         <li>1 x outdoor food caddy</li>
                                     </ul>
 
-                                    <p style="color: #4a5568; margin-bottom: 0.5rem;"><strong>For flats/multiple occupancy:</strong></p>
-                                    <ul style="padding-left: 1.5rem; color: #4a5568; margin-bottom: 1.5rem;">
+                                    <p class="text-muted" style="margin-bottom: 0.5rem;"><strong>For flats/multiple occupancy:</strong></p>
+                                    <ul class="text-list" style="margin-bottom: 1.5rem;">
                                         <li>1 x 1100L bin per 8 flats</li>
                                         <li>240L or 360L recycling bins as appropriate</li>
                                         <li>1 x 140L communal food waste bin per bin store</li>
                                     </ul>
 
-                                    <h5 style="color: #2d6a4f; margin: 1.5rem 0 1rem 0;">Contact for developers</h5>
-                                    <p style="color: #4a5568; margin: 0;">
+                                    <h5 class="subsection-heading">Contact for developers</h5>
+                                    <p class="text-muted" style="margin: 0;">
                                         For full waste storage and collection guidance, download the
-                                        <a href="https://www.gloucester.gov.uk/media/trqgrqer/waste-storage-and-collection-guidance-february-2020.pdf" style="color: #2d6a4f; font-weight: 600;">Waste & Recycling Storage Guidance (PDF)</a>
+                                        <a href="https://www.gloucester.gov.uk/media/trqgrqer/waste-storage-and-collection-guidance-february-2020.pdf" class="contact-method" style="text-decoration: underline;">Waste & Recycling Storage Guidance (PDF)</a>
                                     </p>
-                                    <p style="color: #4a5568; margin-top: 1rem;">
+                                    <p class="text-muted" style="margin-top: 1rem;">
                                         To arrange a site visit: <strong><a href="tel:+441452396396">01452 396 396</a></strong>
                                     </p>
                                 </div>
@@ -478,24 +559,24 @@
 
                 <!-- CONTACT -->
                 <section aria-labelledby="contact-section" style="margin-top: 3rem;">
-                    <h2 id="contact-section" style="font-size: 2rem; margin: 0 0 1.5rem 0;">Contact us about bins and containers</h2>
+                    <h2 id="contact-section" class="section-heading">Contact us about bins and containers</h2>
 
-                    <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                            <div>
-                                <h3 style="color: #2d6a4f; margin: 0 0 1rem 0;">📞 Phone</h3>
-                                <p style="color: #4a5568; margin: 0;"><a href="tel:+441452396396" style="color: #2d6a4f; font-weight: 600; font-size: 1.25rem;">01452 396 396</a></p>
-                                <p style="color: #6b7280; margin: 0.5rem 0 0 0; font-size: 0.95rem;">Monday to Friday, 8:30am to 5pm</p>
+                    <div class="contact-grid">
+                        <div class="contact-grid-inner">
+                            <div class="contact-method contact-phone">
+                                <h3>📞 Phone</h3>
+                                <p><a href="tel:+441452396396">01452 396 396</a></p>
+                                <p class="contact-note">Monday to Friday, 8:30am to 5pm</p>
                             </div>
-                            <div>
-                                <h3 style="color: #2d6a4f; margin: 0 0 1rem 0;">📧 Email</h3>
-                                <p style="color: #4a5568; margin: 0;"><a href="mailto:heretohelp@gloucester.gov.uk" style="color: #2d6a4f; font-weight: 600;">heretohelp@gloucester.gov.uk</a></p>
-                                <p style="color: #6b7280; margin: 0.5rem 0 0 0; font-size: 0.95rem;">We aim to reply within 2 working days</p>
+                            <div class="contact-method">
+                                <h3>📧 Email</h3>
+                                <p><a href="mailto:heretohelp@gloucester.gov.uk">heretohelp@gloucester.gov.uk</a></p>
+                                <p class="contact-note">We aim to reply within 2 working days</p>
                             </div>
-                            <div>
-                                <h3 style="color: #2d6a4f; margin: 0 0 1rem 0;">💻 Online</h3>
-                                <p style="color: #4a5568; margin: 0;"><a href="https://gloucester-self.achieveservice.com/service/Bins___Order_recycling_containers" style="color: #2d6a4f; font-weight: 600;">Order containers online</a></p>
-                                <p style="color: #6b7280; margin: 0.5rem 0 0 0; font-size: 0.95rem;">Quickest way to order recycling containers</p>
+                            <div class="contact-method">
+                                <h3>💻 Online</h3>
+                                <p><a href="https://gloucester-self.achieveservice.com/service/Bins___Order_recycling_containers">Order containers online</a></p>
+                                <p class="contact-note">Quickest way to order recycling containers</p>
                             </div>
                         </div>
                     </div>
