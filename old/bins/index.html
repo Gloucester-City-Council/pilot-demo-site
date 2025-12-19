@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Household waste and recycling collection services in Gloucester. Check your bin day, find out what goes in each bin, and manage your bins online.">
+    <meta name="description" content="Household waste and recycling collection services in Gloucester. Check your bin day, find out what goes in each bin, report missed collections and order new bins.">
     <base href="/pilot-demo-site/">
     <title>Bins and Recycling | Gloucester City Council</title>
 
@@ -19,11 +19,20 @@
       "@context": "https://schema.org",
       "@type": "GovernmentService",
       "name": "Bins and Recycling",
-      "description": "Regular collection of household waste and recycling from your property",
+      "description": "Regular collection of household waste and recycling from your property to protect public health and maintain clean streets",
       "serviceUrl": "https://www.gloucester.gov.uk/bins",
       "provider": {
         "@type": "GovernmentOrganization",
-        "name": "Gloucester City Council"
+        "name": "Gloucester City Council",
+        "url": "https://www.gloucester.gov.uk",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Eastgate Management Suite, Eastgate Street",
+          "addressLocality": "Gloucester",
+          "postalCode": "GL1 1PA",
+          "addressCountry": "GB"
+        },
+        "telephone": "+44-1452-396396"
       },
       "serviceType": "Waste Collection",
       "areaServed": {
@@ -59,7 +68,7 @@
                 </form>
             </div>
         </div>
-
+        
         <!-- Welcome Banner -->
         <h1 class="welcome-banner">
             Bins and Recycling
@@ -79,15 +88,15 @@
         </div>
     </nav>
 
-    <!-- TOP TASKS SECTION -->
-    <section class="hero-section" aria-labelledby="top-tasks-title">
+    <!-- HERO / QUICK ACTIONS -->
+    <section class="hero-section" aria-labelledby="quick-actions-title">
         <div class="hero-container">
             <div class="quick-actions">
-                <h2 id="top-tasks-title" class="quick-actions-title">
-                    What do you need to do?
+                <h2 id="quick-actions-title" class="quick-actions-title">
+                    What would you like to do?
                 </h2>
                 <p class="service-intro-text">
-                    Choose from the most common bin and recycling tasks.
+                    Choose the task you need help with.
                 </p>
 
                 <div class="actions-grid">
@@ -104,22 +113,22 @@
                         <span class="action-description">Get it right and recycle more</span>
                     </a>
 
-                    <a href="Bins/missed-collection.html" class="action-card">
+                    <a href="Bins/missed-collection2.html" class="action-card">
                         <span class="action-icon" aria-hidden="true">⚠️</span>
                         <span class="action-title">Report a missed collection</span><br>
                         <span class="action-description">We'll return within 2 working days</span>
                     </a>
 
-                    <a href="Bins/order-bins.html" class="action-card">
+                    <a href="Bins/bin-services.html" class="action-card">
                         <span class="action-icon" aria-hidden="true">🗑️</span>
                         <span class="action-title">Order bins & containers</span><br>
-                        <span class="action-description">Get bins for your home or flat</span>
+                        <span class="action-description">Get new bins or order recycling containers</span>
                     </a>
 
                     <a href="Bins/garden-waste.html" class="action-card">
                         <span class="action-icon" aria-hidden="true">🌱</span>
-                        <span class="action-title">Garden waste subscription</span><br>
-                        <span class="action-description">£60 per year collection service</span>
+                        <span class="action-title">Garden waste collection</span><br>
+                        <span class="action-description">Subscribe for £60 per year</span>
                     </a>
 
                     <a href="Bins/recycling-centres.html" class="action-card">
@@ -141,28 +150,116 @@
             <!-- LEFT COLUMN -->
             <div class="service-main">
 
-                <!-- BROWSE ALL SECTION -->
-                <section class="service-groups" aria-labelledby="browse-heading">
-                    <h2 id="browse-heading" class="section-title">Browse all bin services</h2>
-                    <p>Can't find what you need above? Browse the full A-Z list of bin and recycling services.</p>
+                <section class="service-groups" aria-labelledby="all-options-heading">
+                    <h2 id="all-options-heading" class="section-title">All options</h2>
+                    <p>Browse everything you can do with bins and recycling.</p>
 
-                    <div style="background: white; padding: 2rem; border-radius: 12px; margin: 2rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                        <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
-                            <li><a href="Bins/assisted-collections.html" style="color: #2d6a4f; text-decoration: none; display: block; padding: 0.75rem; border-radius: 6px; transition: background 0.2s;">→ Assisted collections</a></li>
-                            <li><a href="Bins/collection-day.html" style="color: #2d6a4f; text-decoration: none; display: block; padding: 0.75rem; border-radius: 6px; transition: background 0.2s;">→ Check your bin day</a></li>
-                            <li><a href="Bins/extra-or-larger-bin.html" style="color: #2d6a4f; text-decoration: none; display: block; padding: 0.75rem; border-radius: 6px; transition: background 0.2s;">→ Extra or larger black bin</a></li>
-                            <li><a href="Bins/garden-waste.html" style="color: #2d6a4f; text-decoration: none; display: block; padding: 0.75rem; border-radius: 6px; transition: background 0.2s;">→ Garden waste subscription</a></li>
-                            <li><a href="Bins/missed-collection.html" style="color: #2d6a4f; text-decoration: none; display: block; padding: 0.75rem; border-radius: 6px; transition: background 0.2s;">→ Missed collection</a></li>
-                            <li><a href="Bins/order-bins.html" style="color: #2d6a4f; text-decoration: none; display: block; padding: 0.75rem; border-radius: 6px; transition: background 0.2s;">→ Order bins & containers</a></li>
-                            <li><a href="Bins/recycling-centres.html" style="color: #2d6a4f; text-decoration: none; display: block; padding: 0.75rem; border-radius: 6px; transition: background 0.2s;">→ Recycling centres</a></li>
-                            <li><a href="Bins/what-goes-where.html" style="color: #2d6a4f; text-decoration: none; display: block; padding: 0.75rem; border-radius: 6px; transition: background 0.2s;">→ What goes in which bin</a></li>
-                        </ul>
+                    <div class="categories-grid">
+
+                        <!-- COLLECTION SERVICES -->
+                        <article class="category-card">
+                            <div class="category-icon" aria-hidden="true">📅</div>
+                            <h3 class="category-title">Collection services</h3>
+                            <p class="category-description">Find your collection day and manage your bin collections</p>
+                            <ul class="service-list">
+                                <li><a href="Bins/collection-day.html">Check your bin day</a></li>
+                                <li><a href="Bins/missed-collection2.html">Report a missed collection</a></li>
+                                <li><a href="Bins/putting-bins-out">How to put your bins out</a></li>
+                                <li><a href="Bins/collection-calendar">Download collection calendar</a></li>
+                            </ul>
+                        </article>
+
+                        <!-- RECYCLING GUIDANCE -->
+                        <article class="category-card">
+                            <div class="category-icon" aria-hidden="true">♻️</div>
+                            <h3 class="category-title">Recycling guidance</h3>
+                            <p class="category-description">Learn what can and cannot be recycled</p>
+                            <ul class="service-list">
+                                <li><a href="Bins/what-goes-where.html">What goes in which bin</a></li>
+                                <li><a href="Bins/recycling-tips">Recycling tips and advice</a></li>
+                                <li><a href="Bins/food-waste">Food waste recycling</a></li>
+                                <li><a href="Bins/contaminated-recycling">What happens if you get it wrong</a></li>
+                            </ul>
+                        </article>
+
+                        <!-- BINS AND CONTAINERS -->
+                        <article class="category-card">
+                            <div class="category-icon" aria-hidden="true">🗑️</div>
+                            <h3 class="category-title">Bins and containers</h3>
+                            <p class="category-description">Order, replace or get extra bins</p>
+                            <ul class="service-list">
+                                <li><a href="Bins/bin-services.html">All your bins & containers</a></li>
+                                <li><a href="Bins/order-bin">Order or replace a bin</a></li>
+                                <li><a href="Bins/extra-or-larger-bin.html">Extra or larger black bin</a></li>
+                                <li><a href="Bins/compostable-bags">Free compostable food bags</a></li>
+                            </ul>
+                        </article>
+
+                        <!-- GARDEN WASTE -->
+                        <article class="category-card">
+                            <div class="category-icon" aria-hidden="true">🌱</div>
+                            <h3 class="category-title">Garden waste</h3>
+                            <p class="category-description">Paid collection service for garden waste</p>
+                            <ul class="service-list">
+                                <li><a href="Bins/garden-waste.html">Subscribe to garden waste collection</a></li>
+                                <li><a href="Bins/garden-waste-what-we-collect">What we collect</a></li>
+                                <li><a href="Bins/garden-waste-dates">Collection dates and winter break</a></li>
+                                <li><a href="Bins/composting-at-home">Composting at home</a></li>
+                            </ul>
+                        </article>
+
+                        <!-- BULKY WASTE -->
+                        <article class="category-card">
+                            <div class="category-icon" aria-hidden="true">🛋️</div>
+                            <h3 class="category-title">Bulky waste</h3>
+                            <p class="category-description">Large items that don't fit in your bin</p>
+                            <ul class="service-list">
+                                <li><a href="Bins/bulky-waste">Book a bulky waste collection</a></li>
+                                <li><a href="Bins/what-we-collect-bulky">What we can collect</a></li>
+                                <li><a href="Bins/bulky-waste-charges">Charges and booking</a></li>
+                                <li><a href="Bins/reuse-donate">Donate or reuse items</a></li>
+                            </ul>
+                        </article>
+
+                        <!-- RECYCLING CENTRES -->
+                        <article class="category-card">
+                            <div class="category-icon" aria-hidden="true">🏭</div>
+                            <h3 class="category-title">Recycling centres</h3>
+                            <p class="category-description">Visit household waste recycling centres (tips)</p>
+                            <ul class="service-list">
+                                <li><a href="Bins/recycling-centres.html">Find your nearest recycling centre</a></li>
+                                <li><a href="https://www.gloucestershirerecycles.com/household-recycling-centres-hrcs/">What you can take</a></li>
+                                <li><a href="https://www.gloucestershirerecycles.com/household-recycling-centres-hrcs/">Van permits</a></li>
+                            </ul>
+                        </article>
+
+                        <!-- SPECIAL COLLECTIONS -->
+                        <article class="category-card">
+                            <div class="category-icon" aria-hidden="true">🔋</div>
+                            <h3 class="category-title">Special waste</h3>
+                            <p class="category-description">Items that need special disposal</p>
+                            <ul class="service-list">
+                                <li><a href="Bins/batteries">Batteries and electricals</a></li>
+                                <li><a href="Bins/hazardous-waste">Hazardous waste</a></li>
+                                <li><a href="Bins/clinical-waste">Clinical waste</a></li>
+                                <li><a href="Bins/textiles">Clothes and textiles</a></li>
+                            </ul>
+                        </article>
+
+                        <!-- HELP AND SUPPORT -->
+                        <article class="category-card">
+                            <div class="category-icon" aria-hidden="true">🤝</div>
+                            <h3 class="category-title">Help and support</h3>
+                            <p class="category-description">Get assistance with your bins</p>
+                            <ul class="service-list">
+                                <li><a href="Bins/assisted-collections.html">Assisted bin collections</a></li>
+                                <li><a href="Bins/side-waste">What if my bin is full</a></li>
+                                <li><a href="Bins/bad-weather">Collections in bad weather</a></li>
+                                <li><a href="Bins/report-problem">Report a problem</a></li>
+                            </ul>
+                        </article>
+
                     </div>
-
-                    <p style="margin-top: 2rem; padding: 1.5rem; background: #f0f9ff; border-left: 4px solid #0ea5e9; border-radius: 8px;">
-                        <strong style="color: #075985; display: block; margin-bottom: 0.5rem;">💡 Not sure about a specific item?</strong>
-                        <span style="color: #0c4a6e;">Use the <a href="https://www.gloucestershirerecycles.com/waste-wizard/" style="color: #0ea5e9; font-weight: 600;">Gloucestershire Waste Wizard</a> to search for any item and find out how to dispose of it.</span>
-                    </p>
                 </section>
 
                 <!-- HELP SECTION -->
@@ -192,7 +289,7 @@
                     <div class="contact-block">
                         <h3>Phone</h3>
                         <p>
-                            <a href="tel:+441452396396">01452 396 396</a><br>
+                            <a href="tel:+441452396396">01452 396396</a><br>
                             Monday to Friday, 8:30am to 5pm
                         </p>
                     </div>
@@ -200,8 +297,20 @@
                     <div class="contact-block">
                         <h3>Email</h3>
                         <p>
-                            <a href="mailto:heretohelp@gloucester.gov.uk">heretohelp@gloucester.gov.uk</a><br>
+                            <a href="/cdn-cgi/l/email-protection#68000d1a0d1c07000d0418280f04071d0b0d1b1c0d1a460f071e461d03">
+                                <span class="__cf_email__" data-cfemail="81e9e4f3e4f5eee9e4edf1c1e6edeef4e2e4f2f5e4f3afe6eef7aff4ea">[email&#160;protected]</span>
+                            </a><br>
                             We aim to reply within 2 working days.
+                        </p>
+                    </div>
+
+                    <div class="contact-block">
+                        <h3>Visit us</h3>
+                        <p>
+                            Eastgate Management Suite<br>
+                            Eastgate Street<br>
+                            Gloucester GL1 1PA<br>
+                            Monday to Friday, 8:30am to 5pm
                         </p>
                     </div>
                 </section>
@@ -295,14 +404,4 @@
             </div>
 
             <div class="footer-bottom">
-                <p>© 2025 Gloucester City Council. All rights reserved.</p>
-                <p>Registered office: Eastgate Management Suite, Eastgate Street, Gloucester GL1 1PA</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JS -->
-    <script src="assets/js/main.js"></script>
-
-</body>
-</html>
+    

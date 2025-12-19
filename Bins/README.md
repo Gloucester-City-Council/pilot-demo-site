@@ -1,238 +1,239 @@
-# Bins and Recycling Section - Gloucester City Council
+# bins2 - Best Practice Simplified Approach
 
-## Overview
+This folder contains an alternative, simplified approach to bin pages following best practices from exemplar UK councils.
 
-This section provides comprehensive bins and recycling information based on best practices from exemplar UK councils (Rochdale, Camden, Stockport) and aligned with the household waste collection schema.
+## Key Differences from `/Bins/`
 
-## Files Created
+### **Problem with `/Bins/` Structure:**
 
-### 1. **index.html** - Landing Page
-The main bins and recycling hub with:
-- Quick action cards for top 6 tasks (check bin day, what goes where, missed collection, order bin, garden waste, bulky waste)
-- 8 category cards organizing all services
-- Service status sidebar
-- Contact information
-- Related services
+**Too many entry points:**
+- `index.html` = Main hub with 6 quick actions + 8 category cards (40+ links)
+- `bin-services.html` = Competing hub page for bins & containers
 
-**Key Features:**
-- Task-based navigation (not department-focused)
-- Maximum 2 clicks to any service
-- Clear visual hierarchy with icons
-- Comprehensive coverage of all bin services
+**Result:** Confusing user journey, unclear which page to start from
 
-### 2. **what-goes-where.html** - Recycling Guidance
-Detailed guide to waste separation with:
-- Green box 1 (plastics and metals)
-- Green box 2 (glass)
-- Blue bag (paper and cardboard)
-- Food caddy (food waste)
-- Black bin (general waste)
-- Brown bin (garden waste - subscription)
-- Special disposal items
+---
 
-**Key Features:**
-- Clear "can/cannot" lists for each container
-- AI-readable data attributes (data-material, data-ai-role)
-- Schema.org HowTo markup
-- Top tips for each bin type
-- Links to related guidance
+## **bins2 Solution: Clear Hierarchy**
 
-### 3. **collection-day.html** - Collection Day Lookup
-Interactive page to check collection days with:
-- Postcode lookup form
-- Collection schedule display
-- Calendar download options
-- Putting bins out guidance
-- Missed collection information
-- Bank holiday guidance
+### Single Clear Entry Point
 
-**Key Features:**
-- Form connected to API endpoint (/api/getBinCollection)
-- JavaScript for dynamic results display
-- Clear collection windows (7am-6pm)
-- Reminder signup options
+**`index.html` - Simplified Bins Hub**
+```
+├─ 6 Top Tasks Only (Most Common 80% of User Needs)
+│  1. Check your bin day
+│  2. What goes in which bin
+│  3. Report missed collection
+│  4. Order bins & containers
+│  5. Garden waste subscription
+│  6. Find recycling centre
+│
+└─ Simple A-Z List ("Browse all bin services")
+   └─ 8 services listed alphabetically
+```
 
-### 4. **garden-waste.html** - Garden Waste Subscription
-Complete subscription service page with:
-- Clear pricing (£60 per year)
-- What's included in subscription
-- What can/cannot be collected
-- Collection dates and winter break
-- Composting at home alternative
-- Comprehensive FAQs
+**Key Improvements:**
+- ✅ **No competing hubs** - One clear starting point
+- ✅ **6 tasks only** - Covers 80% of user needs (Pareto principle)
+- ✅ **No category cards** - Removed confusing 8-category navigation
+- ✅ **Simple fallback** - A-Z list for less common tasks
+- ✅ **Maximum 1-2 clicks** - From home to any task
 
-**Key Features:**
-- Prominent CTA button to subscribe
-- Schema.org Offer markup with pricing
-- AI-readable pricing data (data-value, data-currency)
-- Clear value proposition
-- FAQ addressing common concerns
+---
 
-## Design Principles Applied
+### Refocused Sub-Pages
 
-### 1. **Task-Based Organization**
-Users think in terms of tasks ("check my bin day") not departments ("waste management services"). All navigation is organized around what residents need to do.
+**`order-bins.html` (was `bin-services.html`)**
+- **Clear purpose:** Order/get bins for your property type
+- **Not a competing hub:** Clearly a sub-page task
+- **User situations maintained:** Still organized by home/flats/developers
+- **Title changed:** "Order Bins & Containers" (not "All Your Bins & Containers")
 
-### 2. **Maximum 2 Clicks**
-From the landing page, users can reach any specific service in at most 2 clicks:
-- Landing page → What goes where (1 click)
-- Landing page → Collection services → Check bin day (2 clicks)
+---
 
-### 3. **AI-Readable Content**
-All pages include:
-- Schema.org structured data (GovernmentService, HowTo, Offer)
-- Data attributes for AI extraction (data-material, data-value, data-ai-role)
-- Semantic HTML with clear hierarchy
-- Machine-readable facts alongside human-readable content
+## Best Practice Principles Applied
 
-### 4. **Accessibility Compliance**
-- WCAG AAA standards
-- Skip links on every page
-- Proper heading hierarchy (h1 → h2 → h3)
-- ARIA labels and landmarks
-- Screen reader only text for icons
-- Clear form labels and error states
+### 1. **Task-Based Not Department-Based** ✅
+- Users think "Check my bin day" not "Collection services database"
+- Every link is an action verb: Check, Order, Report, Find
 
-### 5. **Best Practice Research**
-Based on analysis of:
-- **Rochdale**: Excellent categorization, clear "recycle right" messaging, comprehensive A-Z guide
-- **Camden**: Strong "what goes in bins" guidance, contamination warnings, accessibility focus
-- **Stockport**: Good service descriptions, clear pricing
+### 2. **Maximum 2 Clicks Rule** ✅
+```
+Home (index.html) → Task Page → Complete
+           ↓
+   1 click to 80% of tasks
+   2 clicks to 100% of tasks
+```
 
-## Schema Alignment
+### 3. **Progressive Disclosure** ✅
+- Show 6 most common tasks prominently
+- Hide less common tasks in simple A-Z list
+- Prevents cognitive overload
 
-All pages align with the household-waste-collection.json schema:
+### 4. **Single Source of Truth** ✅
+- One bins hub (index.html)
+- No duplicate navigation paths
+- Clear information architecture
 
-### Service Structure
-- **Service ID**: household-waste-collection
-- **URL slug**: /bins (as specified in schema)
-- **Resident tasks**: All 5 tasks from schema covered
-  - Check collection day ✓
-  - What goes where ✓
-  - Report missed collection ✓
-  - Order/replace bin ✓
-  - Garden waste subscription ✓
+### 5. **Mobile-First Simplicity** ✅
+- 6 cards scan faster than 14+ links
+- Cleaner, less overwhelming interface
+- Better for small screens
 
-### Container Types
-All containers from schema represented:
-- Black bin (residual waste, fortnightly)
-- Green box 1 (plastics/metals, weekly)
-- Green box 2 (glass, weekly)
-- Blue bag (paper/cardboard, weekly)
-- Food caddy (food waste, weekly)
-- Brown bin (garden waste, fortnightly, £60/year)
+---
 
-### Collection Details
-- Frequency: Matches schema (weekly/fortnightly)
-- Time window: 7am-6pm (from schema)
-- Statutory obligations: Reflected in content
-- Garden waste fee: £60 (from schema)
+## Comparison Table
 
-## Technical Implementation
+| Feature | `/Bins/` | `/Bins/` |
+|---------|----------|-----------|
+| **Entry points** | 2 (index + bin-services) | 1 (index only) |
+| **Quick actions** | 6 | 6 |
+| **Category cards** | 8 (with 4-5 links each) | 0 (removed) |
+| **Total links on home** | 40+ | 14 (6 cards + 8 A-Z) |
+| **Clicks to task** | 1-2 clicks | 1-2 clicks |
+| **Clarity** | Confusing which hub to use | Clear single starting point |
+| **bin-services role** | Competing hub page | Sub-page for ordering bins |
 
-### API Integration Points
-Pages are ready to connect to Azure Functions:
+---
 
-1. **/api/getBinCollection** 
-   - Endpoint: collection-day.html
-   - Parameters: postcode or UPRN
-   - Returns: Collection schedule, next collection dates
+## User Journey Examples
 
-2. **/api/submitFeedback**
-   - Endpoint: All pages (feedback widget)
-   - Parameters: rating, comments, email, page URL
+### Scenario 1: "I need to check my bin day"
+**`/Bins/`:** index.html → Click "Check your bin day" (1 click) ✅
+**`/Bins/`:** index.html → Click "Check your bin day" (1 click) ✅
 
-### JavaScript Features
-- Mobile menu toggle
-- Feedback widget with form submission
-- Collection lookup with dynamic results
-- Smooth scroll for anchor links
-- External link warnings
+**Winner:** Tie (both 1 click)
 
-### CSS Architecture
-- Base styles in styles.css
-- Service-specific layout in service-landing.css
-- Inline styles for page-specific needs (price boxes, collection schedules)
-- Responsive design (mobile-first approach)
-- Consistent color scheme using CSS variables
+---
 
-## Content Principles
+### Scenario 2: "I'm new to Gloucester, how do I get bins?"
+**`/Bins/`:**
+- Option A: index.html → "Order bins & containers" quick action → bin-services.html → "New to Gloucester" section (2 clicks)
+- Option B: index.html → "Bins and containers" category → "All your bins & containers" link → bin-services.html (2 clicks)
+- **Confusion:** Two paths to same destination
 
-### Plain English
-- Short sentences and paragraphs
-- Active voice ("We collect your bins every week")
-- No jargon or unnecessary technical terms
-- Clear action words ("Check", "Report", "Subscribe")
+**`/Bins/`:**
+- index.html → "Order bins & containers" → order-bins.html → "New to Gloucester" section (1 click)
 
-### User-Focused
-- "You" and "your" throughout
-- Benefits clearly stated ("Save money", "Protect environment")
-- Consequences explained ("If we stopped collecting...")
-- Help readily available
+**Winner:** `/Bins/` (clearer path, no confusion)
 
-### Scannable
-- Bullet points for lists
-- Headings for sections
-- Bold for key facts
-- White space between sections
-- Visual icons for quick recognition
+---
+
+### Scenario 3: "I need assisted collections"
+**`/Bins/`:**
+- Option A: index.html → Scroll to "Help and support" category → "Assisted bin collections" (2 clicks, requires scrolling past 7 categories)
+- Option B: index.html → "Order bins & containers" → bin-services.html → See link in sidebar (2-3 clicks)
+
+**`/Bins/`:**
+- index.html → Scroll to "Browse all" A-Z list → "Assisted collections" (1 click, list is visible without scrolling)
+
+**Winner:** `/Bins/` (faster, simpler)
+
+---
+
+## What We Kept (Good Practices)
+
+✅ Task-based language
+✅ User situation organization (home/flats/developers)
+✅ Visual card design
+✅ Clear CTAs and buttons
+✅ Comprehensive service coverage
+✅ Accessibility standards
+✅ Links to Waste Wizard
+✅ All existing detail pages (what-goes-where, collection-day, etc.)
+
+---
+
+## What We Changed (Improvements)
+
+### Removed:
+- ❌ 8 category cards on home page (too much choice)
+- ❌ bin-services.html as competing hub
+- ❌ Duplicate navigation paths
+
+### Simplified:
+- ✅ 6 top tasks prominently displayed
+- ✅ Simple A-Z list for less common tasks
+- ✅ Single clear entry point
+- ✅ order-bins.html refocused as task page (not hub)
+
+---
+
+## Exemplar Council Alignment
+
+### Rochdale Council (Exemplar)
+- ✅ **6-8 top tasks on bins home** - bins2 matches
+- ✅ **Simple navigation** - bins2 matches
+- ✅ **Task-based** - bins2 matches
+
+### Camden Council (Exemplar)
+- ✅ **Clear "what goes in bins"** - bins2 has this
+- ✅ **No category overload** - bins2 avoids this
+- ✅ **Mobile-friendly** - bins2 optimized
+
+### Brighton Council (Exemplar)
+- ✅ **Progressive disclosure** - bins2 implements
+- ✅ **A-Z fallback** - bins2 has this
+- ✅ **Single purpose pages** - bins2 follows
+
+---
+
+## Metrics We Expect to Improve
+
+1. **Task completion time** ⏱️
+   - Fewer clicks to common tasks
+   - No confusion about which page to start
+
+2. **Bounce rate** 📉
+   - Clearer purpose reduces user confusion
+   - Better scent of information
+
+3. **Mobile usability** 📱
+   - Simpler page loads faster
+   - Less scrolling required
+
+4. **User satisfaction** 😊
+   - Less cognitive load
+   - Clearer pathways
+
+---
+
+## Recommendation
+
+**Use `/Bins/` approach** for the following reasons:
+
+1. **Follows UK GOV.UK design principles**
+2. **Matches exemplar council best practices**
+3. **Simpler = faster = better UX**
+4. **No competing navigation**
+5. **Scales better for future services**
+6. **Mobile-first friendly**
+
+---
 
 ## Next Steps
 
-### Pages to Complete
-Additional pages referenced but not yet built:
-- Missed collection report form
-- Order/replace bin form
-- Bulky waste booking
-- Recycling centres
-- Assisted collections
-- Putting bins out detailed guide
-- Contaminated recycling
-- Special waste pages (batteries, textiles, hazardous)
+1. User test both `/Bins/` and `/Bins/` approaches
+2. Measure task completion rates
+3. Gather user feedback on clarity
+4. If `/Bins/` performs better, migrate and archive `/Bins/`
 
-### API Development
-Connect pages to Azure Functions:
-- Collection day lookup (UPRN/postcode → dates)
-- Address lookup (postcode → addresses with UPRNs)
-- Missed collection submission
-- Garden waste subscription
+---
 
-### Content Enhancements
-- Add downloadable PDF guides
-- Create kitchen posters
-- Build collection calendar (iCal/PDF)
-- Christmas collection dates page
-- Service update system
+## Files in bins2
 
-## Files Summary
+- `index.html` - Simplified bins hub (NEW APPROACH)
+- `order-bins.html` - Order bins by property type (refocused bin-services.html)
+- `collection-day.html` - Check bin day
+- `what-goes-where.html` - Recycling guide
+- `garden-waste.html` - Garden waste subscription
+- `missed-collection.html` - Report missed collection
+- `recycling-centres.html` - Find HRCs
+- `assisted-collections.html` - Assisted collections
+- `extra-or-larger-bin.html` - Extra/larger bin application
 
-```
-/bins/
-├── index.html (Landing page - service hub)
-├── what-goes-where.html (Recycling guidance)
-├── collection-day.html (Collection lookup)
-└── garden-waste.html (Subscription service)
-```
+---
 
-All files use:
-- Consistent templates (service-landing-template.html structure)
-- Shared CSS (styles.css + service-landing.css)
-- Shared JavaScript (main.js)
-- Same footer and navigation
-- Feedback widgets
-- Breadcrumb navigation
-
-## Best Practice Wins
-
-✓ Task-based not department-based navigation
-✓ Maximum 2-click rule enforced
-✓ AI-readable with Schema.org + data attributes
-✓ WCAG AAA accessibility
-✓ Mobile-responsive design
-✓ Clear pricing and value propositions
-✓ Comprehensive FAQs
-✓ Multiple contact channels
-✓ Related services cross-linked
-✓ Feedback collection on every page
-
-This foundation provides a solid, scalable structure that can be extended to cover all bin and recycling services while maintaining consistency and high usability standards.
+Created: December 2024
+Approach: Best practice simplified structure
+Status: Prototype for comparison testing
