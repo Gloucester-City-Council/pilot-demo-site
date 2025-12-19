@@ -419,7 +419,7 @@
         <div class="breadcrumb-inner">
             <ol>
                 <li><a href="">Home</a></li>
-                <li><a href="Bins">Bins and Recycling</a></li>
+                <li><a href="bins2/index.html">Bins and Recycling</a></li>
                 <li aria-current="page">Report a missed collection</li>
             </ol>
         </div>
@@ -580,7 +580,7 @@
                                 </p>
 
                                 <div style="margin-top: 2rem;">
-                                    <a href="Bins" class="btn-primary">Back to bins and recycling</a>
+                                    <a href="bins2/index.html" class="btn-primary">Back to bins and recycling</a>
                                 </div>
                             </div>
                         </div>
@@ -599,7 +599,7 @@
                             <div class="reason-icon">❌</div>
                             <h3>Wrong items inside</h3>
                             <p>Contaminated bins can't be collected. Check what should go in each bin.</p>
-                            <a href="Bins/what-goes-where.html" class="reason-link">What goes where →</a>
+                            <a href="bins2/what-goes-where.html" class="reason-link">What goes where →</a>
                         </div>
                         
                         <div class="reason-card">
@@ -668,7 +668,7 @@
                             <span class="tip-icon">♻️</span>
                             <div>
                                 <strong>Use the right bin</strong>
-                                <p>Wrong items cause bins to be refused — <a href="Bins/what-goes-where.html">check our guide</a>.</p>
+                                <p>Wrong items cause bins to be refused — <a href="bins2/what-goes-where.html">check our guide</a>.</p>
                             </div>
                         </div>
                         
@@ -700,7 +700,7 @@
                         <h3>Check your bin day</h3>
                         <p>
                             Make sure your bin was due to be collected today.
-                            <a href="Bins/collection-day.html">Check your collection day</a>
+                            <a href="bins2/collection-day.html">Check your collection day</a>
                         </p>
                     </div>
 
@@ -723,9 +723,9 @@
                 <section class="service-related">
                     <h2>Related pages</h2>
                     <ul class="related-links">
-                        <li><a href="Bins/bin-services.html">All bin services</a></li>
-                        <li><a href="Bins/collection-day.html">Check your collection day</a></li>
-                        <li><a href="Bins/what-goes-where.html">What goes in which bin</a></li>
+                        <li><a href="bins2/order-bins.html">Order bins & containers</a></li>
+                        <li><a href="bins2/collection-day.html">Check your collection day</a></li>
+                        <li><a href="bins2/what-goes-where.html">What goes in which bin</a></li>
                         <li><a href="Bins/putting-bins-out">How to put bins out properly</a></li>
                         <li><a href="Bins/bad-weather">Collections in bad weather</a></li>
                     </ul>
@@ -783,7 +783,7 @@
                 <div class="footer-section">
                     <h3>Quick links</h3>
                     <ul class="footer-links">
-                        <li><a href="Bins/collection-day.html">Check bin day</a></li>
+                        <li><a href="bins2/collection-day.html">Check bin day</a></li>
                         <li><a href="council-tax/pay">Pay Council Tax</a></li>
                         <li><a href="planning/search">Planning applications</a></li>
                         <li><a href="report">Report a problem</a></li>
@@ -1100,8 +1100,8 @@ async function loadBinsForProperty() {
         const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/bins-by-uprn', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'x-api-token': 'oije8u23984uoriwfjowei2398470'
+                'Content-Type': 'application/json'
+                // Note: API authentication should be handled server-side
             },
             body: JSON.stringify({
                 binUprn: uprn
@@ -1218,7 +1218,7 @@ async function loadBinsForProperty() {
                     <strong>No bins eligible for missed collection report</strong>
                     <p>You can only report missed collections until 4pm the day after your scheduled collection.</p>
                     <p>Your bins were last collected more than 1 day ago, so the reporting window has closed.</p>
-                    <p><a href="Bins/collection-day.html">Check your next collection dates</a></p>
+                    <p><a href="bins2/collection-day.html">Check your next collection dates</a></p>
                 </div>
             `;
             loadingDiv.style.display = 'block';
@@ -1314,8 +1314,8 @@ document.getElementById('missed-bin-form').addEventListener('submit', async func
         const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/submitMissedCollection', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'x-api-token': 'oije8u23984uoriwfjowei2398470'
+                'Content-Type': 'application/json'
+                // Note: API authentication should be handled server-side
             },
             body: JSON.stringify(formData)
         });
