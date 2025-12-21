@@ -824,9 +824,9 @@ function getSavedAddress() {
     return null;
 }
 
-function saveAddress(uprn, displayAddress, postcode, wardName) {
+function saveAddress(addressId, displayAddress, postcode, wardName) {
     const addressData = {
-        uprn: uprn,
+        addressId: addressId,
         displayAddress: displayAddress,
         postcode: postcode,
         wardName: wardName,
@@ -848,13 +848,13 @@ function setupCalendarButton() {
     if (calendarBtn._calendarListenerAttached) return;
 
     const handleClick = function() {
-        if (!currentUprn) {
+        if (!currentAddressId) {
             alert('Please look up your address first to add calendar reminders.');
             return;
         }
 
         // Create webcal URL
-        const webcalUrl = `webcal://gcc-api-pilot.azurewebsites.net/api/bins-webcal/${currentUprn}`;
+        const webcalUrl = `webcal://gcc-api-pilot.azurewebsites.net/api/bins-webcal/${currentAddressId}.ics`;
 
         // Show modal with instructions
         showCalendarInstructions(webcalUrl);
@@ -989,7 +989,7 @@ function showCalendarInstructions(webcalUrl) {
 }
 
 // Initialize on page load
-let selectedUprn = null;
+let selectedAddressId = null;
 
 window.addEventListener('DOMContentLoaded', function() {
     const savedAddress = getSavedAddress();
@@ -1028,8 +1028,8 @@ function showSavedAddress(savedAddress) {
     `;
     
     // Auto-load bins
-    selectedUprn = savedAddress.uprn;
-    loadBinsForUprn(savedAddress.uprn);
+    selectedAddressId = savedAddress.addressId;
+    loadBinsForAddressId(savedAddress.addressId);
 }
 
 function setupPostcodeLookup() {
@@ -1105,9 +1105,9 @@ async function lookupAddresses(postcode) {
         const select = document.getElementById('address-select');
         data.addresses.forEach(addr => {
             const option = document.createElement('option');
-            option.value = addr.uprn;
+            option.value = addr.addressId;
             option.textContent = addr.display;
-            option.dataset.uprn = addr.uprn;
+            option.dataset.addressId = addr.addressId;
             option.dataset.displayAddress = addr.display;
             option.dataset.postcode = addr.postcode;
             option.dataset.wardName = addr.wardName;
@@ -1115,7 +1115,7 @@ async function lookupAddresses(postcode) {
         });
         
         select.addEventListener('change', function() {
-            selectedUprn = this.value;
+            selectedAddressId = this.value;
 
             // Enable submit button when address is selected
             const submitBtn = document.getElementById('submit-collection-lookup');
@@ -1137,7 +1137,7 @@ async function lookupAddresses(postcode) {
             if (rememberCheckbox && rememberCheckbox.checked && this.value) {
                 const selectedOption = this.options[this.selectedIndex];
                 saveAddress(
-                    selectedOption.dataset.uprn,
+                    selectedOption.dataset.addressId,
                     selectedOption.dataset.displayAddress,
                     selectedOption.dataset.postcode,
                     selectedOption.dataset.wardName
@@ -1148,10 +1148,10 @@ async function lookupAddresses(postcode) {
         // Also save on checkbox change
         const rememberCheckbox = document.getElementById('remember-address');
         rememberCheckbox.addEventListener('change', function() {
-            if (this.checked && selectedUprn) {
+            if (this.checked && selectedAddressId) {
                 const selectedOption = select.options[select.selectedIndex];
                 saveAddress(
-                    selectedOption.dataset.uprn,
+                    selectedOption.dataset.addressId,
                     selectedOption.dataset.displayAddress,
                     selectedOption.dataset.postcode,
                     selectedOption.dataset.wardName
@@ -1174,21 +1174,21 @@ async function lookupAddresses(postcode) {
 function setupFormSubmission() {
     const form = document.getElementById('collection-lookup-form');
     if (!form) return;
-    
+
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
-        if (!selectedUprn) {
+
+        if (!selectedAddressId) {
             alert('Please select your address from the list');
             return;
         }
-        
+
         const submitBtn = this.querySelector('button[type="submit"]');
         submitBtn.textContent = 'Looking up collections...';
         submitBtn.disabled = true;
-        
+
         try {
-            await loadBinsForUprn(selectedUprn);
+            await loadBinsForAddressId(selectedAddressId);
             submitBtn.textContent = 'Find my collection days';
             submitBtn.disabled = false;
         } catch (error) {
@@ -1200,9 +1200,9 @@ function setupFormSubmission() {
     });
 }
 
-let currentUprn = null;
+let currentAddressId = null;
 
-async function loadBinsForUprn(uprn) {
+async function loadBinsForAddressId(addressId) {
     const response = await fetch('https://gcc-api-pilot.azurewebsites.net/api/bins-by-uprn', {
         method: 'POST',
         headers: {
@@ -1210,7 +1210,7 @@ async function loadBinsForUprn(uprn) {
             'x-api-token': 'oije8u23984uoriwfjowei2398470'
         },
         body: JSON.stringify({
-            binUprn: uprn
+            addressId: addressId
         })
     });
 
@@ -1224,8 +1224,8 @@ async function loadBinsForUprn(uprn) {
         throw new Error('No collection data available');
     }
 
-    // Store UPRN for calendar subscription
-    currentUprn = uprn;
+    // Store addressId for calendar subscription
+    currentAddressId = addressId;
 
     displayCollectionResults(data);
 }
