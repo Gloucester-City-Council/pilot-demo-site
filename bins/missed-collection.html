@@ -463,7 +463,10 @@
 
                 <!-- THE FORM -->
                 <div class="smart-form">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                    <!-- Screen reader announcements for dynamic changes -->
+                    <div aria-live="polite" aria-atomic="true" class="sr-only" id="form-status-message"></div>
+
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Form progress">
                         <div class="progress-fill" style="width: 0%"></div>
                     </div>
 
@@ -475,11 +478,12 @@
                             
                             <div class="form-group">
                                 <label for="postcode">Postcode</label>
-                                <input type="text" 
-                                       id="postcode" 
-                                       name="postcode" 
+                                <input type="text"
+                                       id="postcode"
+                                       name="postcode"
                                        placeholder="e.g. GL1 2AB"
                                        required
+                                       aria-required="true"
                                        pattern="[A-Za-z]{1,2}[0-9]{1,2}[A-Za-z]?\s?[0-9][A-Za-z]{2}"
                                        aria-describedby="postcode-help"
                                        autocomplete="postal-code">
@@ -488,7 +492,11 @@
 
                             <div class="form-group hidden" id="address-select-group">
                                 <label for="address">Select your address</label>
-                                <select id="address" name="address" required aria-describedby="address-help">
+                                <select id="address"
+                                        name="address"
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="address-help">
                                     <option value="">Choose your address...</option>
                                 </select>
                                 <p id="address-help" class="form-help"><span id="address-count"></span> addresses found</p>
@@ -539,7 +547,11 @@
 
                             <div class="form-group">
                                 <label for="contact-method">How would you like us to contact you?</label>
-                                <select id="contact-method" name="contact-method" required onchange="toggleContactFields()">
+                                <select id="contact-method"
+                                        name="contact-method"
+                                        required
+                                        aria-required="true"
+                                        onchange="toggleContactFields()">
                                     <option value="">Choose...</option>
                                     <option value="email">Email</option>
                                     <option value="phone">Phone</option>
@@ -549,12 +561,24 @@
 
                             <div class="form-group hidden" id="email-group">
                                 <label for="email">Email address</label>
-                                <input type="email" id="email" name="email" placeholder="your.email@example.com">
+                                <input type="email"
+                                       id="email"
+                                       name="email"
+                                       placeholder="your.email@example.com"
+                                       autocomplete="email"
+                                       aria-describedby="email-help">
+                                <p id="email-help" class="form-help">We'll only use this to update you about your report</p>
                             </div>
 
                             <div class="form-group hidden" id="phone-group">
                                 <label for="phone">Phone number</label>
-                                <input type="tel" id="phone" name="phone" placeholder="07XXX XXXXXX">
+                                <input type="tel"
+                                       id="phone"
+                                       name="phone"
+                                       placeholder="07XXX XXXXXX"
+                                       autocomplete="tel"
+                                       aria-describedby="phone-help">
+                                <p id="phone-help" class="form-help">We'll only use this to update you about your report</p>
                             </div>
 
                             <div class="button-group">
@@ -755,7 +779,7 @@
                     <textarea id="feedback-comments" rows="3" aria-labelledby="feedback-prompt"></textarea>
 
                     <label for="feedback-email">Email (optional, if you'd like a response)</label>
-                    <input type="email" id="feedback-email">
+                    <input type="email" id="feedback-email" autocomplete="email">
 
                     <button type="submit" class="feedback-submit">Submit</button>
                 </form>
@@ -892,24 +916,67 @@ function showStep(stepNumber) {
     document.querySelectorAll('.form-step').forEach(step => {
         step.classList.remove('active');
     });
-    document.querySelector(`[data-step="${stepNumber}"]`).classList.add('active');
+
+    const activeStep = document.querySelector(`[data-step="${stepNumber}"]`);
+    activeStep.classList.add('active');
     currentStep = stepNumber;
     updateProgress();
-    
+
+    // Announce step change to screen readers
+    const stepTitles = {
+        1: 'Step 1 of 3: Your address',
+        2: 'Step 2 of 3: Which bins were not collected',
+        3: 'Step 3 of 3: Additional details and contact information',
+        4: 'Report submitted successfully'
+    };
+
+    const statusMessage = document.getElementById('form-status-message');
+    if (statusMessage) {
+        statusMessage.textContent = stepTitles[stepNumber] || '';
+    }
+
     // Load bins when entering step 2
     if (stepNumber === 2 && !binsLoaded) {
         loadBinsForProperty();
     }
-    
+
     // Scroll to top of form
     document.querySelector('.smart-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Set focus to first interactive element in the step for keyboard users
+    setTimeout(() => {
+        const firstInput = activeStep.querySelector('input:not([type="hidden"]), select, textarea, button');
+        if (firstInput && stepNumber !== 4) { // Don't focus on success step
+            firstInput.focus();
+        }
+
+        // Focus on heading for success step
+        if (stepNumber === 4) {
+            const successHeading = activeStep.querySelector('h2');
+            if (successHeading) {
+                successHeading.setAttribute('tabindex', '-1');
+                successHeading.focus();
+            }
+        }
+    }, 100);
 }
 
 function nextStep() {
+    // Validate step 1 - address selected
     if (currentStep === 1 && !addressesLoaded) {
         alert('Please enter your postcode and select your address');
         return;
     }
+
+    // Validate step 2 - at least one bin selected
+    if (currentStep === 2) {
+        const selectedBins = document.querySelectorAll('input[name="bins"]:checked');
+        if (selectedBins.length === 0) {
+            alert('Please select at least one bin that was not collected');
+            return;
+        }
+    }
+
     if (currentStep < totalSteps) {
         showStep(currentStep + 1);
     }
@@ -925,6 +992,24 @@ function toggleContactFields() {
     const method = document.getElementById('contact-method').value;
     document.getElementById('email-group').classList.toggle('hidden', method !== 'email');
     document.getElementById('phone-group').classList.toggle('hidden', method !== 'phone');
+}
+
+// Update Step 2 Continue button state based on bin selection
+function updateStep2ContinueButton() {
+    const selectedBins = document.querySelectorAll('input[name="bins"]:checked');
+    const continueBtn = document.querySelector('[data-step="2"] .btn-primary');
+
+    if (continueBtn) {
+        if (selectedBins.length > 0) {
+            continueBtn.disabled = false;
+            continueBtn.style.opacity = '1';
+            continueBtn.style.cursor = 'pointer';
+        } else {
+            continueBtn.disabled = true;
+            continueBtn.style.opacity = '0.5';
+            continueBtn.style.cursor = 'not-allowed';
+        }
+    }
 }
 
 // Initialize on page load
@@ -954,14 +1039,16 @@ function showSavedAddressInForm(savedAddress) {
     if (addressSelectGroup) {
         addressSelectGroup.classList.remove('hidden');
         addressSelectGroup.innerHTML = `
-            <label for="address">Your address</label>
-            <div style="background: #e8f5e9; padding: 1rem; border-radius: 4px; border: 2px solid #4caf50; margin-bottom: 0.5rem;">
-                <strong>✓ ${savedAddress.displayAddress}</strong>
+            <div role="group" aria-labelledby="saved-address-label">
+                <div id="saved-address-label" style="font-weight: 600; margin-bottom: 0.5rem;">Your address</div>
+                <div style="background: #e8f5e9; padding: 1rem; border-radius: 4px; border: 2px solid #4caf50; margin-bottom: 0.5rem;">
+                    <strong>✓ ${savedAddress.displayAddress}</strong>
+                </div>
+                <button type="button" onclick="clearSavedAddress()" style="background: transparent; border: 2px solid #666; color: #666; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-bottom: 1rem;">
+                    Select a different address
+                </button>
+                <input type="hidden" id="address" name="address" value="${savedAddress.addressId}">
             </div>
-            <button type="button" onclick="clearSavedAddress()" style="background: transparent; border: 2px solid #666; color: #666; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem; margin-bottom: 1rem;">
-                Select a different address
-            </button>
-            <input type="hidden" id="address" name="address" value="${savedAddress.addressId}">
         `;
 
         // Set globals
@@ -1199,8 +1286,8 @@ async function loadBinsForProperty() {
                     </div>
                 `;
                 binSelector.appendChild(label);
-                
-                // Visual feedback
+
+                // Visual feedback and validation
                 const checkbox = label.querySelector('input[type="checkbox"]');
                 checkbox.addEventListener('change', function() {
                     if (this.checked) {
@@ -1208,6 +1295,9 @@ async function loadBinsForProperty() {
                     } else {
                         label.classList.remove('selected');
                     }
+
+                    // Enable/disable Continue button based on selection
+                    updateStep2ContinueButton();
                 });
             });
         
@@ -1223,13 +1313,28 @@ async function loadBinsForProperty() {
             `;
             loadingDiv.style.display = 'block';
             binSelector.style.display = 'none';
+
+            // Hide the Continue button when no bins are eligible
+            const step2ButtonGroup = document.querySelector('[data-step="2"] .button-group');
+            if (step2ButtonGroup) {
+                step2ButtonGroup.style.display = 'none';
+            }
             return;
+        }
+
+        // Show the Continue button if bins are available
+        const step2ButtonGroup = document.querySelector('[data-step="2"] .button-group');
+        if (step2ButtonGroup) {
+            step2ButtonGroup.style.display = 'flex';
         }
         
         // Show bins
         loadingDiv.style.display = 'none';
         binSelector.style.display = 'grid';
         binsLoaded = true;
+
+        // Initially disable the Continue button until a bin is selected
+        updateStep2ContinueButton();
 
         console.log(`Loaded ${propertyBins.length} bins for addressId ${addressId}`);
         
@@ -1333,10 +1438,10 @@ document.getElementById('missed-bin-form').addEventListener('submit', async func
         // Show success
         document.getElementById('reference-number').textContent = referenceNumber;
         showStep(4);
-        
+
         console.log('Missed collection reported successfully:', {
             reference: referenceNumber,
-            uprn: uprn,
+            addressId: addressId,
             bins: formData.bins.length
         });
         
